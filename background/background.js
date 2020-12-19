@@ -34,6 +34,10 @@ chrome.runtime.onMessage.addListener(
             case 'getSelectedTerm':
                 sendResponse({term: data.selectedTerm});
                 break;
+            case 'setSearchTerm':
+                data.selectedTerm = request.term;
+                sendResponse({});
+                break;
             case 'toggleDarkMode':
                 config.dark = !config.dark;
                 sendResponse({dark: config.dark});

@@ -1,13 +1,4 @@
-let term = "";
 const chromeFaviconUrl = 'chrome://favicon/';
-
-function getSearchTermFromBackground() {
-    chrome.runtime.sendMessage({cmd: "getSelectedTerm"},
-            response => {
-        term = response.term;
-        document.getElementById("term").value = term;
-    })
-}
 
 function createCategoryEnginesHtml(category) {
     let html = `<div class="category-title">${category.name}</div>`;
@@ -52,28 +43,10 @@ function toggleDarkModeEvent() {
     })
 }
 
-function toSearchUrl() {
-    document.getElementById('engines').addEventListener('click', e => {
-        const target = e.target;
-        const term = document.getElementById("term").value;
-        if (target.tagName === 'A') {
-            chrome.runtime.sendMessage({
-                cmd: 'setSearchTerm',
-                term
-            }, response => {
-                document.location.href = target.href + term;
-            })
-            e.preventDefault();
-        }
-    })
-}
-
 function init() {
     darkMode();
-    getSearchTermFromBackground();
     showEngineLinks();
     toggleDarkModeEvent();
-    toSearchUrl();
 }
 
 init();

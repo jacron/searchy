@@ -1,21 +1,21 @@
 const config = {
     IMDB: 'http://www.imdb.com/find?s=tt&q=',
-        VARIETY:  'http://variety.com/results/#?q=',
-        GOOGLE:  'https://google.nl/search?oq=',
-        BOLCOM:  'https://www.bol.com/nl/rnwy/search.html?searchContext=books_all&searchtext=',
-        BOEKWINKELTJES_SCHRIJVER:  'https://www.boekwinkeltjes.nl/su/?qs=',
-        BOEKWINKELTJES_TITEL:  'https://www.boekwinkeltjes.nl/su/?qt=',
-        GOOGLE_TORRENT:  'https://www.google.nl/search?q=torrent+',
-        NZB_INDEX:  'http://www.nzbindex.nl/search?sort=sizedesc&q=',
-        AVX_SEARCH:  'https://tavaz.xyz/search/?category_slug=video&query=',
-        YOURBITTORRENT:  'https://yourbittorrent.com/?q=',
-        RARBG:  'https://rarbg.to/torrents.php?search=',
-        LIME:  'https://www.limetorrents.info/search/all/',
-        FINDNZB:  'http://findnzb.net/?limit=25&sort=largest&q=',
-        BINSEARCH:  'https://www.binsearch.info/?q=',
-        STARSEARCH:  'https://nzbstars.com/?sortdir=ASC&sortby=&search%5Bvalue%5D%5B%5D=Title%3A%3D%3ADEF%3A',
-        YOUTUBE:  'https://www.youtube.com/results?search_query=',
-        CRITERION:  'https://www.criterion.com/search#stq='
+    VARIETY:  'http://variety.com/results/#?q=',
+    GOOGLE:  'https://www.google.nl/search?q=',
+    GOOGLE_TORRENT:  'https://www.google.nl/search?q=torrent+',
+    BOLCOM:  'https://www.bol.com/nl/rnwy/search.html?searchContext=books_all&searchtext=',
+    BOEKWINKELTJES_SCHRIJVER:  'https://www.boekwinkeltjes.nl/su/?qs=',
+    BOEKWINKELTJES_TITEL:  'https://www.boekwinkeltjes.nl/su/?qt=',
+    NZB_INDEX:  'http://www.nzbindex.nl/search?sort=sizedesc&q=',
+    AVX_SEARCH:  'https://tavaz.xyz/search/?category_slug=video&query=',
+    YOURBITTORRENT:  'https://yourbittorrent.com/?q=',
+    RARBG:  'https://rarbg.to/torrents.php?search=',
+    LIME:  'https://www.limetorrents.info/search/all/',
+    FINDNZB:  'http://findnzb.net/?limit=25&sort=largest&q=',
+    BINSEARCH:  'https://www.binsearch.info/?q=',
+    STARSEARCH:  'https://nzbstars.com/?sortdir=ASC&sortby=&search%5Bvalue%5D%5B%5D=Title%3A%3D%3ADEF%3A',
+    YOUTUBE:  'https://www.youtube.com/results?search_query=',
+    CRITERION:  'https://www.criterion.com/search#stq='
 };
 
 export default [
