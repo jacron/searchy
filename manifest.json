@@ -2,9 +2,12 @@
   "name": "Searchy",
   "description": "'Searchy...': Open a search engine with [selection]",
   "version": "0.1",
-  "permissions": ["contextMenus"],
+  "permissions": [
+    "contextMenus",
+    "chrome://favicon/*"
+  ],
   "background": {
-    "scripts": ["background.js"]
+    "page": "background/background.html"
   },
   "browser_action": {
     "default_icon": "icon.png"

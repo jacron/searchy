@@ -2,7 +2,7 @@
 /* https://fontawesome.bootstrapcheatsheets.com/# */
 @font-face {
     font-family: 'FontAwesome';
-    src: url("./fontawesome-webfont.ttf");
+    src: url("fontawesome-webfont.ttf");
     /*src: url("./fa-regular-400.ttf");*/
 }
 .fa {
