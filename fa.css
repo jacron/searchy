@@ -1,0 +1,82 @@
+/* https://fontawesome.com/icons?d=gallery */
+/* https://fontawesome.bootstrapcheatsheets.com/# */
+@font-face {
+    font-family: 'FontAwesome';
+    src: url("./fontawesome-webfont.ttf");
+    /*src: url("./fa-regular-400.ttf");*/
+}
+.fa {
+    font-family: "FontAwesome", sans-serif;
+}
+.fal:before {
+    position: absolute;
+    left: 8px;
+}
+.faf:before {
+    transform: scale(-1, 1);
+}
+.fa-edit:before {
+    content: "\f044";
+}
+.fa-github:before {
+    content: "\f09b";
+}
+.fa-folder-open:before {
+    content: "\f07c";
+}
+.fa-folder:before {
+    content: "\f07b";
+}
+.fa-wrench:before {
+    content: "\f085";
+}
+.fa-sliders:before {
+    content: "\f1de";
+}
+.fa-ban:before {  /* delete */
+    content: "\f05e";
+    color: red;
+}
+.fa-lightbulb-o:before {
+    content: "\f0eb";
+}
+.fa-rss:before {
+    content: "\f09e";
+}
+.fa-paste:before {
+    content: "\f0ea";
+}
+.fa-search:before {
+    content: "\f002";
+    color: green;
+}
+.fa-apple:before {
+    content: "\f179";
+}
+.fa-eye:before {
+    content: "\f06e";
+}
+.fa-cut:before {
+    content: "\f0c4";
+}
+.fa-copy:before {
+    content: "\f0c5";
+}
+.fa-share-square-o:before {
+    content: "\f045";
+}
+.fa-facebook-square:before {
+    content: "\f082";
+}
+.fa-linkedin:before {
+    content: "\f08c";
+}
+.fa-twitter:before {
+    content: "\f081";
+}
+.fa-envelope:before {
+    content: "\f0e0";
+}
+.fa-tint:before {
+    content: "\f043";
+}
