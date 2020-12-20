@@ -1,5 +1,7 @@
 import categories from '../categories.js';
-import {setVisible, remove} from './update.js';
+import {setVisible, remove, saveEngine} from './update.js';
+import {getEngineById} from './fetch.js';
+// import {initBackground} from '../options/dialog.js';
 
 const config = {
     searchPage: "search/search.html",
@@ -11,9 +13,9 @@ const data = {
     categories: []
 }
 
-function getCategories() {
-    data.categories = categories;
-}
+// function getCategories() {
+//     data.categories = categories;
+// }
 
 chrome.contextMenus.create(
     {
@@ -48,9 +50,20 @@ chrome.runtime.onMessage.addListener(
                 break;
             case 'setVisible':
                 setVisible(request.id, request.value, data);
+                sendResponse({msg: 'ok'});
                 break;
             case 'remove':
                 remove(request.type, request.id, data);
+                sendResponse({msg: 'ok'});
+                break;
+            case 'getEngineById':
+                getEngineById(request.id, data, (engine, category, categories) => {
+                    sendResponse({engine, category, categories});
+                });
+                break;
+            case 'saveEngine':
+                saveEngine(request.id, request.name, request.url, request.categoryId, data);
+                sendResponse({msg: 'ok'});
                 break;
         }
 })
@@ -71,6 +84,7 @@ chrome.browserAction.onClicked.addListener(btnClicked);
 
 function init() {
     data.categories = categories;
+    // initBackground();
 }
 
 init();

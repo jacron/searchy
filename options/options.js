@@ -1,5 +1,5 @@
 import {showEngineLinks} from './create.js';
-import {openDialog} from './dialog.js';
+import {openDialogCategory, openDialogEngine} from './dialog.js';
 
 function setDark(dark) {
     document.body.className = dark ? 'dark' : '';
@@ -35,12 +35,24 @@ function onEditClick(e, target, type) {
     const id = engine.getAttribute('data-id');
     if (target.classList.contains('fa-delete')) {
         if (confirm(`Delete ${type} '${name}'?`)) {
-            console.log({id});
             remove(type, id);
         }
     }
     if (target.classList.contains('fa-edit')) {
-        openDialog(e.pageX, e.pageY);
+        if (type === 'engine') {
+            openDialogEngine(e.pageX, e.pageY, id, result => {
+                if (result.msg && result.msg === 'changed') {
+                    showEngineLinks();
+                }
+            });
+        }
+        if (type === 'category') {
+            openDialogCategory(e.pageX, e.pageY, id, result => {
+                if (result.msg && result.msg === 'changed') {
+                    showEngineLinks();
+                }
+            });
+        }
     }
 }
 
@@ -74,7 +86,6 @@ function checkEngineEvent() {
     document.getElementById('engines')
         .addEventListener('change', e => {
             const target = e.target;
-            // console.log({target});
             chrome.runtime.sendMessage({
                 cmd: 'setVisible',
                 value: target.checked,

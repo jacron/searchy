@@ -3,4 +3,27 @@
     position: absolute;
     background-color: #dfe1e5;
     color: #222222;
+    padding: 14px;
+}
+#dialogBackground {
+    display: none;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+.label {
+    width: 90px;
+    display: inline-block;
+}
+.dialog input {
+    width: 230px;
+}
+.dialog select {
+    width: 238px;
+}
+.cmds {
+    margin-top: 12px;
+    text-align: right;
 }
