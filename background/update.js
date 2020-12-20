@@ -1,3 +1,5 @@
+import {getCategoryById} from "./fetch.js";
+
 function setVisible(engineId, value, data) {
     data.categories.map(category => {
         category.engines
@@ -16,16 +18,13 @@ function removeEngine(id, data) {
 }
 
 function removeCategory(id, data) {
-    data.categories = data.categories
-        .filter(category => category.id !== +id)
-}
-
-function remove(type, id, data) {
-    if (type === 'engine') {
-        removeEngine(id, data);
-    }
-    if (type === 'category') {
-        removeCategory(id, data);
+    const category = getCategoryById(id, data);
+    if (category.engines.length > 0) {
+        return false;
+    } else {
+        data.categories = data.categories
+            .filter(category => category.id !== +id)
+        return true;
     }
 }
 
@@ -37,7 +36,42 @@ function copyEngineToCategory(engine, categoryId, data) {
     })
 }
 
-function saveEngine(engineId, name, url, categoryId, data) {
+function getNewEngineId(data) {
+    let max = 0;
+    data.categories.map(category => {
+        category.engines.map(engine => {
+            if (engine.id > max) {
+                max = engine.id;
+            }
+        })
+    })
+    return max + 1;
+}
+
+function getNewCategoryId(data) {
+    let max = 0;
+    data.categories.map(category => {
+        if (category.id > max) {
+            max = category.id;
+        }
+    })
+    return max + 1;
+}
+
+function addEngine(name, url, categoryId, data) {
+    data.categories
+        .filter(category => category.id === +categoryId)
+        .map(category => {
+            category.engines.push({
+                name,
+                url,
+                visible: true,
+                id: getNewEngineId(data)
+            })
+        })
+}
+
+function updateEngine(engineId, name, url, categoryId, data) {
     data.categories.map(category => {
         const engines = category.engines
             .filter(engine => engine.id === +engineId);
@@ -53,4 +87,37 @@ function saveEngine(engineId, name, url, categoryId, data) {
     })
 }
 
-export {setVisible, remove, saveEngine}
+function saveEngine(engineId, name, url, categoryId, data) {
+    // console.log({engineId});
+    if (engineId === '-1') {
+        addEngine(name, url, categoryId, data);
+    } else {
+        updateEngine(engineId, name, url, categoryId, data);
+    }
+}
+
+function addCategory(name, data) {
+    data.categories.push({
+        name,
+        engines: [],
+        id: getNewCategoryId(data)
+    })
+}
+
+function updateCategory(categoryId, name, data) {
+    data.categories
+        .filter(category => category.id === +categoryId)
+        .map(category => {
+            category.name = name;
+        })
+}
+
+function saveCategory(categoryId, name, data) {
+    if (categoryId === '-1') {
+        addCategory(name, data);
+    } else {
+        updateCategory(categoryId, name, data);
+    }
+}
+
+export {setVisible, removeEngine, removeCategory, saveEngine, saveCategory}

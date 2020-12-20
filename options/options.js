@@ -1,29 +1,35 @@
-import {showEngineLinks} from './create.js';
-import {openDialogCategory, openDialogEngine} from './dialog.js';
+import {showEngineLinks} from './options.create.js';
+import {openDialogCategory, openDialogEngine,
+    openDialogAddEngine, openDialogAddCategory} from './dialog.js';
+import {darkMode, setDark} from '../common/dark.js';
 
-function setDark(dark) {
-    document.body.className = dark ? 'dark' : '';
-}
-
-function darkMode() {
-    chrome.runtime.sendMessage({cmd: "getDarkMode"},
-        response => setDark(response.dark))
+function remove(type, id) {
+    if (type === 'engine') {
+        chrome.runtime.sendMessage({
+            cmd: 'removeEngine',
+            id
+        }, () => {
+            showEngineLinks();
+        })
+    }
+    if (type === 'category') {
+        chrome.runtime.sendMessage({
+            cmd: 'removeCategory',
+            id
+        }, response => {
+            if (response.msg && response.msg === 'ok') {
+                showEngineLinks();
+            } else {
+                alert("Can't remove category that contains engines");
+            }
+        })
+    }
 }
 
 function toggleDarkModeEvent() {
     document.getElementById('toggleDark').addEventListener('click', () => {
         chrome.runtime.sendMessage({cmd: 'toggleDarkMode'},
             response => setDark(response.dark))
-    })
-}
-
-function remove(type, id) {
-    chrome.runtime.sendMessage({
-        cmd: 'remove',
-        type,
-        id
-    }, response => {
-        showEngineLinks();
     })
 }
 
@@ -76,6 +82,25 @@ function editCategoryEvent() {
     })
 }
 
+function addItemEvent() {
+    document.getElementById('addEngine')
+        .addEventListener('click', e => {
+            openDialogAddEngine(e.pageX, e.pageY, result => {
+                if (result.msg && result.msg === 'changed') {
+                    showEngineLinks();
+                }
+            });
+        })
+    document.getElementById('addCategory')
+        .addEventListener('click', e => {
+            openDialogAddCategory(e.pageX, e.pageY, result => {
+                if (result.msg && result.msg === 'changed') {
+                    showEngineLinks();
+                }
+            });
+        })
+}
+
 function getIdFromCheckbox(target) {
     const visible = target.parentElement;
     const engine = visible.parentElement;
@@ -100,6 +125,7 @@ function init() {
     toggleDarkModeEvent();
     editEngineEvent();
     editCategoryEvent();
+    addItemEvent();
     checkEngineEvent();
 }
 

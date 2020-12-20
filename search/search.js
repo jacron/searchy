@@ -1,3 +1,5 @@
+import {darkMode, setDark} from '../common/dark.js';
+
 let term = "";
 const chromeFaviconUrl = 'chrome://favicon/';
 
@@ -38,15 +40,6 @@ function showEngineLinks() {
         response => displayEngines(response.categories))
 }
 
-function setDark(dark) {
-    document.body.className = dark ? 'dark' : '';
-}
-
-function darkMode() {
-    chrome.runtime.sendMessage({cmd: "getDarkMode"},
-        response => setDark(response.dark))
-}
-
 function toggleDarkModeEvent() {
     document.getElementById('toggleDark').addEventListener('click', () => {
         chrome.runtime.sendMessage({cmd: 'toggleDarkMode'},
@@ -62,7 +55,7 @@ function toSearchUrl() {
             chrome.runtime.sendMessage({
                 cmd: 'setSearchTerm',
                 term
-            }, response => {
+            }, () => {
                 document.location.href = target.href + term;
             })
             e.preventDefault();

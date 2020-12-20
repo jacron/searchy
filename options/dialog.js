@@ -21,7 +21,10 @@ const templateEngine = `
 
 const templateCategory = `
 <div class="dialog" id="dialogCategory">
-    <div id="">Here comes the dialog Category...</div>
+    <div>
+        <span class="label">Name</span>
+        <input type="text" id="categoryName">
+    </div>
     <div class="cmds">
         <button id="saveCategory">Save</button>
         <button id="cancelCategory">Cancel</button>
@@ -42,7 +45,7 @@ function initBackground() {
         .addEventListener('click', hideDialogs);
 }
 
-function saveEngine(id, target, cb) {
+function saveEngine(target, cb) {
     const cmds = target.parentElement;
     const dialog = cmds.parentElement;
     const nameElement = dialog.querySelector('#engineName');
@@ -54,13 +57,13 @@ function saveEngine(id, target, cb) {
         name: nameElement.value,
         url: urlElement.value,
         categoryId: categoryElement.value
-    }, response => {
+    }, () => {
         hideDialogs();
         cb({msg: 'changed'});
     })
 }
 
-function saveCategory(id, target, cb) {
+function saveCategory(target, cb) {
     const cmds = target.parentElement;
     const dialog = cmds.parentElement;
     const nameElement = dialog.querySelector('#categoryName');
@@ -68,48 +71,50 @@ function saveCategory(id, target, cb) {
         cmd: 'saveCategory',
         id: dialog.getAttribute('data-id'),
         name: nameElement.value,
-    }, response => {
+    }, () => {
         hideDialogs();
         cb({msg: 'changed'});
     })
 }
 
-function initEngineEvents(id, cb) {
+function initEngineEvents(cb) {
     document.getElementById('saveEngine')
         .addEventListener('click', e => {
-            saveEngine(id, e.target, cb);
+            saveEngine(e.target, cb);
         })
     document.getElementById('cancelEngine')
         .addEventListener('click', hideDialogs)
 }
 
-function dialogElementEngine(id, template, cb) {
-    let dialogAction = document.getElementById(id);
+function dialogElementEngine(template, cb) {
+    const elementId = 'dialogEngine';
+    let dialogAction = document.getElementById(elementId);
     if (!dialogAction) {
         document.body.insertAdjacentHTML('beforeend', template);
-        dialogAction = document.getElementById(id);
+        dialogAction = document.getElementById(elementId);
         initBackground();
-        initEngineEvents(id, cb);
+        initEngineEvents(cb);
     }
     return dialogAction;
 }
 
-function initCategoryEvents(id, cb) {
+function initCategoryEvents(cb) {
     document.getElementById('saveCategory')
         .addEventListener('click', e => {
-            saveCategory(id, e.target, cb);
+            saveCategory(e.target, cb);
         })
     document.getElementById('cancelCategory')
         .addEventListener('click', hideDialogs)
 }
 
-function dialogElementCategory(id, template, cb) {
-    let dialogAction = document.getElementById(id);
+function dialogElementCategory(template, cb) {
+    const elementId = 'dialogCategory';
+    let dialogAction = document.getElementById(elementId);
     if (!dialogAction) {
         document.body.insertAdjacentHTML('beforeend', template);
-        dialogAction = document.getElementById(id);
+        dialogAction = document.getElementById(elementId);
         // initBackground();
-        initCategoryEvents(id, cb);
+        initCategoryEvents(cb);
     }
     return dialogAction;
 }
@@ -125,24 +130,47 @@ function initDialog(x, y, dialog) {
     dialog.style.display = 'block';
 }
 
+function populateOptions(selectElement) {
+    chrome.runtime.sendMessage({cmd: 'getCategories'}, response => {
+        response.categories.map(category => {
+            const option = document.createElement('option');
+            option.value = category.id;
+            option.label = category.name;
+            selectElement.appendChild(option);
+        })
+    })
+}
+
+function openDialogAddEngine(x, y, cb) {
+    const dialogAction = dialogElementEngine(templateEngine, cb);
+    document.getElementById('dialogEngine')
+        .setAttribute('data-id', '-1');
+    const categoriesElement = document.getElementById('engineCategory');
+    populateOptions(categoriesElement);
+    categoriesElement.value = '-1';
+    initDialog(x, y, dialogAction);
+}
+
+function openDialogAddCategory(x, y, cb) {
+    const dialogAction = dialogElementCategory(templateCategory, cb);
+    document.getElementById('dialogCategory')
+        .setAttribute('data-id', '-1');
+    initDialog(x, y, dialogAction);
+}
+
 function openDialogEngine(x, y, id, cb) {
-    const dialogAction = dialogElementEngine('dialogEngine', templateEngine, cb);
+    const dialogAction = dialogElementEngine(templateEngine, cb);
     chrome.runtime.sendMessage({
         cmd: 'getEngineById', id
     }, response => {
         if (response) {
-            const {engine, categories, category} = response;
+            const {engine, category} = response;
             document.getElementById('dialogEngine')
                 .setAttribute('data-id', engine.id);
             document.getElementById('engineName').value = engine.name;
             document.getElementById('engineUrl').value = engine.url;
             const categoriesElement = document.getElementById('engineCategory');
-            categories.map(category => {
-                const option = document.createElement('option');
-                option.value = category.id;
-                option.label = category.name;
-                categoriesElement.appendChild(option);
-            })
+            populateOptions(categoriesElement);
             categoriesElement.value = category.id;
         }
     })
@@ -150,7 +178,17 @@ function openDialogEngine(x, y, id, cb) {
 }
 
 function openDialogCategory(x, y, id, cb) {
-    const dialogAction = dialogElementCategory('dialogCategory', templateCategory, cb);
+    const dialogAction = dialogElementCategory(templateCategory, cb);
+    chrome.runtime.sendMessage({
+        cmd: 'getCategoryById', id
+    }, response => {
+        if (response) {
+            const {category} = response;
+            document.getElementById('dialogCategory')
+                .setAttribute('data-id', category.id);
+            document.getElementById('categoryName').value = category.name;
+        }
+    })
     initDialog(x, y, dialogAction);
 }
 
@@ -161,4 +199,5 @@ function hideElement(elementId) {
     }
 }
 
-export {openDialogEngine, openDialogCategory}
+export {openDialogEngine, openDialogCategory,
+    openDialogAddEngine, openDialogAddCategory}

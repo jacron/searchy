@@ -1,7 +1,6 @@
 import categories from '../categories.js';
-import {setVisible, remove, saveEngine} from './update.js';
-import {getEngineById} from './fetch.js';
-// import {initBackground} from '../options/dialog.js';
+import {setVisible, removeEngine, removeCategory, saveEngine, saveCategory} from './update.js';
+import {getEngineById, getCategoryById} from './fetch.js';
 
 const config = {
     searchPage: "search/search.html",
@@ -52,17 +51,30 @@ chrome.runtime.onMessage.addListener(
                 setVisible(request.id, request.value, data);
                 sendResponse({msg: 'ok'});
                 break;
-            case 'remove':
-                remove(request.type, request.id, data);
+            case 'removeEngine':
+                removeEngine(request.id, data);
                 sendResponse({msg: 'ok'});
+                break;
+            case 'removeCategory':
+                const msg = removeCategory(request.id, data) ? 'ok' : 'error';
+                sendResponse({msg});
                 break;
             case 'getEngineById':
                 getEngineById(request.id, data, (engine, category, categories) => {
                     sendResponse({engine, category, categories});
                 });
                 break;
+            case 'getCategoryById':
+                getCategoryById(request.id, data, category => {
+                    sendResponse({category});
+                });
+                break;
             case 'saveEngine':
                 saveEngine(request.id, request.name, request.url, request.categoryId, data);
+                sendResponse({msg: 'ok'});
+                break;
+            case "saveCategory":
+                saveCategory(request.id, request.name, data);
                 sendResponse({msg: 'ok'});
                 break;
         }
