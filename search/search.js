@@ -11,7 +11,9 @@ function getSearchTermFromBackground() {
 
 function createCategoryEnginesHtml(category) {
     let html = `<div class="category-title">${category.name}</div>`;
-    category.engines.map(engine => {
+    category.engines
+        .filter(engine => engine.visible)
+        .map(engine => {
         html += `
 <div class="engine">
     <img src="${chromeFaviconUrl}${engine.url}" class="icon" alt="i">

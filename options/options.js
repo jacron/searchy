@@ -1,31 +1,5 @@
-const chromeFaviconUrl = 'chrome://favicon/';
-
-function createCategoryEnginesHtml(category) {
-    let html = `<div class="category-title">${category.name}</div>`;
-    category.engines.map(engine => {
-        html += `
-<div class="engine">
-    <img src="${chromeFaviconUrl}${engine.url}" class="icon" alt="i">
-    <a href="${engine.url}">${engine.name}</a>
-</div>
-`;
-    })
-    return html;
-}
-
-function displayEngines(categories) {
-    categories.map(category => {
-        const categoryDiv = document.createElement('div');
-        categoryDiv.className = 'item';
-        categoryDiv.innerHTML = createCategoryEnginesHtml(category);
-        document.getElementById('engines').appendChild(categoryDiv);
-    })
-}
-
-function showEngineLinks() {
-    chrome.runtime.sendMessage({cmd: "getCategories"},
-        response => displayEngines(response.categories))
-}
+import {showEngineLinks} from './create.js';
+import {openDialog} from './dialog.js';
 
 function setDark(dark) {
     document.body.className = dark ? 'dark' : '';
@@ -43,10 +17,79 @@ function toggleDarkModeEvent() {
     })
 }
 
+function remove(type, id) {
+    chrome.runtime.sendMessage({
+        cmd: 'remove',
+        type,
+        id
+    }, response => {
+        showEngineLinks();
+    })
+}
+
+function onEditClick(e, target, type) {
+    const controls = target.parentElement;
+    const engine = controls.parentElement;
+    const a = engine.querySelector('.name');
+    const name = a.textContent;
+    const id = engine.getAttribute('data-id');
+    if (target.classList.contains('fa-delete')) {
+        if (confirm(`Delete ${type} '${name}'?`)) {
+            console.log({id});
+            remove(type, id);
+        }
+    }
+    if (target.classList.contains('fa-edit')) {
+        openDialog(e.pageX, e.pageY);
+    }
+}
+
+function editEngineEvent() {
+    document.getElementById('engines')
+        .addEventListener('click', e => {
+        const target = e.target;
+        if (target.classList.contains('fa')) {
+            onEditClick(e, target, 'engine');
+        }
+    })
+}
+
+function editCategoryEvent() {
+    document.getElementById('categories')
+        .addEventListener('click', e => {
+        const target = e.target;
+        if (target.classList.contains('fa')) {
+            onEditClick(e, target, 'category');
+        }
+    })
+}
+
+function getIdFromCheckbox(target) {
+    const visible = target.parentElement;
+    const engine = visible.parentElement;
+    return engine.getAttribute('data-id');
+}
+
+function checkEngineEvent() {
+    document.getElementById('engines')
+        .addEventListener('change', e => {
+            const target = e.target;
+            // console.log({target});
+            chrome.runtime.sendMessage({
+                cmd: 'setVisible',
+                value: target.checked,
+                id: getIdFromCheckbox(target)
+            })
+        })
+}
+
 function init() {
     darkMode();
     showEngineLinks();
     toggleDarkModeEvent();
+    editEngineEvent();
+    editCategoryEvent();
+    checkEngineEvent();
 }
 
 init();

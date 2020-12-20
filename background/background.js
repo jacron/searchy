@@ -1,4 +1,5 @@
 import categories from '../categories.js';
+import {setVisible, remove} from './update.js';
 
 const config = {
     searchPage: "search/search.html",
@@ -43,8 +44,13 @@ chrome.runtime.onMessage.addListener(
                 sendResponse({dark: config.dark});
                 break;
             case 'getCategories':
-                getCategories();
                 sendResponse({categories: data.categories});
+                break;
+            case 'setVisible':
+                setVisible(request.id, request.value, data);
+                break;
+            case 'remove':
+                remove(request.type, request.id, data);
                 break;
         }
 })
@@ -62,3 +68,9 @@ function btnClicked() {
 }
 
 chrome.browserAction.onClicked.addListener(btnClicked);
+
+function init() {
+    data.categories = categories;
+}
+
+init();

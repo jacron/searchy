@@ -17,6 +17,7 @@
 }
 .fa-edit:before {
     content: "\f044";
+    color: green;
 }
 .fa-github:before {
     content: "\f09b";
@@ -34,6 +35,10 @@
     content: "\f1de";
 }
 .fa-ban:before {  /* delete */
+    content: "\f05e";
+    color: red;
+}
+.fa-delete:before {
     content: "\f05e";
     color: red;
 }
@@ -80,3 +85,7 @@
 .fa-tint:before {
     content: "\f043";
 }
+.fa-plus:before {
+    content: "\f067";
+}
+

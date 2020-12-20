@@ -21,96 +21,134 @@ const config = {
 export default [
     {
         name: "Films",
-        en: "Movies",
+        id: 1,
         engines: [
             {
                 name: "Avax",
                 url: config.AVX_SEARCH,
+                visible: true,
+                id: 1
             },
             {
                 name: "IMDb",
-                url: config.IMDB
+                url: config.IMDB,
+                visible: true,
+                id: 2
             },
             {
                 name: "Variety",
-                url: config.VARIETY
+                url: config.VARIETY,
+                visible: true,
+                id: 3
             },
             {
                 name: "YouTube",
-                url: config.YOUTUBE
+                url: config.YOUTUBE,
+                visible: true,
+                id: 4
             },
             {
                 name: "Criterion",
-                url: config.CRITERION
+                url: config.CRITERION,
+                visible: true,
+                id: 5
             }
         ]
     },
     {
         name: "Torrents",
+        id: 2,
         engines: [
             {
                 name: "Lime",
-                url: config.LIME
+                url: config.LIME,
+                visible: true,
+                id: 6
             },
             {
                 name: "Rarbg",
-                url: config.RARBG
+                url: config.RARBG,
+                visible: true,
+                id: 7
             },
             {
                 name: "Google",
-                url: config.GOOGLE_TORRENT
+                url: config.GOOGLE_TORRENT,
+                visible: true,
+                id: 8
             },
             {
                 name: "Your Bittorrent",
-                url: config.YOURBITTORRENT
+                url: config.YOURBITTORRENT,
+                visible: true,
+                id: 9
             }
         ]
     },
     {
         name: "nzb",
+        id: 3,
         engines: [
             {
                 name: "NZBStars",
                 url: config.STARSEARCH,
+                visible: true,
+                id: 10
             },
             {
                 name: "FindNZB",
-                url: config.FINDNZB
+                url: config.FINDNZB,
+                visible: true,
+                id: 11
             },
             {
                 name: "NzbIndex",
-                url: config.NZB_INDEX
+                url: config.NZB_INDEX,
+                visible: true,
+                id: 12
             },
             {
                 name: "Binsearch",
-                url: config.BINSEARCH
+                url: config.BINSEARCH,
+                visible: true,
+                id: 13
             }
         ]
     },
     {
         name: "Algemeen",
+        id: 4,
         engines: [
             {
                 name: "Google",
                 url: config.GOOGLE,
+                visible: true,
+                id: 14
             },
 
         ]
     },
     {
         name: "Boeken",
+        id: 5,
         engines: [
             {
                 name: "Boekwinkeltjes (schrijver)",
                 url: config.BOEKWINKELTJES_SCHRIJVER,
+                visible: true,
+                id: 15
             },
             {
                 name: "Boekwinkeltjes (titel)",
-                url: config.BOEKWINKELTJES_TITEL
+                url: config.BOEKWINKELTJES_TITEL,
+                visible: true,
+                id: 16
             },
             {
                 name: "bol.com",
-                url: config.BOLCOM
+                url: config.BOLCOM,
+                visible: true,
+                id: 17
             }
         ],
     },

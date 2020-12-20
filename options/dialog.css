@@ -1,0 +1,6 @@
+.dialog {
+    display: none;
+    position: absolute;
+    background-color: #dfe1e5;
+    color: #222222;
+}

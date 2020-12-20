@@ -5,19 +5,30 @@
     <title>Options for Searchy</title>
     <link href="../css/fa.css" rel="stylesheet" type="text/css">
     <link href="../css/search.css" rel="stylesheet" type="text/css">
+    <link href="./dialog.css" rel="stylesheet" type="text/css">
 </head>
 <body class="dark">
-    <div class="container">
+    <div class="container2 options-container">
         <div class="top-menu">
             <a class="fa fa-eye cmd" id="toggleDark"></a>
             <a href="../search/search.html">Home</a>
         </div>
+
+        <!--        engines-->
         <div class="header2">Edit Engines in Searchy</div>
-        <div class="subheader2">Right-click on an engine to edit</div>
         <div class="vert-spacer"></div>
         <div id="engines"></div>
         <div class="vert-spacer"></div>
-        <div class="header2">Add an engine</div>
+
+        <!--        categories-->
+        <div class="header2">Edit Categories</div>
+        <div class="vert-spacer"></div>
+        <div id="categories"></div>
+        <div class="vert-spacer"></div>
+        <div class="bottom-menu">
+            <a class="fa fa-plus" id="addEngine"> engine</a> |
+            <a class="fa fa-plus" id="addCategory"> category</a>
+        </div>
     </div>
     <script type="module" src="options.js"></script>
 </body>
