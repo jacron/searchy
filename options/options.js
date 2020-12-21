@@ -78,6 +78,13 @@ function onEditClick(e, target, type) {
             });
         }
     }
+    if (target.classList.contains('fa-plus')) {
+        openDialogAddEngine(id, result => {
+            if (result.msg && result.msg === 'changed') {
+                showEngineLinks();
+            }
+        });
+    }
 }
 
 function editEngineEvent() {
@@ -97,16 +104,16 @@ function editEngineEvent() {
 
 function addItemEvent() {
     document.getElementById('addEngine')
-        .addEventListener('click', e => {
-            openDialogAddEngine(e.pageX, e.pageY, result => {
+        .addEventListener('click', () => {
+            openDialogAddEngine(-1, result => {
                 if (result.msg && result.msg === 'changed') {
                     showEngineLinks();
                 }
             });
         })
     document.getElementById('addCategory')
-        .addEventListener('click', e => {
-            openDialogAddCategory(e.pageX, e.pageY, result => {
+        .addEventListener('click', () => {
+            openDialogAddCategory(result => {
                 if (result.msg && result.msg === 'changed') {
                     showEngineLinks();
                 }

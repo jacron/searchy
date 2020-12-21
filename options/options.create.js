@@ -23,6 +23,7 @@ function createCategoryEnginesHtml(category) {
         <span>&nbsp;</span>
         <span class="fa fa-edit cat" title="edit"></span>    
         <span class="fa fa-delete cat" title="delete"></span>
+        <span class="fa fa-plus cat" title="add engine"></span>
     </span>
 </div>
 `;

@@ -18,6 +18,10 @@ function saveEngine(target, cb) {
     const nameElement = dialog.querySelector('#engineName');
     const urlElement = dialog.querySelector('#engineUrl');
     const categoryElement = dialog.querySelector('#engineCategory');
+    if (nameElement.value === '') {
+        alert('Can\'t save empty name');
+        return;
+    }
     chrome.runtime.sendMessage({
         cmd: 'saveEngine',
         id: dialog.getAttribute('data-id'),
@@ -41,6 +45,10 @@ function addHttps(s) {
 function saveCategory(target, cb) {
     const dialog = target.parentElement;
     const nameElement = dialog.querySelector('#categoryName');
+    if (nameElement.value === '') {
+        alert('Can\'t save empty name');
+        return;
+    }
     chrome.runtime.sendMessage({
         cmd: 'saveCategory',
         id: dialog.getAttribute('data-id'),
@@ -54,7 +62,10 @@ function saveCategory(target, cb) {
 function initEngineEvents(cb) {
     document.getElementById('formEngine')
         .addEventListener('submit', e => {
-            saveEngine(e.target, cb);
+            if (e.submitter.getAttribute('id') !== 'cancelEngine') {
+                // console.log('saving');
+                saveEngine(e.target, cb);
+            }
             e.preventDefault()
         });
     document.getElementById('cancelEngine')
@@ -76,7 +87,9 @@ function initDialogEngine(template, cb) {
 function initCategoryEvents(cb) {
     document.getElementById('formCategory')
         .addEventListener('submit', e => {
-            saveCategory(e.target, cb);
+            if (e.submitter.getAttribute('id') !== 'cancelCategory') {
+                saveCategory(e.target, cb);
+            }
             e.preventDefault()
         });
     document.getElementById('cancelCategory')
@@ -123,27 +136,31 @@ function populateOptions(selectElement, selectedCategoryId) {
     })
 }
 
-function openDialogAddEngine(x, y, cb) {
+function openDialogAddEngine(catId, cb) {
     const dialogAction = initDialogEngine(templateEngine, cb);
-    document.getElementById('dialogEngine')
-        .setAttribute('data-id', '-1');
     const categoriesElement = document.getElementById('engineCategory');
-    populateOptions(categoriesElement, '-1');
+    populateFieldsEngine(-1, '', '');
+    populateOptions(categoriesElement, catId);
     showDialog(dialogAction);
 }
 
-function openDialogAddCategory(x, y, cb) {
+function openDialogAddCategory(cb) {
     const dialogAction = initDialogCategory(templateCategory, cb);
     document.getElementById('dialogCategory')
         .setAttribute('data-id', '-1');
+    document.getElementById('categoryName').value = '';
     showDialog(dialogAction);
 }
 
-function populateEngine(engine, category) {
+function populateFieldsEngine(engineId, engineName, engineUrl) {
     document.getElementById('dialogEngine')
-        .setAttribute('data-id', engine.id);
-    document.getElementById('engineName').value = engine.name;
-    document.getElementById('engineUrl').value = engine.url;
+        .setAttribute('data-id', engineId);
+    document.getElementById('engineName').value = engineName;
+    document.getElementById('engineUrl').value = engineUrl;
+}
+
+function populateEngine(engine, category) {
+    populateFieldsEngine(engine.id, engine.name, engine.url);
     const categoriesElement = document.getElementById('engineCategory');
     populateOptions(categoriesElement, category.id);
 }
