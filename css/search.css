@@ -54,7 +54,7 @@ a:hover {
 .search-form {
     display: flex;
     flex-direction: column;
-    height: 130px;
+    height: 110px;
     padding-top: 100px;
 }
 .search-form input {
