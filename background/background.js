@@ -1,5 +1,5 @@
 import {doAction} from './action.js';
-import {getDataFromStorage} from './persist.js';
+import {getDataFromStorage} from '../common/persist.js';
 
 const config2 = {
     searchPage: "search/search.html",

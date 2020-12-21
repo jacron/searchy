@@ -1,29 +1,11 @@
 import {initDarkmode, toggleDarkmode} from '../common/dark.js';
-
-let term = "";
-const chromeFaviconUrl = 'chrome://favicon/';
+import {createCategoryEnginesHtml} from './search.create.js';
 
 function getSearchTermFromBackground() {
     chrome.runtime.sendMessage({cmd: "getSelectedTerm"},
             response => {
-        term = response.term;
-        document.getElementById("term").value = term;
+        document.getElementById("term").value = response.term;
     })
-}
-
-function createCategoryEnginesHtml(category) {
-    let html = `<div class="category-title">${category.name}</div>`;
-    category.engines
-        .filter(engine => engine.visible)
-        .map(engine => {
-        html += `
-<div class="engine">
-    <img src="${chromeFaviconUrl}${engine.url}" class="icon" alt="i">
-    <a href="${engine.url}">${engine.name}</a>
-</div>
-`;
-    })
-    return html;
 }
 
 function displayEngines(categories) {
@@ -46,6 +28,14 @@ function toggleDarkModeEvent() {
     })
 }
 
+function toUrl(url, term) {
+    // const form = document.getElementById('formSearch');
+    // form.action = url;
+    // document.getElementById('searchParm').value = term;
+    // form.submit();
+    document.location.href = url + term;
+}
+
 function toSearchUrl() {
     document.getElementById('engines').addEventListener('click', e => {
         const target = e.target;
@@ -55,7 +45,7 @@ function toSearchUrl() {
                 cmd: 'setSearchTerm',
                 term
             }, () => {
-                document.location.href = target.href + term;
+                toUrl(target.href, term);
             })
             e.preventDefault();
         }

@@ -1,0 +1,29 @@
+#middle {
+    display: none;
+}
+#bottom {
+    display: none;
+}
+#categories {
+    margin-left: 24px;
+}
+.cmd-menu {
+    margin-left: 24px;
+}
+.transport {
+    line-height: 1.8;
+}
+#btnImportData {
+    display: none;
+}
+.controls {
+    display: none;
+    text-align: right;
+}
+.category:hover .controls,
+.engine:hover .controls {
+    display: inline;
+}
+.action {
+    cursor: pointer;
+}

@@ -1,4 +1,4 @@
-import config from '../background/config.js';
+import config from './config.js';
 
 const key = config.storageKeyDarkmode;
 

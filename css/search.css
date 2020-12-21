@@ -117,19 +117,9 @@ a:hover {
     break-before: column;
 }
 .icon {
-    margin-right: 3px;
+    margin-right: 5px;
+    width: 16px;
 }
 #toggleDark {
     margin: 0 20px;
-}
-.controls {
-    display: none;
-    text-align: right;
-}
-.category:hover .controls,
-.engine:hover .controls {
-    display: inline;
-}
-.action {
-    cursor: pointer;
 }

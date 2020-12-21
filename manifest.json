@@ -1,11 +1,12 @@
 {
   "name": "Searchy",
   "description": "'Searchy...': Open a search engine with [selection]",
-  "version": "0.1",
+  "version": "0.2",
   "permissions": [
     "contextMenus",
     "chrome://favicon/*",
-    "storage"
+    "storage",
+    "downloads"
   ],
   "background": {
     "page": "background/background.html"

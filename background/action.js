@@ -9,10 +9,14 @@ function doAction(request, sendResponse, data) {
             break;
         case 'setSearchTerm':
             data.selectedTerm = request.term;
-            sendResponse({});
+            sendResponse({msg: 'ok'});
             break;
         case 'getCategories':
             sendResponse({categories: data.categories});
+            break;
+        case 'setCategories':
+            data.categories = request.categories;
+            sendResponse({msg: 'ok'});
             break;
         case 'getEngineById':
             getEngineById(request.id, data, (engine, category, categories) => {

@@ -1,5 +1,5 @@
 import {getCategoryById} from "./fetch.js";
-import {persistData} from './persist.js';
+import {persistData} from '../common/persist.js';
 
 function setVisible(engineId, value, data) {
     data.categories.map(category => {

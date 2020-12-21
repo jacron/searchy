@@ -1,7 +1,11 @@
-import {showEngineLinks} from './options.create.js';
+import {displayItems, showEngineLinks} from './options.create.js';
 import {openDialogCategory, openDialogEngine,
     openDialogAddEngine, openDialogAddCategory} from './dialog.js';
 import {initDarkmode, toggleDarkmode} from '../common/dark.js';
+import {downloadJson} from '../common/download.js';
+import {getDataFromStorage, persistData} from '../common/persist.js';
+import config from "../common/config.js";
+import {initFilesInput} from '../components/FilesInput/FilesInput.js';
 
 function remove(type, id) {
     if (type === 'engine') {
@@ -27,7 +31,8 @@ function remove(type, id) {
 }
 
 function toggleDarkModeEvent() {
-    document.getElementById('toggleDark').addEventListener('click', () => {
+    document.getElementById('toggleDark')
+        .addEventListener('click', () => {
         toggleDarkmode();
     })
 }
@@ -66,17 +71,12 @@ function editEngineEvent() {
         .addEventListener('click', e => {
         const target = e.target;
         if (target.classList.contains('fa')) {
-            onEditClick(e, target, 'engine');
-        }
-    })
-}
-
-function editCategoryEvent() {
-    document.getElementById('categories')
-        .addEventListener('click', e => {
-        const target = e.target;
-        if (target.classList.contains('fa')) {
-            onEditClick(e, target, 'category');
+            if (target.classList.contains('eng')) {
+                onEditClick(e, target, 'engine');
+            }
+            if (target.classList.contains('cat')) {
+                onEditClick(e, target, 'category');
+            }
         }
     })
 }
@@ -118,14 +118,80 @@ function checkEngineEvent() {
         })
 }
 
+function transportEvent() {
+    const filename = config.transportFileNameJson;
+    document.getElementById('exportData')
+        .addEventListener('click', () => {
+            getDataFromStorage(data => {
+                console.log({data});
+                downloadJson(data, filename);
+            })
+        });
+}
+
+function restoreData(cb) {
+    getDataFromStorage(categories => {
+        chrome.runtime.sendMessage({
+            cmd: 'setCategories',
+            categories
+        }, () => {
+            cb(categories);
+        })
+    })
+}
+
+function dialogImport(categories) {
+    displayItems(categories, () => {
+        if (confirm("Do you want to keep these changes?")) {
+            persistData({categories});
+        } else {
+            restoreData(categories => {
+                displayItems(categories);
+            });
+        }
+    });
+}
+
+function initImportButton() {
+    document.getElementById('btnImportData')
+        .addEventListener('click', () => {
+            const categories = JSON.parse(importedData);
+            chrome.runtime.sendMessage({
+                cmd: 'setCategories',
+                categories
+            }, () => {
+                dialogImport(categories);
+            });
+    });
+}
+
+let importedData;
+
+function onReaderLoad(e) {
+    importedData = e.detail.content;
+    if (importedData) {
+        document.getElementById('btnImportData')
+            .style.display = 'block';
+    }
+}
+
+function initImport() {
+    const filesInput = document.querySelector('files-input');
+    filesInput.header = 'Read data';
+    filesInput.addEventListener('load', onReaderLoad);
+}
+
 function init() {
     initDarkmode();
     showEngineLinks();
     toggleDarkModeEvent();
     editEngineEvent();
-    editCategoryEvent();
     addItemEvent();
     checkEngineEvent();
+    transportEvent();
+    initFilesInput();
+    initImport();
+    initImportButton();
 }
 
 init();

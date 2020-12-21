@@ -8,33 +8,29 @@ function createEngineHtml(engine) {
     <span class="name">${engine.name}</span>
     <span class="controls">
         <span>&nbsp;</span>
-        <span class="fa fa-edit" title="edit"></span>    
-        <span class="fa fa-delete" title="delete"></span>
+        <span class="fa fa-edit eng" title="edit"></span>    
+        <span class="fa fa-delete eng" title="delete"></span>
     </span>
 </div>
 `;
 }
 
 function createCategoryEnginesHtml(category) {
-    let html = `<div class="category-title">${category.name}</div>`;
+    let html = `
+<div class="category" data-id="${category.id}">
+    <span class="category-title name">${category.name}</span>
+    <span class="controls">
+        <span>&nbsp;</span>
+        <span class="fa fa-edit cat" title="edit"></span>    
+        <span class="fa fa-delete cat" title="delete"></span>
+    </span>
+</div>
+`;
     category.engines
         .map(engine => {
             html += createEngineHtml(engine)
         })
     return html;
-}
-
-function createCategoryHtml(category) {
-    return `
-<div class="category" data-id="${category.id}">
-    <span class="name">${category.name}</span>
-    <span class="controls">
-        <span>&nbsp;</span>
-        <span class="fa fa-edit" title="edit"></span>    
-        <span class="fa fa-delete" title="delete"></span>
-    </span>
-</div>
-`;
 }
 
 function createCategoryDiv(category) {
@@ -44,27 +40,34 @@ function createCategoryDiv(category) {
     return categoryDiv;
 }
 
-function createCatDiv(category) {
-    const catDiv = document.createElement('div');
-    catDiv.className = 'category';
-    catDiv.innerHTML = createCategoryHtml(category);
-    return catDiv;
-}
-
 function displayEngines(categories) {
     const elementEngines = document.getElementById('engines');
-    const elementCategories = document.getElementById('categories');
     elementEngines.innerHTML = '';
-    elementCategories.innerHTML = '';
     categories.map(category => {
         elementEngines.appendChild(createCategoryDiv(category));
-        elementCategories.appendChild(createCatDiv(category));
     })
+}
+
+function revealBottom() {
+    document.getElementById('bottom')
+        .style.display = 'block';
+}
+
+function displayItems(categories, cb) {
+    displayEngines(categories);
+    revealBottom();
+    if (cb) {
+        setTimeout(() => {
+            cb();
+        }, 100);
+    }
 }
 
 function showEngineLinks() {
     chrome.runtime.sendMessage({cmd: "getCategories"},
-        response => displayEngines(response.categories))
+        response => {
+            displayItems(response.categories);
+        })
 }
 
-export {showEngineLinks}
+export {showEngineLinks, displayItems}

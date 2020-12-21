@@ -6,6 +6,7 @@
     <link href="../css/fa.css" rel="stylesheet" type="text/css">
     <link href="../css/search.css" rel="stylesheet" type="text/css">
     <link href="./dialog.css" rel="stylesheet" type="text/css">
+    <link href="./options.css" rel="stylesheet" type="text/css">
 </head>
 <body class="dark">
     <div class="container2 options-container">
@@ -17,27 +18,43 @@
         <!--        engines-->
         <div class="header2">My Search Engines</div>
         <div class="vert-spacer"></div>
+
         <div id="engines"></div>
-        <div class="vert-spacer"></div>
 
-        <div class="header2">New Search Engine</div>
-        <div class="vert-spacer"></div>
-        <div class="bottom-menu">
-            <a class="fa fa-plus" id="addEngine"> engine</a>
-        </div>
-        <div class="vert-spacer"></div>
+        <div id="bottom">
+            <div class="vert-spacer"></div>
 
-        <!--        categories-->
-        <div class="header2">My Search Categories</div>
-        <div class="vert-spacer"></div>
-        <div id="categories"></div>
-        <div class="vert-spacer"></div>
+            <div class="header2">New Search Engine</div>
+            <div class="vert-spacer"></div>
+            <div class="cmd-menu">
+                <a class="fa fa-plus" id="addEngine"> engine</a>
+            </div>
+            <div class="vert-spacer"></div>
+            <div class="vert-spacer"></div>
 
-        <!--        new items-->
-        <div class="header2">New Search Category</div>
-        <div class="vert-spacer"></div>
-        <div class="bottom-menu">
-            <a class="fa fa-plus" id="addCategory"> category</a>
+            <!--        new items-->
+            <div class="header2">New Search Category</div>
+            <div class="vert-spacer"></div>
+            <div class="cmd-menu">
+                <a class="fa fa-plus" id="addCategory"> category</a>
+            </div>
+            <div class="vert-spacer"></div>
+
+            <!--        Export-->
+            <div class="header2">Export</div>
+            <div class="vert-spacer"></div>
+            <div class="transport">
+                <div class="cmd-menu">
+                    <a class="fa fa-floppy-o" id="exportData"> Export</a>
+                </div>
+            </div>
+            <div class="vert-spacer"></div>
+
+            <!--            Import-->
+            <div class="header2">Import</div>
+            <div class="vert-spacer"></div>
+            <files-input accept="application/json" header="Read data"></files-input>
+            <button class="fa fa-floppy-o" id="btnImportData"> Import</button>
         </div>
     </div>
     <div id="dialogBackground"></div>
