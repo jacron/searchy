@@ -1,36 +1,4 @@
-const templateEngine = `
-<div class="dialog" id="dialogEngine">
-    <div>
-        <span class="label">Name</span>
-        <input type="text" id="engineName">
-    </div>
-    <div>
-        <span class="label">Url</span>
-        <input type="text" id="engineUrl">
-    </div>
-    <div>
-        <span class="label">Category</span>
-        <select id="engineCategory"></select>
-    </div>
-    <div class="cmds">
-        <button id="saveEngine">Save</button>
-        <button id="cancelEngine">Cancel</button>
-    </div>
-</div>
-`;
-
-const templateCategory = `
-<div class="dialog" id="dialogCategory">
-    <div>
-        <span class="label">Name</span>
-        <input type="text" id="categoryName">
-    </div>
-    <div class="cmds">
-        <button id="saveCategory">Save</button>
-        <button id="cancelCategory">Cancel</button>
-    </div>
-</div>
-`;
+import {templateEngine, templateCategory} from './dialog.templates.js';
 
 function hideDialogs() {
     hideElement('dialogEngine');
@@ -46,8 +14,7 @@ function initBackground() {
 }
 
 function saveEngine(target, cb) {
-    const cmds = target.parentElement;
-    const dialog = cmds.parentElement;
+    const dialog = target.parentElement;
     const nameElement = dialog.querySelector('#engineName');
     const urlElement = dialog.querySelector('#engineUrl');
     const categoryElement = dialog.querySelector('#engineCategory');
@@ -64,8 +31,7 @@ function saveEngine(target, cb) {
 }
 
 function saveCategory(target, cb) {
-    const cmds = target.parentElement;
-    const dialog = cmds.parentElement;
+    const dialog = target.parentElement;
     const nameElement = dialog.querySelector('#categoryName');
     chrome.runtime.sendMessage({
         cmd: 'saveCategory',
@@ -78,15 +44,16 @@ function saveCategory(target, cb) {
 }
 
 function initEngineEvents(cb) {
-    document.getElementById('saveEngine')
-        .addEventListener('click', e => {
+    document.getElementById('formEngine')
+        .addEventListener('submit', e => {
             saveEngine(e.target, cb);
-        })
+            e.preventDefault()
+        });
     document.getElementById('cancelEngine')
         .addEventListener('click', hideDialogs)
 }
 
-function dialogElementEngine(template, cb) {
+function initDialogEngine(template, cb) {
     const elementId = 'dialogEngine';
     let dialogAction = document.getElementById(elementId);
     if (!dialogAction) {
@@ -99,21 +66,21 @@ function dialogElementEngine(template, cb) {
 }
 
 function initCategoryEvents(cb) {
-    document.getElementById('saveCategory')
-        .addEventListener('click', e => {
+    document.getElementById('formCategory')
+        .addEventListener('submit', e => {
             saveCategory(e.target, cb);
-        })
+            e.preventDefault()
+        });
     document.getElementById('cancelCategory')
         .addEventListener('click', hideDialogs)
 }
 
-function dialogElementCategory(template, cb) {
+function initDialogCategory(template, cb) {
     const elementId = 'dialogCategory';
     let dialogAction = document.getElementById(elementId);
     if (!dialogAction) {
         document.body.insertAdjacentHTML('beforeend', template);
         dialogAction = document.getElementById(elementId);
-        // initBackground();
         initCategoryEvents(cb);
     }
     return dialogAction;
@@ -123,7 +90,7 @@ function showBackground() {
     document.getElementById('dialogBackground').style.display = 'block';
 }
 
-function initDialog(x, y, dialog) {
+function showDialog(x, y, dialog) {
     showBackground();
     dialog.style.top = y + 'px';
     dialog.style.left = x + 'px';
@@ -142,43 +109,47 @@ function populateOptions(selectElement) {
 }
 
 function openDialogAddEngine(x, y, cb) {
-    const dialogAction = dialogElementEngine(templateEngine, cb);
+    const dialogAction = initDialogEngine(templateEngine, cb);
     document.getElementById('dialogEngine')
         .setAttribute('data-id', '-1');
     const categoriesElement = document.getElementById('engineCategory');
     populateOptions(categoriesElement);
     categoriesElement.value = '-1';
-    initDialog(x, y, dialogAction);
+    showDialog(x, y, dialogAction);
 }
 
 function openDialogAddCategory(x, y, cb) {
-    const dialogAction = dialogElementCategory(templateCategory, cb);
+    const dialogAction = initDialogCategory(templateCategory, cb);
     document.getElementById('dialogCategory')
         .setAttribute('data-id', '-1');
-    initDialog(x, y, dialogAction);
+    showDialog(x, y, dialogAction);
+}
+
+function populateEngine(engine, category) {
+    document.getElementById('dialogEngine')
+        .setAttribute('data-id', engine.id);
+    document.getElementById('engineName').value = engine.name;
+    document.getElementById('engineUrl').value = engine.url;
+    const categoriesElement = document.getElementById('engineCategory');
+    populateOptions(categoriesElement);
+    categoriesElement.value = category.id;
 }
 
 function openDialogEngine(x, y, id, cb) {
-    const dialogAction = dialogElementEngine(templateEngine, cb);
+    const dialogAction = initDialogEngine(templateEngine, cb);
     chrome.runtime.sendMessage({
         cmd: 'getEngineById', id
     }, response => {
         if (response) {
             const {engine, category} = response;
-            document.getElementById('dialogEngine')
-                .setAttribute('data-id', engine.id);
-            document.getElementById('engineName').value = engine.name;
-            document.getElementById('engineUrl').value = engine.url;
-            const categoriesElement = document.getElementById('engineCategory');
-            populateOptions(categoriesElement);
-            categoriesElement.value = category.id;
+            populateEngine(engine, category);
         }
     })
-    initDialog(x, y, dialogAction);
+    showDialog(x, y, dialogAction);
 }
 
 function openDialogCategory(x, y, id, cb) {
-    const dialogAction = dialogElementCategory(templateCategory, cb);
+    const dialogAction = initDialogCategory(templateCategory, cb);
     chrome.runtime.sendMessage({
         cmd: 'getCategoryById', id
     }, response => {
@@ -189,7 +160,7 @@ function openDialogCategory(x, y, id, cb) {
             document.getElementById('categoryName').value = category.name;
         }
     })
-    initDialog(x, y, dialogAction);
+    showDialog(x, y, dialogAction);
 }
 
 function hideElement(elementId) {

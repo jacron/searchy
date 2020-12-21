@@ -4,7 +4,8 @@
   "version": "0.1",
   "permissions": [
     "contextMenus",
-    "chrome://favicon/*"
+    "chrome://favicon/*",
+    "storage"
   ],
   "background": {
     "page": "background/background.html"

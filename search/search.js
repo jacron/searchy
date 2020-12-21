@@ -1,4 +1,4 @@
-import {darkMode, setDark} from '../common/dark.js';
+import {initDarkmode, toggleDarkmode} from '../common/dark.js';
 
 let term = "";
 const chromeFaviconUrl = 'chrome://favicon/';
@@ -42,8 +42,7 @@ function showEngineLinks() {
 
 function toggleDarkModeEvent() {
     document.getElementById('toggleDark').addEventListener('click', () => {
-        chrome.runtime.sendMessage({cmd: 'toggleDarkMode'},
-            response => setDark(response.dark))
+        toggleDarkmode();
     })
 }
 
@@ -64,7 +63,7 @@ function toSearchUrl() {
 }
 
 function init() {
-    darkMode();
+    initDarkmode();
     getSearchTermFromBackground();
     showEngineLinks();
     toggleDarkModeEvent();

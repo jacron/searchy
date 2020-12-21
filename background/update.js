@@ -1,4 +1,5 @@
 import {getCategoryById} from "./fetch.js";
+import {persistData} from './persist.js';
 
 function setVisible(engineId, value, data) {
     data.categories.map(category => {
@@ -8,12 +9,14 @@ function setVisible(engineId, value, data) {
                 engine.visible = value
             })
     })
+    persistData(data);
 }
 
 function removeEngine(id, data) {
     data.categories.map(category => {
         category.engines = category.engines
             .filter(engine => engine.id !== +id)
+        persistData(data);
     })
 }
 
@@ -23,7 +26,8 @@ function removeCategory(id, data) {
         return false;
     } else {
         data.categories = data.categories
-            .filter(category => category.id !== +id)
+            .filter(category => category.id !== +id);
+        persistData(data);
         return true;
     }
 }
@@ -68,6 +72,7 @@ function addEngine(name, url, categoryId, data) {
                 visible: true,
                 id: getNewEngineId(data)
             })
+            persistData(data);
         })
 }
 
@@ -80,15 +85,17 @@ function updateEngine(engineId, name, url, categoryId, data) {
             engine.name = name;
             engine.url = url;
             if (category.id !== +categoryId) {
+                // add engine to new category
                 copyEngineToCategory(engine, categoryId, data);
+                // remove engine from old category
                 category.engines = category.engines.filter(eng => eng.id !== engine.id);
             }
+            persistData(data);
         }
     })
 }
 
 function saveEngine(engineId, name, url, categoryId, data) {
-    // console.log({engineId});
     if (engineId === '-1') {
         addEngine(name, url, categoryId, data);
     } else {
@@ -101,7 +108,8 @@ function addCategory(name, data) {
         name,
         engines: [],
         id: getNewCategoryId(data)
-    })
+    });
+    persistData(data);
 }
 
 function updateCategory(categoryId, name, data) {
@@ -110,6 +118,7 @@ function updateCategory(categoryId, name, data) {
         .map(category => {
             category.name = name;
         })
+    persistData(data);
 }
 
 function saveCategory(categoryId, name, data) {

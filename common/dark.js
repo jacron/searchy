@@ -1,10 +1,20 @@
-function setDark(dark) {
-    document.body.className = dark ? 'dark' : '';
+import config from '../background/config.js';
+
+const key = config.storageKeyDarkmode;
+
+function toggleDarkmode(dark) {
+    chrome.storage.local.get([key], result => {
+        const newValue = !result[key];
+        chrome.storage.local.set({[key]: newValue}, () => {
+            document.body.className = newValue ? 'dark' : '';
+        })
+    })
 }
 
-function darkMode() {
-    chrome.runtime.sendMessage({cmd: "getDarkMode"},
-        response => setDark(response.dark))
+function initDarkmode() {
+    chrome.storage.local.get([key], result => {
+        document.body.className = result[key] ? 'dark' : '';
+    })
 }
 
-export {darkMode, setDark}
+export {initDarkmode, toggleDarkmode}

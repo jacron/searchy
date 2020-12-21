@@ -1,7 +1,7 @@
 import {showEngineLinks} from './options.create.js';
 import {openDialogCategory, openDialogEngine,
     openDialogAddEngine, openDialogAddCategory} from './dialog.js';
-import {darkMode, setDark} from '../common/dark.js';
+import {initDarkmode, toggleDarkmode} from '../common/dark.js';
 
 function remove(type, id) {
     if (type === 'engine') {
@@ -28,8 +28,7 @@ function remove(type, id) {
 
 function toggleDarkModeEvent() {
     document.getElementById('toggleDark').addEventListener('click', () => {
-        chrome.runtime.sendMessage({cmd: 'toggleDarkMode'},
-            response => setDark(response.dark))
+        toggleDarkmode();
     })
 }
 
@@ -120,7 +119,7 @@ function checkEngineEvent() {
 }
 
 function init() {
-    darkMode();
+    initDarkmode();
     showEngineLinks();
     toggleDarkModeEvent();
     editEngineEvent();
