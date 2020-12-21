@@ -3,7 +3,7 @@ const templateEngine = `
 <form id="formEngine">
     <div>
         <span class="label">Name</span>
-        <input type="text" id="engineName">
+        <input type="text" id="engineName" autofocus>
     </div>
     <div>
         <span class="label">Url</span>
@@ -26,7 +26,7 @@ const templateCategory = `
 <form id="formCategory">
     <div>
         <span class="label">Name</span>
-        <input type="text" id="categoryName">
+        <input type="text" id="categoryName" autofocus>
     </div>
     <div class="cmds">
         <input type="submit" value="Save">

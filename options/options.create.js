@@ -2,7 +2,7 @@ function createEngineHtml(engine) {
     return `
 <div class="engine" data-id="${engine.id}">
     <span class="visible">
-        <input type="checkbox" title="visible on/off"
+        <input type="checkbox" title="visible on/off" 
         class="check-visible" ${engine.visible ? 'checked' : ''}>
     </span>
     <span class="name">${engine.name}</span>

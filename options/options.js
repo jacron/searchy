@@ -37,7 +37,15 @@ function toggleDarkModeEvent() {
     })
 }
 
+function clearSelected() {
+    const selectedElements = document.getElementsByClassName('selected');
+    for (let i = 0; i < selectedElements.length; i++) {
+        selectedElements[i].classList.remove('selected');
+    }
+}
+
 function onEditClick(e, target, type) {
+    clearSelected();
     const controls = target.parentElement;
     const engine = controls.parentElement;
     const a = engine.querySelector('.name');
@@ -46,21 +54,27 @@ function onEditClick(e, target, type) {
     if (target.classList.contains('fa-delete')) {
         if (confirm(`Delete ${type} '${name}'?`)) {
             remove(type, id);
+            clearSelected();
         }
     }
     if (target.classList.contains('fa-edit')) {
+
+        engine.classList.add('selected');
+
         if (type === 'engine') {
-            openDialogEngine(e.pageX, e.pageY, id, result => {
+            openDialogEngine(id, result => {
                 if (result.msg && result.msg === 'changed') {
                     showEngineLinks();
                 }
+                clearSelected();
             });
         }
         if (type === 'category') {
-            openDialogCategory(e.pageX, e.pageY, id, result => {
+            openDialogCategory(id, result => {
                 if (result.msg && result.msg === 'changed') {
                     showEngineLinks();
                 }
+                clearSelected();
             });
         }
     }

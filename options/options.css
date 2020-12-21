@@ -27,3 +27,7 @@
 .action {
     cursor: pointer;
 }
+.selected {
+    text-decoration: underline;
+    font-weight: bold;
+}

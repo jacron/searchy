@@ -22,12 +22,20 @@ function saveEngine(target, cb) {
         cmd: 'saveEngine',
         id: dialog.getAttribute('data-id'),
         name: nameElement.value,
-        url: urlElement.value,
+        url: addHttps(urlElement.value),
         categoryId: categoryElement.value
     }, () => {
         hideDialogs();
         cb({msg: 'changed'});
     })
+}
+
+function addHttps(s) {
+    if (s && s.indexOf('://') === -1) {
+        return 'https://' + s;
+    } else {
+        return s;
+    }
 }
 
 function saveCategory(target, cb) {
@@ -90,21 +98,28 @@ function showBackground() {
     document.getElementById('dialogBackground').style.display = 'block';
 }
 
-function showDialog(x, y, dialog) {
-    showBackground();
-    dialog.style.top = y + 'px';
-    dialog.style.left = x + 'px';
-    dialog.style.display = 'block';
+function calcCenteredLeft(w) {
+    return window.innerWidth / 2 - (w / 2);
 }
 
-function populateOptions(selectElement) {
+function showDialog(dialog) {
+    showBackground();
+    dialog.style.display = 'block';
+    const rect = dialog.getBoundingClientRect();
+    dialog.style.top = '0px';
+    dialog.style.left = calcCenteredLeft(rect.width) + 'px';
+}
+
+function populateOptions(selectElement, selectedCategoryId) {
+    selectElement.innerHTML = '';
     chrome.runtime.sendMessage({cmd: 'getCategories'}, response => {
         response.categories.map(category => {
             const option = document.createElement('option');
             option.value = category.id;
             option.label = category.name;
             selectElement.appendChild(option);
-        })
+        });
+        selectElement.value = selectedCategoryId;
     })
 }
 
@@ -113,16 +128,15 @@ function openDialogAddEngine(x, y, cb) {
     document.getElementById('dialogEngine')
         .setAttribute('data-id', '-1');
     const categoriesElement = document.getElementById('engineCategory');
-    populateOptions(categoriesElement);
-    categoriesElement.value = '-1';
-    showDialog(x, y, dialogAction);
+    populateOptions(categoriesElement, '-1');
+    showDialog(dialogAction);
 }
 
 function openDialogAddCategory(x, y, cb) {
     const dialogAction = initDialogCategory(templateCategory, cb);
     document.getElementById('dialogCategory')
         .setAttribute('data-id', '-1');
-    showDialog(x, y, dialogAction);
+    showDialog(dialogAction);
 }
 
 function populateEngine(engine, category) {
@@ -131,11 +145,10 @@ function populateEngine(engine, category) {
     document.getElementById('engineName').value = engine.name;
     document.getElementById('engineUrl').value = engine.url;
     const categoriesElement = document.getElementById('engineCategory');
-    populateOptions(categoriesElement);
-    categoriesElement.value = category.id;
+    populateOptions(categoriesElement, category.id);
 }
 
-function openDialogEngine(x, y, id, cb) {
+function openDialogEngine(id, cb) {
     const dialogAction = initDialogEngine(templateEngine, cb);
     chrome.runtime.sendMessage({
         cmd: 'getEngineById', id
@@ -145,22 +158,27 @@ function openDialogEngine(x, y, id, cb) {
             populateEngine(engine, category);
         }
     })
-    showDialog(x, y, dialogAction);
+    showDialog(dialogAction);
 }
 
-function openDialogCategory(x, y, id, cb) {
+function populateCategory(category) {
+    document.getElementById('dialogCategory')
+        .setAttribute('data-id', category.id);
+    document.getElementById('categoryName')
+        .value = category.name;
+}
+
+function openDialogCategory(id, cb) {
     const dialogAction = initDialogCategory(templateCategory, cb);
     chrome.runtime.sendMessage({
         cmd: 'getCategoryById', id
     }, response => {
         if (response) {
             const {category} = response;
-            document.getElementById('dialogCategory')
-                .setAttribute('data-id', category.id);
-            document.getElementById('categoryName').value = category.name;
+            populateCategory(category);
         }
     })
-    showDialog(x, y, dialogAction);
+    showDialog(dialogAction);
 }
 
 function hideElement(elementId) {
