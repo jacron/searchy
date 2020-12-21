@@ -93,7 +93,13 @@ function initCategoryEvents(cb) {
             e.preventDefault()
         });
     document.getElementById('cancelCategory')
-        .addEventListener('click', hideDialogs)
+        .addEventListener('click', hideDialogs);
+    document.getElementById('formCategory')
+        .addEventListener('keydown', e => {
+            if (e.key === 'Escape') {
+                hideDialogs();
+            }
+        })
 }
 
 function initDialogCategory(template, cb) {

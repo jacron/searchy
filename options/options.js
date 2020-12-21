@@ -1,6 +1,8 @@
 import {displayItems, showEngineLinks} from './options.create.js';
-import {openDialogCategory, openDialogEngine,
-    openDialogAddEngine, openDialogAddCategory} from './dialog.js';
+import {
+    openDialogCategory, openDialogEngine,
+    openDialogAddEngine, openDialogAddCategory,
+} from './dialog.js';
 import {initDarkmode, toggleDarkmode} from '../common/dark.js';
 import {downloadJson} from '../common/download.js';
 import {getDataFromStorage, persistData} from '../common/persist.js';

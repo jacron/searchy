@@ -28,12 +28,17 @@ function toggleDarkModeEvent() {
     })
 }
 
+function fillPlaceholder(url, term) {
+    const magic = '$!q';
+    if (url.indexOf(magic) !== -1) {
+        return url.replace(magic, term);
+    } else {
+        return url + term;
+    }
+}
+
 function toUrl(url, term) {
-    // const form = document.getElementById('formSearch');
-    // form.action = url;
-    // document.getElementById('searchParm').value = term;
-    // form.submit();
-    document.location.href = url + term;
+    document.location.href = fillPlaceholder(url, term);
 }
 
 function toSearchUrl() {
