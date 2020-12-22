@@ -103,11 +103,11 @@ function saveEngine(engineId, name, url, categoryId, data) {
     }
 }
 
-function addCategory(name, data) {
+function addCategory(name, id, data) {
     data.categories.push({
         name,
         engines: [],
-        id: getNewCategoryId(data)
+        id
     });
     persistData(data);
 }
@@ -121,9 +121,13 @@ function updateCategory(categoryId, name, data) {
     persistData(data);
 }
 
-function saveCategory(categoryId, name, data) {
+function saveCategory(categoryId, name, data, cb) {
     if (categoryId === '-1') {
-        addCategory(name, data);
+        const newId = getNewCategoryId(data);
+        addCategory(name, newId, data);
+        if (cb) {
+            cb(newId);
+        }
     } else {
         updateCategory(categoryId, name, data);
     }

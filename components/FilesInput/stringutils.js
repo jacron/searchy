@@ -78,6 +78,7 @@ function getDelim(s) {
 
         // return any word of one non-letter as a delimiter
         if (word.length === 1 && !/[a-zA-Z0-9]/.test(word)) {
+            // surround with one space on either side
             return ' ' + word + ' ';
         }
     }
@@ -90,7 +91,6 @@ function shortDate(timestamp) {
         month: 'long',
         year: 'numeric',
     })
-    // return new Date(timestamp).toLocaleDateString(chrome.i18n.getUILanguage());
 }
 
 /**
@@ -103,16 +103,11 @@ function localizedTimediff(pubDateString) {
     const now = Date.now();
     const diff = (now - pubDate) / 1000 / 60;  // minuten
 
-    // let pubDate;
-    // let years = ' jaren';
-    // let year = ' jaar';
     let months = ' mnd';
     let days = ' dagen';
     let hours = ' uur';
     let ago = ' geleden'
     if (chrome.i18n.getUILanguage().substr(0, 2) === 'en') {
-        // years = ' yrs';
-        // year = ' year';
         months = ' mon';
         days = ' days'
         hours = ' hrs';

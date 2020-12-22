@@ -23,8 +23,8 @@ function showLocalStorage() {
 function getDataFromStorage(cb) {
     // showLocalStorage();
     // test with static
-    cb(categories); // static data
-    return;
+    // cb(categories); // static data
+    // return;
 
     chrome.storage.local.get([key], result => {
         // console.log('Value currently is ', result[key]);

@@ -3,32 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Searchy</title>
-    <style>
-        #dialogAdd,
-        #delimiterAdd,
-        #cmdAdd {
-            display: none;
-        }
-        #dialogAdd {
-            width: 350px;
-        }
-        #dialogAdd > div {
-            line-height: 2.2;
-        }
-        .label {
-            width: 68px;
-            display: inline-block;
-        }
-        input {
-            width: calc(100% - 80px);
-        }
-        .btn-container {
-            text-align: right;
-        }
-        #header {
-            width: 200px;
-        }
-    </style>
+    <link href="./popup.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div class="container">
@@ -36,11 +11,16 @@
         <br>
         <a id="cmdSearchPage">Search</a> |
         <a id="cmdOptionsPage">Options</a>
-        <span id="delimiterAdd"> | </span>
+        <span> | </span>
         <a id="cmdAdd">Add engine</a>
     </div>
     <div id="dialogAdd">
         <hr>
+        <div id="trim-controls">
+            <button id="trim-title-1" title="title take one">1</button>
+            <button id="trim-title-2" title="title take two">2</button>
+            <button id="trim-title-1-2" title="restore title">1-2</button>
+        </div>
         <div>
             <span class="label">Name</span>
             <input type="text" id="inputName">
@@ -48,6 +28,7 @@
         <div>
             <span class="label">Category</span>
             <select id="selectCategory"></select>
+            <button id="btnNewCategory">New</button>
         </div>
         <div>
             <span class="label">Url</span>
@@ -58,7 +39,7 @@
         </div>
     </div>
 </div>
-<script src="popup.js"></script>
+<script type="module" src="popup.js"></script>
 
 </body>
 </html>

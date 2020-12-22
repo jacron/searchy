@@ -1,0 +1,33 @@
+#dialogAdd {
+    display: none;
+    width: 350px;
+}
+#dialogAdd > div {
+    line-height: 2.2;
+}
+.label {
+    width: 68px;
+    display: inline-block;
+}
+input {
+    width: calc(100% - 80px);
+}
+.btn-container {
+    text-align: right;
+}
+#header {
+    width: 200px;
+}
+#trim-controls {
+    text-align: right;
+    /*float: right;*/
+}
+#trim-title-1,
+#trim-title-2,
+#trim-title-1-2 {
+    cursor: default;
+    visibility: hidden;
+}
+#btnNewCategory {
+    float: right;
+}

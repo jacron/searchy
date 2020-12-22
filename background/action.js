@@ -47,8 +47,9 @@ function doAction(request, sendResponse, data) {
             sendResponse({msg: 'ok'});
             break;
         case "saveCategory":
-            saveCategory(request.id, request.name, data);
-            sendResponse({msg: 'ok'});
+            saveCategory(request.id, request.name, data, newId => {
+                sendResponse({msg: 'ok', newId});
+            });
             break;
     }
 }
