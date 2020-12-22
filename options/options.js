@@ -217,4 +217,10 @@ function init() {
     initImportButton();
 }
 
+chrome.runtime.onMessage.addListener((req, sender) => {
+    if (req.notify && req.notify === 'data changed') {
+        showEngineLinks();
+    }
+})
+
 init();

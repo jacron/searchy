@@ -9,11 +9,13 @@ function getSearchTermFromBackground() {
 }
 
 function displayEngines(categories) {
+    const elementEngines = document.getElementById('engines');
+    elementEngines.innerHTML = '';
     categories.map(category => {
         const categoryDiv = document.createElement('div');
         categoryDiv.className = 'item';
         categoryDiv.innerHTML = createCategoryEnginesHtml(category);
-        document.getElementById('engines').appendChild(categoryDiv);
+        elementEngines.appendChild(categoryDiv);
     })
 }
 
@@ -64,5 +66,11 @@ function init() {
     toggleDarkModeEvent();
     toSearchUrl();
 }
+
+chrome.runtime.onMessage.addListener((req, sender) => {
+    if (req.notify && req.notify === 'data changed') {
+        showEngineLinks();
+    }
+})
 
 init();

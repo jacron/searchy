@@ -53,7 +53,7 @@
 }
 .fa-search:before {
     content: "\f002";
-    color: green;
+    color: red;
 }
 .fa-apple:before {
     content: "\f179";

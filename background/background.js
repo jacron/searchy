@@ -21,6 +21,18 @@ chrome.contextMenus.create(
             });
         }});
 
+chrome.contextMenus.create(
+    {
+        title: `Searchy add engine`,
+        contexts:["page"],
+        documentUrlPatterns: [
+            "https://*/*",
+            "http://*/*"
+        ],
+        onclick: info => {
+            console.log({info});
+        }});
+
 chrome.runtime.onMessage.addListener(
     (request, sender, sendResponse) => {
         doAction(request, sendResponse, data);
