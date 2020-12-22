@@ -1,5 +1,6 @@
 export default {
     storageKeyCategories: 'categories',
     storageKeyDarkmode: 'dark',
-    transportFileNameJson: 'searchy.json'
+    transportFileNameJson: 'searchy.json',
+    transportFileNameStatic: 'searchy.js',
 }

@@ -1,5 +1,5 @@
 import config from "./config.js";
-import categories from "../categories.js";
+import {categories} from "../initial_data.js";
 
 const key = config.storageKeyCategories;
 
@@ -14,14 +14,18 @@ function persistData(data) {
     notifyChange();
 }
 
-// function showLocalStorage() {
-    // chrome.storage.local.get(null, result => {
-    //     console.log({result});
-    // })
-// }
+function showLocalStorage() {
+    chrome.storage.local.get(null, result => {
+        console.log({result});
+    })
+}
 
 function getDataFromStorage(cb) {
     // showLocalStorage();
+    // test with static
+    cb(categories); // static data
+    return;
+
     chrome.storage.local.get([key], result => {
         // console.log('Value currently is ', result[key]);
         if (result[key]) {

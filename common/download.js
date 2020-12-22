@@ -13,8 +13,8 @@ function downloadJson(records, filename) {
     download([json], 'text/json', filename);
 }
 
-function downloadHtml(html, filename) {
-    download([html], 'text/html', filename);
+function downloadStatic(js, filename) {
+    download([js], 'text/javascript', filename);
 }
 
-export {downloadJson, downloadHtml}
+export {downloadJson, downloadStatic}
