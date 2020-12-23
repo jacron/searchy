@@ -15,4 +15,15 @@ function createCategoryEnginesHtml(category) {
     return html;
 }
 
-export {createCategoryEnginesHtml}
+function displayEngines(categories) {
+    const elementEngines = document.getElementById('engines');
+    elementEngines.innerHTML = '';
+    categories.map(category => {
+        const categoryDiv = document.createElement('div');
+        categoryDiv.className = 'item';
+        categoryDiv.innerHTML = createCategoryEnginesHtml(category);
+        elementEngines.appendChild(categoryDiv);
+    })
+}
+
+export {displayEngines}

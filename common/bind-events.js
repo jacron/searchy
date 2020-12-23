@@ -14,6 +14,7 @@ function bindTypeToElements(bindings) {
         const element = document.getElementById(id);
         if (!element) {
             console.error('id does not exist', id);
+            console.trace();
         } else {
             element.addEventListener(type, listener);
         }

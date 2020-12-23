@@ -22,6 +22,7 @@ function showLocalStorage() {
 
 function getDataFromStorage(cb) {
     // showLocalStorage();
+
     // test with static
     // cb(categories); // static data
     // return;

@@ -71,4 +71,10 @@ function showEngineLinks() {
         })
 }
 
-export {showEngineLinks, displayItems}
+function reDisplay(result) {
+    if (result.msg && result.msg === 'changed') {
+        showEngineLinks();
+    }
+}
+
+export {showEngineLinks, displayItems, reDisplay}

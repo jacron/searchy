@@ -47,7 +47,7 @@ function initTitleTrim(title) {
 }
 
 function stripQueryValue(url) {
-    ['?q=', '&q=']
+    ['?q=', '&q=', '?query=']
         .map(queryKey => {
             const pos = url.indexOf(queryKey);
             if (pos !== -1) {
@@ -112,8 +112,20 @@ function newCategory() {
             populateOptions(response.newId);
         })
     }
+}
 
+function submit(e) {
+    // console.log(e.key);
+    if (e.key === 'Enter') {
+        save();
+    }
+    if (e.key === 'Escape') {
+        window.close();
+    }
+}
 
+function resetUrl() {
+    formAdd.inputUrl.value = currentTab.url;
 }
 
 function initEvents() {
@@ -123,10 +135,16 @@ function initEvents() {
         ['cmdAdd', add],
         ['btnSave', save],
         ['btnNewCategory', newCategory],
+        ['labelUrl', resetUrl],
         ['trim-title-1', trimTitle1],
         ['trim-title-2', trimTitle2],
         ['trim-title-1-2', trimTitle12],
     ]);
+    bindToElements('keyup', [
+        ['inputName', submit],
+        ['inputUrl', submit],
+        ['selectCategory', submit],
+    ])
 }
 
 export {initEvents}
