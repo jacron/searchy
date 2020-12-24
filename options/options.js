@@ -1,5 +1,5 @@
 import {showEngineLinks} from './options.create.js';
-import {initDarkmode} from '../common/dark.js';
+import {initDarkmode} from '../storage/dark.js';
 import {initFilesInput} from '../components/FilesInput/FilesInput.js';
 import {initEvents} from "./options.events.js";
 import {initImport} from "./migrate.js";
@@ -12,9 +12,15 @@ function init() {
     initEvents();
 }
 
-chrome.runtime.onMessage.addListener((req) => {
-    if (req.notify && req.notify === 'data changed') {
-        showEngineLinks();
+chrome.runtime.onMessage.addListener(req => {
+    console.log({req});
+    if (req.notify) {
+        switch(req.notify) {
+            case 'data changed':
+            case 'default engine set':
+                showEngineLinks();
+                break;
+        }
     }
 })
 

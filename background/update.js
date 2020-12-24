@@ -95,6 +95,15 @@ function updateEngine(engineId, name, url, categoryId, data) {
     })
 }
 
+function updateCategory(categoryId, name, data) {
+    data.categories
+        .filter(category => category.id === +categoryId)
+        .map(category => {
+            category.name = name;
+        })
+    persistData(data);
+}
+
 function saveEngine(engineId, name, url, categoryId, data) {
     if (engineId === '-1') {
         addEngine(name, url, categoryId, data);
@@ -109,15 +118,6 @@ function addCategory(name, id, data) {
         engines: [],
         id
     });
-    persistData(data);
-}
-
-function updateCategory(categoryId, name, data) {
-    data.categories
-        .filter(category => category.id === +categoryId)
-        .map(category => {
-            category.name = name;
-        })
     persistData(data);
 }
 

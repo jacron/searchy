@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>searchy</title>
     <link href="../css/fa.css" rel="stylesheet" type="text/css">
-    <link href="../css/search.css" rel="stylesheet" type="text/css">
+    <link href="search.css" rel="stylesheet" type="text/css">
 </head>
 <body class="dark">
 <div class="container">
@@ -15,11 +15,11 @@
     <div class="header">searchy</div>
     <div class="subheader">search with all your special smarty engines</div>
     <div class="search-form">
-        <form name="searchy-form" id="formSearch">
-            <input type="hidden" name="q" id="searchParm">
+        <form id="searchForm" name="searchForm">
             <div class="search-term-container">
                 <span class="fa fa-search cmd"></span>
-                <input type="search" id="term" name="searchy">
+                <input type="search" id="term" autofocus
+                       name="searchy">
             </div>
         </form>
     </div>

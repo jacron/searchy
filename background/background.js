@@ -7,7 +7,8 @@ const config2 = {
 
 const data = {
     selectedTerm: "",
-    categories: []
+    categories: [],
+    defaultEngine: -1
 }
 
 chrome.contextMenus.create(

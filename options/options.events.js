@@ -6,11 +6,12 @@ import {persistData} from "../common/persist.js";
 import {bindToElements} from "../common/bind-events.js";
 import {openDialogAddCategory, openDialogAddEngine}
     from "./dialog.js";
-import {toggleDarkmode} from "../common/dark.js";
+import {toggleDarkmode} from "../storage/dark.js";
 import {onEditClick} from "./edit.js";
 
 function dialogImport(categories) {
-    displayItems(categories, () => {
+    displayItems(categories);
+    // , () => {
         if (confirm("Do you want to keep these changes?")) {
             persistData({categories});
         } else {
@@ -18,7 +19,7 @@ function dialogImport(categories) {
                 displayItems(categories);
             });
         }
-    });
+    // });
 }
 
 function importData() {
@@ -43,15 +44,19 @@ function addCategory() {
     });
 }
 
+function getTypeFromClass(classList) {
+    if (classList.contains('eng')) {
+        return 'engine';
+    }
+    if (classList.contains('cat')) {
+        return 'category';
+    }
+}
+
 function editObject(e) {
     const target = e.target;
     if (target.classList.contains('fa')) {
-        if (target.classList.contains('eng')) {
-            onEditClick(e, target, 'engine');
-        }
-        if (target.classList.contains('cat')) {
-            onEditClick(e, target, 'category');
-        }
+        onEditClick(e, target, getTypeFromClass(target.classList));
     }
 }
 

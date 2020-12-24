@@ -1,5 +1,4 @@
 body {
-    /*background-color: #efefef;*/
     color: #333;
 }
 body.dark {
@@ -24,9 +23,6 @@ body.dark {
     font-size: 92px;
 }
 .header2 {
-    /*display: flex;*/
-    /*flex-direction: column;*/
-    /*align-items: center;*/
     max-height: 22px;
     height: 100%;
     margin-top: auto;
@@ -83,7 +79,7 @@ a:hover {
     padding: 14px;
     margin-left: 30px;
     font-size: 14px;
-    flex: 1;
+    /*flex: 1;*/
     width: 424px;
     border-radius: 24px;
 }
@@ -122,4 +118,7 @@ a:hover {
 }
 #toggleDark {
     margin: 0 20px;
+}
+.default {
+    text-decoration: underline;
 }

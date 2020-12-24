@@ -1,5 +1,6 @@
 import {openDialogAddEngine, openDialogCategory, openDialogEngine} from "./dialog.js";
 import {reDisplay, showEngineLinks} from "./options.create.js";
+import {setDefaultEngineId} from "../storage/default.js";
 
 function clearSelected() {
     const selectedElements = document.getElementsByClassName('selected');
@@ -54,27 +55,35 @@ function editObject(type, engine, id) {
     }
 }
 
-function addEngineToCategory(id) {
-    openDialogAddEngine(id, result => {
+function addEngineToCategory(categoryId) {
+    openDialogAddEngine(categoryId, result => {
         reDisplay(result);
     });
+}
+
+function setEngineDefault(engineId) {
+    setDefaultEngineId(engineId);
+    showEngineLinks();
 }
 
 function onEditClick(e, target, type) {
     clearSelected();
     const controls = target.parentElement;
-    const engine = controls.parentElement;
-    const a = engine.querySelector('.name');
+    const object = controls.parentElement;
+    const a = object.querySelector('.name');
     const name = a.textContent;
-    const id = engine.getAttribute('data-id');
+    const objectId = object.getAttribute('data-id');
     if (target.classList.contains('fa-delete')) {
-        removeObject(type, name, id);
+        removeObject(type, name, objectId);
     }
     if (target.classList.contains('fa-edit')) {
-        editObject(type, engine, id);
+        editObject(type, object, objectId);
     }
     if (target.classList.contains('fa-plus')) {
-        addEngineToCategory(id);
+        addEngineToCategory(objectId);
+    }
+    if (target.classList.contains('fa-flag')) {
+        setEngineDefault(objectId);
     }
 }
 

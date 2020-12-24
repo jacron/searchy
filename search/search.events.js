@@ -1,4 +1,6 @@
 import {getTerm} from "./search.term.js";
+import {toggleDarkmode} from "../storage/dark.js";
+import {bindToElements} from "../common/bind-events.js";
 
 function fillPlaceholder(url, term) {
     const magic = '$!q';
@@ -38,19 +40,44 @@ function setSearchTerm(term, cb) {
     })
 }
 
-function toSearchUrl() {
-    document.getElementById('engines').addEventListener('click', e => {
-        const target = e.target;
-        const term = getTerm();
-        if (target.tagName === 'A') {
-            setSearchTerm(term, () => toUrl(target.href, term));
-            e.preventDefault();
-        }
-        if (target.classList.contains('category-title')) {
-            setSearchTerm(term, () => openCategoryEngines(target));
-            e.preventDefault();
-        }
-    })
+function toSearchUrl(e) {
+    const target = e.target;
+    const term = getTerm();
+    if (target.tagName === 'A') {
+        setSearchTerm(term, () => toUrl(target.href, term));
+        e.preventDefault();
+    }
+    if (target.classList.contains('category-title')) {
+        setSearchTerm(term, () => openCategoryEngines(target));
+        e.preventDefault();
+    }
 }
 
-export {toSearchUrl}
+function onInputKey(e) {
+    if (e.key === 'Enter') {
+        const defaultEngine = document.querySelector('.default');
+        if (defaultEngine) {
+            const term = getTerm();
+            setSearchTerm(term, () => toUrl(defaultEngine.href, term));
+        }
+    }
+}
+
+function onSubmit(e) {
+    e.preventDefault();
+}
+
+function initEvents() {
+    bindToElements('click', [
+        ['engines', toSearchUrl],
+        ['toggleDark', toggleDarkmode],
+    ]);
+    bindToElements('keyup', [
+        ['term', onInputKey],
+    ]);
+    bindToElements('submit', [
+        ['searchForm', onSubmit]
+    ])
+}
+
+export {initEvents}

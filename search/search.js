@@ -1,6 +1,6 @@
-import {initDarkmode, toggleDarkmode} from '../common/dark.js';
+import {initDarkmode} from '../storage/dark.js';
 import {displayEngines} from './search.create.js';
-import {toSearchUrl} from "./search.events.js";
+import {initEvents} from "./search.events.js";
 import {setSearchTermFromBackground} from "./search.term.js";
 
 function showEngineLinks() {
@@ -8,23 +8,22 @@ function showEngineLinks() {
         response => displayEngines(response.categories))
 }
 
-function toggleDarkModeEvent() {
-    document.getElementById('toggleDark').addEventListener('click', () => {
-        toggleDarkmode();
-    })
-}
-
 function init() {
     initDarkmode();
     setSearchTermFromBackground();
     showEngineLinks();
-    toggleDarkModeEvent();
-    toSearchUrl();
+    initEvents();
 }
 
-chrome.runtime.onMessage.addListener((req) => {
-    if (req.notify && req.notify === 'data changed') {
-        showEngineLinks();
+chrome.runtime.onMessage.addListener(req => {
+    // console.log({req});
+    if (req.notify) {
+        switch(req.notify) {
+            case 'data changed':
+            case 'default engine set':
+                showEngineLinks();
+                break;
+        }
     }
 })
 

@@ -12,38 +12,58 @@ function setImportedData(data) {
     importedData = data;
 }
 
-function generateStaticJs(categories) {
-    let categoryEnginesJs = [];
-    let categoriesJs =
-        `const categories = [`;
-
-    categories.map(category => {
-        categoriesJs += `
+function fragmentCategory(category) {
+    return `
     {
         name: "${category.name}",
         id: ${category.id},
         engines: ${category.name}Engines
-    },`;
-        let enginesJs = `
-const ${category.name}Engines = [`;
-        category.engines.map(engine => {
-            enginesJs += `
+    },`
+}
+
+function fragmentEngine(engine) {
+    return `
     {
         name: "${engine.name}",
         url: "${engine.url}",
         visible: ${engine.visible},
         id: ${engine.id}
-    },`;
-        });
-        enginesJs += `
+    },`
+}
+
+function headerCategories() {
+    return `const categories = [`;
+}
+
+function headerEngines(name) {
+    return `
+const ${name}Engines = [`
+}
+
+function arrayTail() {
+    return `
 ];
 `;
+}
+
+function staticCommentHeader() {
+    return '// static data for Searchy';
+}
+
+function generateStaticJs(categories) {
+    let categoryEnginesJs = [];
+    let categoriesJs = headerCategories();
+    categories.map(category => {
+        categoriesJs += fragmentCategory(category) ;
+        let enginesJs = headerEngines(category.name);
+        category.engines.map(engine => {
+            enginesJs += fragmentEngine(engine);
+        });
+        enginesJs += arrayTail();
         categoryEnginesJs.push(enginesJs);
     })
-    categoriesJs += `
-];
-`
-    return `// static data for Searchy
+    categoriesJs += arrayTail();
+    return `${staticCommentHeader()}
 ${categoryEnginesJs.join('')}
 ${categoriesJs}`;
 }
@@ -53,7 +73,6 @@ function exportStatic() {
     getDataFromStorage(data => {
         downloadStatic(generateStaticJs(data), filename);
     })
-
 }
 
 function restoreData(cb) {

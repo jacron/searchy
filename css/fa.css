@@ -91,4 +91,7 @@
 .fa-floppy-o:before {
     content: "\f0c7";
 }
+.fa-flag:before {
+    content: "\f024";
+}
 

@@ -14,11 +14,11 @@ function persistData(data) {
     notifyChange();
 }
 
-function showLocalStorage() {
-    chrome.storage.local.get(null, result => {
-        console.log({result});
-    })
-}
+// function showLocalStorage() {
+//     chrome.storage.local.get(null, result => {
+//         console.log({result});
+//     })
+// }
 
 function getDataFromStorage(cb) {
     // showLocalStorage();
