@@ -9,7 +9,7 @@
     <link href="./options.css" rel="stylesheet" type="text/css">
 </head>
 <body class="dark">
-    <div class="container2 options-container">
+    <div class="container2 options-container" id="optionsContainer">
         <div class="top-menu">
             <div class="cmd-menu">
                 <a class="fa fa-plus" id="addEngine"> Engine</a>
@@ -20,26 +20,16 @@
             <div class="cmd-menu">
                 <a class="fa fa-floppy-o" id="exportData"> Export</a>
             </div>
+            <div class="cmd-menu">
+                <a class="fa fa-floppy-o" id="importData"> Import</a>
+            </div>
             <div class="hspacer"></div>
             <a class="fa fa-eye cmd" id="toggleDark"></a>
             <a href="../search/search.html">Home</a>
         </div>
-
-        <!--        engines-->
         <div class="header2">My Search Engines</div>
         <div class="vert-spacer"></div>
-
         <div id="engines"></div>
-
-        <div id="bottom">
-            <div class="vert-spacer"></div>
-
-            <!--            Import-->
-            <div class="header2">Import</div>
-            <div class="vert-spacer"></div>
-            <files-input accept="application/json" header="Read data"></files-input>
-            <button class="fa fa-floppy-o" id="btnImportData"> Import</button>
-        </div>
     </div>
     <div id="dialogBackground"></div>
     <script type="module" src="options.js"></script>

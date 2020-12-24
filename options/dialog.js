@@ -1,9 +1,24 @@
-import {templateEngine, templateCategory} from './dialog.templates.js';
+import {templateEngine, templateCategory, templateImport}
+    from './dialog.templates.js';
+import {getImportedData, initImport, restoreData}
+    from "./migrate.js";
+import {bindToElements} from "../common/bind-events.js";
+import {displayItems} from "./options.create.js";
+import {persistData} from "../common/persist.js";
 
 function hideDialogs() {
-    hideElement('dialogEngine');
-    hideElement('dialogCategory');
-    hideElement('dialogBackground');
+    // const dialogs = document.getElementsByClassName('dialog');
+    // for (let i = 0; i < dialogs.length; i++) {
+    //     dialogs[i].style.display = 'none';
+    // }
+    for (let id of [
+        'dialogEngine',
+        'dialogCategory',
+        'dialogImport',
+        'dialogBackground'
+    ]) {
+        hideElement(id);
+    }
 }
 
 function initBackground() {
@@ -63,7 +78,6 @@ function initEngineEvents(cb) {
     document.getElementById('formEngine')
         .addEventListener('submit', e => {
             if (e.submitter.getAttribute('id') !== 'cancelEngine') {
-                // console.log('saving');
                 saveEngine(e.target, cb);
             }
             e.preventDefault()
@@ -72,14 +86,57 @@ function initEngineEvents(cb) {
         .addEventListener('click', hideDialogs)
 }
 
-function initDialogEngine(template, cb) {
+function initDialogEngine(template, header, cb) {
     const elementId = 'dialogEngine';
     let dialogAction = document.getElementById(elementId);
     if (!dialogAction) {
-        document.body.insertAdjacentHTML('beforeend', template);
+        insertTemplate(template);
         dialogAction = document.getElementById(elementId);
         initBackground();
         initEngineEvents(cb);
+    }
+    document.getElementById('dialogEngineHeader').textContent = header;
+    return dialogAction;
+}
+
+function dialogImport(categories) {
+    displayItems(categories, () => {
+        if (confirm("Do you want to keep these changes?")) {
+            persistData({categories});
+            hideElement('dialogImport');
+        } else {
+            restoreData(categories => {
+                displayItems(categories);
+                hideElement('dialogImport');
+            });
+        }
+    });
+}
+function importData() {
+    const categories = JSON.parse(getImportedData());
+    chrome.runtime.sendMessage({
+        cmd: 'setCategories',
+        categories
+    }, () => {
+        dialogImport(categories);
+    });
+}
+
+function insertTemplate(template) {
+    document.body.insertAdjacentHTML('beforeend', template);
+}
+
+function initDialogImport(template) {
+    const elementId = 'dialogImport';
+    let dialogAction = document.getElementById(elementId);
+    if (!dialogAction) {
+        insertTemplate(template);
+        dialogAction = document.getElementById(elementId);
+        initBackground();
+        initImport();
+        bindToElements('click', [
+            ['btnImportData', importData],
+        ]);
     }
     return dialogAction;
 }
@@ -102,14 +159,15 @@ function initCategoryEvents(cb) {
         })
 }
 
-function initDialogCategory(template, cb) {
+function initDialogCategory(template, header, cb) {
     const elementId = 'dialogCategory';
     let dialogAction = document.getElementById(elementId);
     if (!dialogAction) {
-        document.body.insertAdjacentHTML('beforeend', template);
+        insertTemplate(template);
         dialogAction = document.getElementById(elementId);
         initCategoryEvents(cb);
     }
+    document.getElementById('dialogCategoryHeader').textContent = header;
     return dialogAction;
 }
 
@@ -143,7 +201,7 @@ function populateOptions(selectElement, selectedCategoryId) {
 }
 
 function openDialogAddEngine(catId, cb) {
-    const dialogAction = initDialogEngine(templateEngine, cb);
+    const dialogAction = initDialogEngine(templateEngine, "New Engine", cb);
     const categoriesElement = document.getElementById('engineCategory');
     populateFieldsEngine(-1, '', '');
     populateOptions(categoriesElement, catId);
@@ -151,7 +209,7 @@ function openDialogAddEngine(catId, cb) {
 }
 
 function openDialogAddCategory(cb) {
-    const dialogAction = initDialogCategory(templateCategory, cb);
+    const dialogAction = initDialogCategory(templateCategory, 'New Category', cb);
     document.getElementById('dialogCategory')
         .setAttribute('data-id', '-1');
     document.getElementById('categoryName').value = '';
@@ -172,7 +230,7 @@ function populateEngine(engine, category) {
 }
 
 function openDialogEngine(id, cb) {
-    const dialogAction = initDialogEngine(templateEngine, cb);
+    const dialogAction = initDialogEngine(templateEngine, 'Edit Engine', cb);
     chrome.runtime.sendMessage({
         cmd: 'getEngineById', id
     }, response => {
@@ -192,7 +250,7 @@ function populateCategory(category) {
 }
 
 function openDialogCategory(id, cb) {
-    const dialogAction = initDialogCategory(templateCategory, cb);
+    const dialogAction = initDialogCategory(templateCategory, 'Edit Category', cb);
     chrome.runtime.sendMessage({
         cmd: 'getCategoryById', id
     }, response => {
@@ -204,6 +262,11 @@ function openDialogCategory(id, cb) {
     showDialog(dialogAction);
 }
 
+function openDialogImport() {
+    const dialogAction = initDialogImport(templateImport);
+    showDialog(dialogAction);
+}
+
 function hideElement(elementId) {
     const element = document.getElementById(elementId);
     if (element) {
@@ -211,5 +274,5 @@ function hideElement(elementId) {
     }
 }
 
-export {openDialogEngine, openDialogCategory,
+export {openDialogEngine, openDialogCategory, openDialogImport,
     openDialogAddEngine, openDialogAddCategory}

@@ -1,40 +1,20 @@
-import {exportJson, getImportedData,
-    restoreData} from "./migrate.js";
-import {displayItems, reDisplay}
+import {exportJson} from "./migrate.js";
+import {reDisplay}
     from "./options.create.js";
-import {persistData} from "../common/persist.js";
 import {bindToElements} from "../common/bind-events.js";
-import {openDialogAddCategory, openDialogAddEngine}
+import {openDialogAddCategory, openDialogAddEngine, openDialogImport}
     from "./dialog.js";
 import {toggleDarkmode} from "../storage/dark.js";
 import {onEditClick} from "./edit.js";
-
-function dialogImport(categories) {
-    displayItems(categories, () => {
-        if (confirm("Do you want to keep these changes?")) {
-            persistData({categories});
-        } else {
-            restoreData(categories => {
-                displayItems(categories);
-            });
-        }
-    });
-}
-
-function importData() {
-    const categories = JSON.parse(getImportedData());
-    chrome.runtime.sendMessage({
-        cmd: 'setCategories',
-        categories
-    }, () => {
-        dialogImport(categories);
-    });
-}
 
 function addEngine() {
     openDialogAddEngine(-1, result => {
         reDisplay(result);
     });
+}
+
+function importJson() {
+    openDialogImport();
 }
 
 function addCategory() {
@@ -76,8 +56,8 @@ function engineToggleVisible(e) {
 
 function initEvents() {
     bindToElements('click', [
-        ['btnImportData', importData],
         ['exportData', exportJson],
+        ['importData', importJson],
         ['addEngine', addEngine],
         ['addCategory', addCategory],
         ['toggleDark', toggleDarkmode],

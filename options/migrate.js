@@ -1,6 +1,7 @@
 import config from "../common/config.js";
 import {getDataFromStorage} from "../common/persist.js";
 import {downloadJson} from "../common/download.js";
+import {openDialogImport} from "./dialog.js";
 
 let importedData;
 
@@ -40,7 +41,7 @@ function onReaderLoad(e) {
 
 function initImport() {
     const filesInput = document.querySelector('files-input');
-    filesInput.header = 'Read data';
+    filesInput.header = 'Import';
     filesInput.addEventListener('load', onReaderLoad);
 }
 

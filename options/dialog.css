@@ -1,9 +1,13 @@
 .dialog {
     display: none;
     position: fixed;
-    background-color: #dfe1e5;
-    color: #222222;
+    /*background-color: #dfe1e5;*/
+    /*color: #222222;*/
+    background-color: inherit;
     padding: 14px;
+    border: 1px solid #999;
+    border-top: none;
+    border-radius: 0 0 6px 6px;
 }
 #dialogBackground {
     display: none;
@@ -17,7 +21,7 @@
     width: 90px;
     display: inline-block;
 }
-.dialog input {
+.dialog-input {
     width: 230px;
 }
 .dialog select {
@@ -26,4 +30,9 @@
 .cmds {
     margin-top: 12px;
     text-align: right;
+}
+.dialog-header {
+    font-size: 20px;
+    text-align: center;
+    padding-bottom: 6px;
 }

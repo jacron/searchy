@@ -57,14 +57,8 @@ function displayEngines(categories) {
     })
 }
 
-function revealBottom() {
-    document.getElementById('bottom')
-        .style.display = 'block';
-}
-
 function displayItems(categories, cb) {
     displayEngines(categories);
-    revealBottom();
     if (cb) {
         setTimeout(() => {
             cb();
