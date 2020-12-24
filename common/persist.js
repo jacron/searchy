@@ -20,6 +20,15 @@ function persistData(data) {
 //     })
 // }
 
+function getInitialData(cb) {
+    cb(categories); // static data
+    // get json
+    const urlToInitialData = '../initial_data.json';
+    fetch(urlToInitialData)
+        .then(response => response.json)
+        .then(data => cb(data));
+}
+
 function getDataFromStorage(cb) {
     // showLocalStorage();
 
@@ -27,12 +36,14 @@ function getDataFromStorage(cb) {
     // cb(categories); // static data
     // return;
 
+    // getInitialData(data => console.log(data));
+
     chrome.storage.local.get([key], result => {
         // console.log('Value currently is ', result[key]);
         if (result[key]) {
             cb(result[key]);
         } else {
-            cb(categories); // static data
+            getInitialData(cb);
         }
     })
 

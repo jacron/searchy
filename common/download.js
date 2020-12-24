@@ -14,8 +14,4 @@ function downloadJson(records, filename) {
     download([json], 'text/json', filename);
 }
 
-function downloadStatic(js, filename) {
-    download([js], 'text/javascript', filename);
-}
-
-export {downloadJson, downloadStatic}
+export {downloadJson}

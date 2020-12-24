@@ -33,7 +33,7 @@ function removeCategoryWithEngines(categoryId, engines, data) {
     });
     data.categories = data.categories
         .filter(category => category.id !== +categoryId);
-    // persistData(data);
+    persistData(data);
 }
 
 function removeCategory(id, forced, data) {

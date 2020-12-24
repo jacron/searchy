@@ -35,10 +35,13 @@ body.dark {
     height: 20px;
 }
 .top-menu {
-    text-align: right;
+    display: flex;
     height: 60px;
     padding: 6px 36px 6px 6px;
     width: calc(100% - 42px);
+}
+.hspacer {
+    flex: 1 1 auto;
 }
 a {
     text-decoration: none;

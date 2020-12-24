@@ -1,4 +1,4 @@
-import {exportJson, exportStatic, getImportedData,
+import {exportJson, getImportedData,
     restoreData} from "./migrate.js";
 import {displayItems, reDisplay}
     from "./options.create.js";
@@ -78,7 +78,6 @@ function initEvents() {
     bindToElements('click', [
         ['btnImportData', importData],
         ['exportData', exportJson],
-        ['exportStaticData', exportStatic],
         ['addEngine', addEngine],
         ['addCategory', addCategory],
         ['toggleDark', toggleDarkmode],
