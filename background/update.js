@@ -12,22 +12,41 @@ function setVisible(engineId, value, data) {
     persistData(data);
 }
 
-function removeEngine(id, data) {
+function removeEngine(enigineId, data) {
     data.categories.map(category => {
         category.engines = category.engines
-            .filter(engine => engine.id !== +id)
+            .filter(engine => engine.id !== +enigineId)
         persistData(data);
     })
 }
 
-function removeCategory(id, data) {
+function removeEmptyCategory(categoryId, data) {
+    data.categories = data.categories
+        .filter(category => category.id !== +categoryId);
+    persistData(data);
+}
+
+function removeCategoryWithEngines(categoryId, engines, data) {
+    engines.map(engine => {
+        engines = engines
+            .filter(engine2 => engine.id !== engine2.id)
+    });
+    data.categories = data.categories
+        .filter(category => category.id !== +categoryId);
+    // persistData(data);
+}
+
+function removeCategory(id, forced, data) {
     const category = getCategoryById(id, data);
     if (category.engines.length > 0) {
-        return false;
+        if (forced) {
+            removeCategoryWithEngines(id, category.engines, data);
+            return true;
+        } else {
+            return false;
+        }
     } else {
-        data.categories = data.categories
-            .filter(category => category.id !== +id);
-        persistData(data);
+        removeEmptyCategory(id, data);
         return true;
     }
 }

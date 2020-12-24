@@ -6,9 +6,9 @@ function categoryHtml(category) {
     <span class="category-title name">${category.name}</span>
     <span class="controls">
         <span>&nbsp;</span>
-        <span class="fa fa-edit cat" title="edit"></span>    
-        <span class="fa fa-delete cat" title="delete"></span>
-        <span class="fa fa-plus cat" title="add engine"></span>
+        <span class="fa fa-edit edit cat" title="edit"></span>    
+        <span class="fa fa-delete delete cat" title="delete"></span>
+        <span class="fa fa-plus add cat" title="add engine"></span>
     </span>
 </div>
 `
@@ -25,9 +25,9 @@ function engineHtml(engine, defaultEngineId) {
     <span class="name ${nameClass}">${engine.name}</span>
     <span class="controls">
         <span>&nbsp;</span>
-        <span class="fa fa-edit eng" title="edit"></span>    
-        <span class="fa fa-delete eng" title="delete"></span>
-        <span class="fa fa-flag eng" title="set default"></span>
+        <span class="fa fa-edit edit eng" title="edit"></span>    
+        <span class="fa fa-delete delete eng" title="delete"></span>
+        <span class="fa fa-flag default eng" title="set default"></span>
     </span>
 </div>
 `;
@@ -62,14 +62,14 @@ function revealBottom() {
         .style.display = 'block';
 }
 
-function displayItems(categories) {
+function displayItems(categories, cb) {
     displayEngines(categories);
     revealBottom();
-    // if (cb) {
-    //     setTimeout(() => {
-    //         cb();
-    //     }, 100);
-    // }
+    if (cb) {
+        setTimeout(() => {
+            cb();
+        }, 100);
+    }
 }
 
 function showEngineLinks() {

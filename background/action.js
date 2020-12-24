@@ -39,7 +39,8 @@ function doAction(request, sendResponse, data) {
             sendResponse({msg: 'ok'});
             break;
         case 'removeCategory':
-            const msg = removeCategory(request.id, data) ? 'ok' : 'error';
+            const msg = removeCategory(request.id, request.forced, data) ?
+                'ok' : 'category not empty';
             sendResponse({msg});
             break;
         case 'saveEngine':

@@ -16,7 +16,7 @@ input {
     text-align: right;
 }
 #header {
-    width: 200px;
+    line-height: 2.7;
 }
 #trim-controls {
     text-align: right;

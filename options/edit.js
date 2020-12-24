@@ -9,26 +9,49 @@ function clearSelected() {
     }
 }
 
+function onCategoryRemoved(response, id) {
+    if (response.msg) {
+        if (response.msg === 'ok') {
+            showEngineLinks();
+        } else if (response.msg === 'category not empty') {
+            if (confirm("This category contains engines. Delete them also?")) {
+                chrome.runtime.sendMessage({
+                    cmd: 'removeCategory',
+                    forced: true,
+                    id
+                }, () => {
+                    showEngineLinks();
+                })
+            }
+        }
+    }
+}
+
+function removeCategory(id) {
+    chrome.runtime.sendMessage({
+        cmd: 'removeCategory',
+        force: false,
+        id
+    }, response => {
+        onCategoryRemoved(response, id);
+    })
+}
+
+function removeEngine(id) {
+    chrome.runtime.sendMessage({
+        cmd: 'removeEngine',
+        id
+    }, () => {
+        showEngineLinks();
+    })
+}
+
 function remove(type, id) {
     if (type === 'engine') {
-        chrome.runtime.sendMessage({
-            cmd: 'removeEngine',
-            id
-        }, () => {
-            showEngineLinks();
-        })
+        removeEngine(id);
     }
     if (type === 'category') {
-        chrome.runtime.sendMessage({
-            cmd: 'removeCategory',
-            id
-        }, response => {
-            if (response.msg && response.msg === 'ok') {
-                showEngineLinks();
-            } else {
-                alert("Can't remove category that contains engines");
-            }
-        })
+        removeCategory(id);
     }
 }
 
@@ -73,16 +96,16 @@ function onEditClick(e, target, type) {
     const a = object.querySelector('.name');
     const name = a.textContent;
     const objectId = object.getAttribute('data-id');
-    if (target.classList.contains('fa-delete')) {
+    if (target.classList.contains('delete')) {
         removeObject(type, name, objectId);
     }
-    if (target.classList.contains('fa-edit')) {
+    if (target.classList.contains('edit')) {
         editObject(type, object, objectId);
     }
-    if (target.classList.contains('fa-plus')) {
+    if (target.classList.contains('add')) {
         addEngineToCategory(objectId);
     }
-    if (target.classList.contains('fa-flag')) {
+    if (target.classList.contains('default')) {
         setEngineDefault(objectId);
     }
 }

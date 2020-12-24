@@ -10,8 +10,7 @@ import {toggleDarkmode} from "../storage/dark.js";
 import {onEditClick} from "./edit.js";
 
 function dialogImport(categories) {
-    displayItems(categories);
-    // , () => {
+    displayItems(categories, () => {
         if (confirm("Do you want to keep these changes?")) {
             persistData({categories});
         } else {
@@ -19,7 +18,7 @@ function dialogImport(categories) {
                 displayItems(categories);
             });
         }
-    // });
+    });
 }
 
 function importData() {

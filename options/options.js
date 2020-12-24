@@ -13,7 +13,7 @@ function init() {
 }
 
 chrome.runtime.onMessage.addListener(req => {
-    console.log({req});
+    // console.log({req});
     if (req.notify) {
         switch(req.notify) {
             case 'data changed':

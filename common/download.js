@@ -9,7 +9,8 @@ function download(blobParts, mimeType, filename) {
 }
 
 function downloadJson(records, filename) {
-    const json = JSON.stringify(records);
+    const json = JSON.stringify(records, null, 4);
+    console.log({json});
     download([json], 'text/json', filename);
 }
 
