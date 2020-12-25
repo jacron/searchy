@@ -5,7 +5,7 @@ import {getImportedData, initImport, restoreData}
 import {bindToElements} from "../common/bind-events.js";
 import {displayItems} from "./options.create.js";
 import {persistData} from "../common/persist.js";
-import {getDelim, getTitleParts} from "../components/FilesInput/stringutils.js";
+import {getDelim, getTitleParts} from "../common/stringutils.js";
 
 let currentEngineName;
 

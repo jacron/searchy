@@ -1,5 +1,5 @@
 import {bindToElements} from "../common/bind-events.js";
-import {getDelim, getTitleParts} from "../components/FilesInput/stringutils.js";
+import {getDelim, getHost, getTitleParts} from "../common/stringutils.js";
 import {getCurrentTab} from "./popup.currenttab.js";
 
 let currentTab;
@@ -73,10 +73,25 @@ function populateOptions(id) {
     })
 }
 
-function populateDialogAdd() {
+function siteFromUrl(url) {
+    const w = url.split(':');
+    const s = w[1].split('/');
+    return s[0];
+}
+
+function googleSiteUrl(url) {
+    const u = `https://www.google.com/search?q=$!q&as_sitesearch=${getHost(url)}`;
+    return u;
+}
+
+function populateDialogAdd(googleSite) {
     currentTab = getCurrentTab();
     formAdd.inputName.value = currentTab.title;
-    formAdd.inputUrl.value = stripQueryValue(currentTab.url);
+    if (googleSite) {
+        formAdd.inputUrl.value = googleSiteUrl(currentTab.url);
+    } else {
+        formAdd.inputUrl.value = stripQueryValue(currentTab.url);
+    }
     initTitleTrim(currentTab.title);
 }
 
@@ -84,8 +99,8 @@ function showElementById(id, display) {
     document.getElementById(id).style.display = display;
 }
 
-function add() {
-    populateDialogAdd();
+function add(googlesite) {
+    populateDialogAdd(googlesite);
     populateOptions();
     showElementById('dialogAdd', 'block');
 }
@@ -132,11 +147,16 @@ function resetUrl() {
     formAdd.inputUrl.value = currentTab.url;
 }
 
+function googleSite() {
+    add(true);
+}
+
 function initEvents() {
     bindToElements('click', [
         ['cmdSearchPage', searchPage],
         ['cmdOptionsPage', optionsPage],
         ['cmdAdd', add],
+        ['cmdGoogleSite', googleSite],
         ['btnSave', save],
         ['btnNewCategory', newCategory],
         ['labelUrl', resetUrl],

@@ -44,6 +44,13 @@ function getDomain(url) {
     return protocol + '//' + parts2[0];
 }
 
+function getHost(url) {
+    if (!url) { return url }
+    const parts = url.split('://');
+    const parts2 = parts[1].split('/');
+    return parts2[0];
+}
+
 function getDomainOfUrl(url) {
     if (!url) { return url }
     const parts = url.split('//');
@@ -199,4 +206,4 @@ export {numberWithCommas, getExtension, getFilename, stripCdata,
     camel, kebab, ltrimSpecial, shortDate, getTitleParts,
     getDomain, getDomainOfUrl, getDelim, localizedTimediff,
     arrayToText, textToArray, htmlDecode, rtrimSlash, setDisabled,
-    inValidPaste, getTypeFromMimetype}
+    inValidPaste, getTypeFromMimetype, getHost}

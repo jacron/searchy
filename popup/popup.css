@@ -1,3 +1,6 @@
+.container {
+    /*width: 130px;*/
+}
 #dialogAdd {
     display: none;
     width: 350px;

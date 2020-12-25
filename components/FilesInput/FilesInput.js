@@ -1,5 +1,5 @@
 import {getExtension, getFilename, getTypeFromMimetype}
-    from "./stringutils.js";
+    from "../../common/stringutils.js";
 import {initDrop} from "./drop.js";
 
 const template = `
