@@ -4,6 +4,11 @@ const templateEngine = `
 <hr class="dialog-hr">
 <div class="vert-spacer"></div>
 <form id="formEngine">
+        <div id="trim-controls">
+            <button id="trim-title-1" title="title take one">1</button>
+            <button id="trim-title-2" title="title take two">2</button>
+            <button id="trim-title-1-2" title="restore title">1-2</button>
+        </div>
     <div>
         <span class="label">Name</span>
         <input type="text" id="engineName" autofocus class="dialog-input">

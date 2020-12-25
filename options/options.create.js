@@ -22,12 +22,12 @@ function engineHtml(engine, defaultEngineId) {
         <input type="checkbox" title="visible on/off" 
         class="check-visible" ${engine.visible ? 'checked' : ''}>
     </span>
-    <span class="name ${nameClass}">${engine.name}</span>
+    <a href="${engine.url}" class="name ${nameClass}">${engine.name}</a>
     <span class="controls">
         <span>&nbsp;</span>
         <span class="fa fa-edit edit eng" title="edit"></span>    
         <span class="fa fa-delete delete eng" title="delete"></span>
-        <span class="fa fa-flag default eng" title="set default"></span>
+        <span class="fa fa-flag set-default eng" title="set default"></span>
     </span>
 </div>
 `;

@@ -5,12 +5,11 @@ import {getImportedData, initImport, restoreData}
 import {bindToElements} from "../common/bind-events.js";
 import {displayItems} from "./options.create.js";
 import {persistData} from "../common/persist.js";
+import {getDelim, getTitleParts} from "../components/FilesInput/stringutils.js";
+
+let currentEngineName;
 
 function hideDialogs() {
-    // const dialogs = document.getElementsByClassName('dialog');
-    // for (let i = 0; i < dialogs.length; i++) {
-    //     dialogs[i].style.display = 'none';
-    // }
     for (let id of [
         'dialogEngine',
         'dialogCategory',
@@ -74,6 +73,25 @@ function saveCategory(target, cb) {
     })
 }
 
+function setName(s) {
+    document.getElementById('engineName').value = s;
+}
+
+function trimTitle1(e) {
+    setName(getTitleParts(currentEngineName)[0]);
+    e.preventDefault();
+}
+
+function trimTitle2(e) {
+    setName(getTitleParts(currentEngineName)[1]);
+    e.preventDefault();
+}
+
+function trimTitle12(e) {
+    setName(currentEngineName);
+    e.preventDefault();
+}
+
 function initEngineEvents(cb) {
     document.getElementById('formEngine')
         .addEventListener('submit', e => {
@@ -82,8 +100,21 @@ function initEngineEvents(cb) {
             }
             e.preventDefault()
         });
-    document.getElementById('cancelEngine')
-        .addEventListener('click', hideDialogs)
+    bindToElements('click', [
+        ['cancelEngine', hideDialogs],
+        ['trim-title-1', trimTitle1],
+        ['trim-title-2', trimTitle2],
+        ['trim-title-1-2', trimTitle12],
+    ]);
+}
+
+function initTitleTrim(title) {
+    const delim = getDelim(title);
+    const trimButtons = ['trim-title-1', 'trim-title-2', 'trim-title-1-2'];
+    for (const tr of trimButtons) {
+        document.getElementById(tr)
+            .style.visibility = delim ? 'visible' : 'hidden';
+    }
 }
 
 function initDialogEngine(template, header, cb) {
@@ -157,6 +188,12 @@ function initCategoryEvents(cb) {
                 hideDialogs();
             }
         })
+    bindToElements('click', [
+        ['cancelCategory', hideDialogs],
+    ]);
+    bindToElements('keydown', [
+        ['']
+    ]);
 }
 
 function initDialogCategory(template, header, cb) {
@@ -217,6 +254,8 @@ function openDialogAddCategory(cb) {
 }
 
 function populateFieldsEngine(engineId, engineName, engineUrl) {
+    currentEngineName = engineName;
+    initTitleTrim(engineName);
     document.getElementById('dialogEngine')
         .setAttribute('data-id', engineId);
     document.getElementById('engineName').value = engineName;

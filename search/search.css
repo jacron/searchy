@@ -123,6 +123,9 @@ a:hover {
 #toggleDark {
     margin: 0 20px;
 }
+.checkbox-label {
+    margin: 0 20px 0 0;
+}
 .default {
     text-decoration: underline;
 }

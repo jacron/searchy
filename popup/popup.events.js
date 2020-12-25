@@ -47,7 +47,8 @@ function initTitleTrim(title) {
 }
 
 function stripQueryValue(url) {
-    ['?q=', '&q=', '?query=']
+    ['?q=', '&q=', '?query=', '?search=',
+    '?zoek=', '?s=']
         .map(queryKey => {
             const pos = url.indexOf(queryKey);
             if (pos !== -1) {
@@ -89,16 +90,20 @@ function add() {
     showElementById('dialogAdd', 'block');
 }
 
+function setName(s) {
+    formAdd.inputName.value = s;
+}
+
 function trimTitle1() {
-    formAdd.inputName.value = getTitleParts(currentTab.title)[0];
+    setName(getTitleParts(currentTab.title)[0]);
 }
 
 function trimTitle2() {
-    formAdd.inputName.value = getTitleParts(currentTab.title)[1];
+    setName(getTitleParts(currentTab.title)[1]);
 }
 
 function trimTitle12() {
-    formAdd.inputName.value = currentTab.title;
+    setName(currentTab.title);
 }
 
 function newCategory() {
@@ -115,7 +120,6 @@ function newCategory() {
 }
 
 function submit(e) {
-    // console.log(e.key);
     if (e.key === 'Enter') {
         save();
     }

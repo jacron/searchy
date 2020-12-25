@@ -105,7 +105,7 @@ function onEditClick(e, target, type) {
     if (target.classList.contains('add')) {
         addEngineToCategory(objectId);
     }
-    if (target.classList.contains('default')) {
+    if (target.classList.contains('set-default')) {
         setEngineDefault(objectId);
     }
 }

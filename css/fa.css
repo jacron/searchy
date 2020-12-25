@@ -94,4 +94,7 @@
 .fa-flag:before {
     content: "\f024";
 }
+.fa-table:before {
+    content: "\f0ce";
+}
 
