@@ -1,6 +1,7 @@
 import {getTerm} from "./search.term.js";
 import {toggleDarkmode} from "../storage/dark.js";
 import {bindToElements} from "../common/bind-events.js";
+import {getNewtabSetting, setNewtabSetting} from "../storage/newtab.js";
 
 function fillPlaceholder(url, term) {
     const magic = '$!q';
@@ -12,7 +13,13 @@ function fillPlaceholder(url, term) {
 }
 
 function toUrl(url, term) {
-    document.location.href = fillPlaceholder(url, term);
+    getNewtabSetting(set => {
+        if (set) {
+            newTab(url, term);
+        } else {
+            document.location.href = fillPlaceholder(url, term);
+        }
+    })
 }
 
 function newTab(url, term) {
@@ -67,6 +74,11 @@ function onSubmit(e) {
     e.preventDefault();
 }
 
+function setNewTab(e) {
+    const target = e.target;
+    setNewtabSetting(target.checked);
+}
+
 function initEvents() {
     bindToElements('click', [
         ['engines', toSearchUrl],
@@ -78,6 +90,9 @@ function initEvents() {
     bindToElements('submit', [
         ['searchForm', onSubmit]
     ])
+    bindToElements('change', [
+        ['newTab', setNewTab],
+    ]);
 }
 
 export {initEvents}

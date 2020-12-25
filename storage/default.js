@@ -9,7 +9,7 @@ function getDefaultEngineId(cb) {
 }
 
 function notifyChange() {
-    console.log('notifying default set...');
+    // console.log('notifying default set...');
     chrome.runtime.sendMessage({
         notify: 'default engine set'
     })
