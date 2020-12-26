@@ -131,10 +131,10 @@ function saveEngine(engineId, name, url, categoryId, data) {
     }
 }
 
-function addCategory(name, id, data) {
+function addCategory(name, id, engines, data) {
     data.categories.push({
         name,
-        engines: [],
+        engines,
         id
     });
     persistData(data);
@@ -143,7 +143,7 @@ function addCategory(name, id, data) {
 function saveCategory(categoryId, name, data, cb) {
     if (categoryId === '-1') {
         const newId = getNewCategoryId(data);
-        addCategory(name, newId, data);
+        addCategory(name, newId, [], data);
         if (cb) {
             cb(newId);
         }
@@ -152,4 +152,10 @@ function saveCategory(categoryId, name, data, cb) {
     }
 }
 
-export {setVisible, removeEngine, removeCategory, saveEngine, saveCategory}
+function addImportedCategory(category, name, data) {
+    const newId = getNewCategoryId(data);
+    addCategory(name, newId, category.engines, data);
+}
+
+export {setVisible, removeEngine, removeCategory,
+    saveEngine, saveCategory, addImportedCategory}

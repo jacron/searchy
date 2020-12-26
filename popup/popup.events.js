@@ -73,15 +73,8 @@ function populateOptions(id) {
     })
 }
 
-function siteFromUrl(url) {
-    const w = url.split(':');
-    const s = w[1].split('/');
-    return s[0];
-}
-
 function googleSiteUrl(url) {
-    const u = `https://www.google.com/search?q=$!q&as_sitesearch=${getHost(url)}`;
-    return u;
+    return `https://www.google.com/search?q=$!q&as_sitesearch=${getHost(url)}`;
 }
 
 function populateDialogAdd(googleSite) {

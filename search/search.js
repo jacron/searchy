@@ -2,10 +2,20 @@ import {initDarkmode} from '../storage/dark.js';
 import {displayEngines} from './search.create.js';
 import {initEvents} from "./search.events.js";
 import {setSearchTermFromBackground} from "./search.term.js";
+import {getNewtabSetting} from "../storage/newtab.js";
 
 function showEngineLinks() {
     chrome.runtime.sendMessage({cmd: "getCategories"},
         response => displayEngines(response.categories))
+}
+
+function initNewtab() {
+    getNewtabSetting(set => {
+        console.log({set});
+        if (set) {
+            document.getElementById('newTab').checked = set
+        }
+    });
 }
 
 function init() {
@@ -13,6 +23,7 @@ function init() {
     setSearchTermFromBackground();
     showEngineLinks();
     initEvents();
+    initNewtab();
 }
 
 chrome.runtime.onMessage.addListener(req => {

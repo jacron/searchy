@@ -1,4 +1,4 @@
-import {exportJson} from "./migrate.js";
+import {exportJson} from "./export.js";
 import {reDisplay}
     from "./options.create.js";
 import {bindToElements} from "../common/bind-events.js";

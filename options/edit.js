@@ -1,6 +1,9 @@
 import {openDialogAddEngine, openDialogCategory, openDialogEngine} from "./dialog.js";
 import {reDisplay, showEngineLinks} from "./options.create.js";
 import {setDefaultEngineId} from "../storage/default.js";
+import {getDataFromStorage} from "../common/persist.js";
+import {getCategoryById} from "../background/fetch.js";
+import {downloadJson} from "../common/download.js";
 
 function clearSelected() {
     const selectedElements = document.getElementsByClassName('selected');
@@ -89,6 +92,14 @@ function setEngineDefault(engineId) {
     showEngineLinks();
 }
 
+function exportGroup(categoryId) {
+    getDataFromStorage(data => {
+        getCategoryById(categoryId, {categories: data}, category => {
+            downloadJson(category, `searchy.${category.name}.json`);
+        })
+    });
+}
+
 function onEditClick(e, target, type) {
     clearSelected();
     const controls = target.parentElement;
@@ -107,6 +118,9 @@ function onEditClick(e, target, type) {
     }
     if (target.classList.contains('set-default')) {
         setEngineDefault(objectId);
+    }
+    if (target.classList.contains('export-group')) {
+        exportGroup(objectId);
     }
 }
 

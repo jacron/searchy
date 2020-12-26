@@ -1,5 +1,7 @@
-import {removeCategory, removeEngine, saveCategory,
-    saveEngine, setVisible} from "./update.js";
+import {
+    addImportedCategory, removeCategory, removeEngine, saveCategory,
+    saveEngine, setVisible
+} from "./update.js";
 import {getCategoryById, getEngineById} from "./fetch.js";
 
 function doAction(request, sendResponse, data) {
@@ -30,6 +32,10 @@ function doAction(request, sendResponse, data) {
             break;
 
         //    CRUD
+        case 'addCategory':
+            addImportedCategory(request.category, request.name, data);
+            sendResponse(data);
+            break;
         case 'setVisible':
             setVisible(request.id, request.value, data);
             sendResponse({msg: 'ok'});

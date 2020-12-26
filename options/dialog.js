@@ -1,11 +1,9 @@
 import {templateEngine, templateCategory, templateImport}
     from './dialog.templates.js';
-import {getImportedData, initImport, restoreData}
-    from "./migrate.js";
+import {importData, initImport} from "./import.js";
 import {bindToElements} from "../common/bind-events.js";
-import {displayItems} from "./options.create.js";
-import {persistData} from "../common/persist.js";
 import {getDelim, getTitleParts} from "../common/stringutils.js";
+import {hideElement} from "../common/htmlelements.js";
 
 let currentEngineName;
 
@@ -128,29 +126,6 @@ function initDialogEngine(template, header, cb) {
     }
     document.getElementById('dialogEngineHeader').textContent = header;
     return dialogAction;
-}
-
-function dialogImport(categories) {
-    displayItems(categories, () => {
-        if (confirm("Do you want to keep these changes?")) {
-            persistData({categories});
-            hideElement('dialogImport');
-        } else {
-            restoreData(categories => {
-                displayItems(categories);
-                hideElement('dialogImport');
-            });
-        }
-    });
-}
-function importData() {
-    const categories = JSON.parse(getImportedData());
-    chrome.runtime.sendMessage({
-        cmd: 'setCategories',
-        categories
-    }, () => {
-        dialogImport(categories);
-    });
 }
 
 function insertTemplate(template) {
@@ -306,12 +281,5 @@ function openDialogImport() {
     showDialog(dialogAction);
 }
 
-function hideElement(elementId) {
-    const element = document.getElementById(elementId);
-    if (element) {
-        element.style.display = 'none';
-    }
-}
-
 export {openDialogEngine, openDialogCategory, openDialogImport,
-    openDialogAddEngine, openDialogAddCategory}
+    openDialogAddEngine, openDialogAddCategory, hideDialogs}

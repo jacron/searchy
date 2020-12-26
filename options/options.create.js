@@ -9,6 +9,7 @@ function categoryHtml(category) {
         <span class="fa fa-edit edit cat" title="edit"></span>    
         <span class="fa fa-delete delete cat" title="delete"></span>
         <span class="fa fa-plus add cat" title="add engine"></span>
+        <span class="fa fa-floppy-o export-group cat" title="export group"></span>
     </span>
 </div>
 `
@@ -51,6 +52,7 @@ function displayEngines(categories) {
     getDefaultEngineId(defaultEngineId => {
         const elementEngines = document.getElementById('engines');
         elementEngines.innerHTML = '';
+        console.log({categories});
         categories.map(category => {
             elementEngines.appendChild(createCategoryDiv(category, defaultEngineId));
         })
