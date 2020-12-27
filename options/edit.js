@@ -1,9 +1,10 @@
-import {openDialogAddEngine, openDialogCategory, openDialogEngine} from "./dialog.js";
 import {reDisplay, showEngineLinks} from "./options.create.js";
 import {setDefaultEngineId} from "../storage/default.js";
 import {getDataFromStorage} from "../common/persist.js";
 import {getCategoryById} from "../background/fetch.js";
 import {downloadJson} from "../common/download.js";
+import {openDialogAddEngine, openDialogEngine} from "./engine/engine.dialog.js";
+import {openDialogCategory} from "./category/category.dialog.js";
 
 function clearSelected() {
     const selectedElements = document.getElementsByClassName('selected');

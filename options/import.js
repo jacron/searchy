@@ -1,7 +1,18 @@
 import {getDataFromStorage, persistData} from "../common/persist.js";
 import {displayItems} from "./options.create.js";
 import {hideElement} from "../common/htmlelements.js";
-import {hideDialogs} from "./dialog.js";
+import {hideDialogs} from "./dialog/dialog.hide.js";
+import {bindToElements} from "../common/bind-events.js";
+import {initBackground} from "./dialog/dialog.background.js";
+import {insertTemplate} from "./dialog/dialog.insert.js";
+import {showDialog} from "./dialog/dialog.js";
+
+const templateImport = `
+<div class="dialog" id="dialogImport">
+    <files-input accept="application/json" header="Read data"></files-input>
+    <button class="fa fa-floppy-o" id="btnImportData"> Import</button>
+</div>
+`;
 
 let importedData;
 let importedFileName;
@@ -61,8 +72,7 @@ function setCategory(category, name) {
         cmd: 'addCategory',
         category,
         name
-    }, updatedCategories => {
-        // dialogImport(updatedCategories);
+    }, () => {
         hideDialogs();
     });
 }
@@ -88,10 +98,30 @@ function onReaderLoad(e) {
     }
 }
 
+function initDialogImport() {
+    const elementId = 'dialogImport';
+    let dialogAction = document.getElementById(elementId);
+    if (!dialogAction) {
+        insertTemplate(templateImport);
+        dialogAction = document.getElementById(elementId);
+        initBackground();
+        initImport();
+        bindToElements('click', [
+            ['btnImportData', importData],
+        ]);
+    }
+    return dialogAction;
+}
+
+function openDialogImport() {
+    const dialogAction = initDialogImport();
+    showDialog(dialogAction);
+}
+
 function initImport() {
     const filesInput = document.querySelector('files-input');
     filesInput.header = 'Import';
     filesInput.addEventListener('load', onReaderLoad);
 }
 
-export {initImport, importData}
+export {initImport, importData, openDialogImport}

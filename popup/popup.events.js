@@ -92,8 +92,8 @@ function showElementById(id, display) {
     document.getElementById(id).style.display = display;
 }
 
-function add(googlesite) {
-    populateDialogAdd(googlesite);
+function add(useGoogleWithSiteParameter) {
+    populateDialogAdd(useGoogleWithSiteParameter);
     populateOptions();
     showElementById('dialogAdd', 'block');
 }
@@ -144,11 +144,15 @@ function googleSite() {
     add(true);
 }
 
+function addSite() {
+    add(false);
+}
+
 function initEvents() {
     bindToElements('click', [
         ['cmdSearchPage', searchPage],
         ['cmdOptionsPage', optionsPage],
-        ['cmdAdd', add],
+        ['cmdAdd', addSite],
         ['cmdGoogleSite', googleSite],
         ['btnSave', save],
         ['btnNewCategory', newCategory],
