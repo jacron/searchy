@@ -18,12 +18,29 @@ function initNewtab() {
     });
 }
 
+function version() {
+    const manifestData = chrome.runtime.getManifest();
+    console.log('v' + manifestData.version);
+}
+
+function sizingTool() {
+    window.onresize = () => {
+        console.log(window.outerWidth, window.outerHeight);
+    }
+}
+
 function init() {
+    const debugSizing = false;
+
     initDarkmode();
     setSearchTermFromBackground();
     showEngineLinks();
     initEvents();
     initNewtab();
+    version();
+    if (debugSizing) {
+        sizingTool();
+    }
 }
 
 chrome.runtime.onMessage.addListener(req => {
@@ -38,4 +55,5 @@ chrome.runtime.onMessage.addListener(req => {
     }
 })
 
+console.log();
 init();
