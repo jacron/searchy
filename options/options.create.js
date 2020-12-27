@@ -52,7 +52,7 @@ function displayEngines(categories) {
     getDefaultEngineId(defaultEngineId => {
         const elementEngines = document.getElementById('engines');
         elementEngines.innerHTML = '';
-        console.log({categories});
+        // console.log({categories});
         categories.map(category => {
             elementEngines.appendChild(createCategoryDiv(category, defaultEngineId));
         })
