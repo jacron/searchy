@@ -125,4 +125,4 @@ function onEditClick(e, target, type) {
     }
 }
 
-export {onEditClick}
+export {onEditClick, clearSelected}

@@ -1,4 +1,5 @@
 import {hideElement} from "../../common/htmlelements.js";
+import {clearSelected} from "../edit.js";
 
 function hideDialogs() {
     for (let id of [
@@ -9,6 +10,7 @@ function hideDialogs() {
     ]) {
         hideElement(id);
     }
+    clearSelected();
 }
 
 export {hideDialogs}
