@@ -54,7 +54,10 @@ function btnClicked() {
 chrome.browserAction.onClicked.addListener(btnClicked);
 
 function init() {
-    getDataFromStorage(categories => data.categories = categories);
+    getDataFromStorage(categories => {
+        data.categories = categories
+        // console.log(data.categories);
+    });
 }
 
 init();

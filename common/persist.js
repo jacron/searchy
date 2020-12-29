@@ -1,5 +1,5 @@
 import config from "./config.js";
-import {categories} from "../initial_data.js";
+// import {categories} from "../initial_data.js";
 
 const key = config.storageKeyCategories;
 
@@ -21,12 +21,12 @@ function persistData(data) {
 // }
 
 function getInitialData(cb) {
-    cb(categories); // static data
+    // cb(categories); // static data
     // get json
     const urlToInitialData = '../initial_data.json';
     fetch(urlToInitialData)
-        .then(response => response.json)
-        .then(data => cb(data));
+        .then(response => response.json())
+        .then(categories => cb(categories));
 }
 
 function getDataFromStorage(cb) {
@@ -43,6 +43,7 @@ function getDataFromStorage(cb) {
         if (result[key]) {
             cb(result[key]);
         } else {
+            // console.log('getting initial data');
             getInitialData(cb);
         }
     })
