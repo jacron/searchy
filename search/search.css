@@ -94,8 +94,8 @@ a:hover {
     width: calc(100% - 20px);
 }
 #engines {
-    /*column-width: 14em;*/
-    column-count: 3;
+    column-width: 18em;
+    /*column-count: 3;*/
     width: calc(100% - 96px);
     padding: 0 24px 0 48px;
 }
