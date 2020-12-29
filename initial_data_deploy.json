@@ -1,0 +1,140 @@
+[
+    {
+        "engines": [
+            {
+                "id": 14,
+                "name": "Google",
+                "url": "https://www.google.nl/search?q=",
+                "visible": true
+            },
+            {
+                "id": 18,
+                "name": "DuckDuckGo",
+                "url": "https://duckduckgo.com/?q=",
+                "visible": true
+            },
+            {
+                "id": 20,
+                "name": "Bing",
+                "url": "https://www.bing.com/search?q=",
+                "visible": true
+            },
+            {
+                "id": 21,
+                "name": "Wikipedia",
+                "url": "https://nl.wikipedia.org/wiki/",
+                "visible": true
+            }
+        ],
+        "id": 4,
+        "name": "General"
+    },
+    {
+        "engines": [
+            {
+                "id": 2,
+                "name": "IMDb",
+                "url": "http://www.imdb.com/find?s=tt&q=",
+                "visible": true
+            },
+            {
+                "id": 3,
+                "name": "Variety",
+                "url": "http://variety.com/results/#?q=",
+                "visible": true
+            },
+            {
+                "id": 4,
+                "name": "YouTube",
+                "url": "https://www.youtube.com/results?search_query=",
+                "visible": true
+            },
+            {
+                "id": 5,
+                "name": "Criterion",
+                "url": "https://www.criterion.com/search#stq=",
+                "visible": true
+            }
+        ],
+        "id": 1,
+        "name": "Films"
+    },
+    {
+        "engines": [
+            {
+                "id": 24,
+                "name": "Goodreads",
+                "url": "https://www.goodreads.com/search?q=",
+                "visible": true
+            }
+        ],
+        "id": 5,
+        "name": "Books"
+    },
+    {
+        "engines": [
+            {
+                "id": 19,
+                "name": "Stack Overflow",
+                "url": "https://stackoverflow.com/search?q=",
+                "visible": true
+            },
+            {
+                "id": 22,
+                "name": "Microsoft Docs",
+                "url": "https://docs.microsoft.com/nl-nl/search/?terms=",
+                "visible": true
+            },
+            {
+                "id": 26,
+                "name": "MDN",
+                "url": "https://developer.mozilla.org/nl/search?q=",
+                "visible": true
+            }
+        ],
+        "id": 6,
+        "name": "Dev"
+    },
+    {
+        "engines": [
+            {
+                "id": 31,
+                "name": "theguardian",
+                "url": "https://www.google.co.uk/search?q=$!q&as_sitesearch=www.theguardian.com",
+                "visible": true
+            },
+            {
+                "id": 32,
+                "name": "The New York Times",
+                "url": "https://www.nytimes.com/search?query=",
+                "visible": true
+            },
+            {
+                "id": 33,
+                "name": "FAZ",
+                "url": "https://www.faz.net/suche/?query=",
+                "visible": true
+            }
+        ],
+        "id": 8,
+        "name": "Newspapers"
+    },
+    {
+        "engines": [
+            {
+                "id": 34,
+                "name": "Scientific American",
+                "url": "https://www.scientificamerican.com/search/?q=",
+                "visible": true
+            },
+            {
+                "id": 35,
+                "name": "Search Science",
+                "url": "https://search.sciencemag.org/?searchTerm=$!q&order=tfidf&limit=textFields&pageSize=10&&",
+                "visible": true
+            }
+        ],
+        "id": 9,
+        "name": "Magazines"
+    }
+]
