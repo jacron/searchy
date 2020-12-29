@@ -36,7 +36,7 @@ function getDataFromStorage(cb) {
     // cb(categories); // static data
     // return;
 
-    getInitialData(data => console.log(data));
+    // getInitialData(data => console.log(data));
 
     chrome.storage.local.get([key], result => {
         // console.log('Value currently is ', result[key]);

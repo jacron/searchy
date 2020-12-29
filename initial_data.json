@@ -27,7 +27,7 @@
             }
         ],
         "id": 4,
-        "name": "Algemeen"
+        "name": "General"
     },
     {
         "engines": [
@@ -63,7 +63,7 @@
             }
         ],
         "id": 1,
-        "name": "Films"
+        "name": "Movies"
     },
     {
         "engines": [
@@ -87,7 +87,7 @@
             }
         ],
         "id": 5,
-        "name": "Boeken"
+        "name": "Books"
     },
     {
         "engines": [
@@ -141,7 +141,7 @@
             }
         ],
         "id": 7,
-        "name": "Kranten"
+        "name": "Newspapers NL"
     },
     {
         "engines": [

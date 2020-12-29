@@ -11,7 +11,6 @@ function showEngineLinks() {
 
 function initNewtab() {
     getNewtabSetting(set => {
-        console.log({set});
         if (set) {
             document.getElementById('newTab').checked = set
         }
@@ -23,14 +22,23 @@ function version() {
     console.log('v' + manifestData.version);
 }
 
+function colorConsole(dim, target, color) {
+    if (dim === target) {
+        console.log('%c' + dim, 'background: #222; color: ' + color);
+    } else {
+        console.log(dim);
+    }
+}
+
 function sizingTool() {
     window.onresize = () => {
-        console.log(window.outerWidth, window.outerHeight);
+        colorConsole(window.outerWidth, 1280, '#bada55');
+        colorConsole(window.outerHeight, 800, '#ba55da');
     }
 }
 
 function init() {
-    const debugSizing = false;
+    const debugSizing = true;
 
     initDarkmode();
     setSearchTermFromBackground();
