@@ -97,4 +97,8 @@
 .fa-table:before {
     content: "\f0ce";
 }
+.fa-external-link:before {
+    content: "\f08e";
+    color: gray;
+}
 

@@ -66,6 +66,12 @@ function exportGroup(categoryId) {
     });
 }
 
+function newTab(url) {
+    chrome.tabs.create({
+        url
+    });
+}
+
 function onEditClick(e, target, type) {
     clearSelected();
     const controls = target.parentElement;
@@ -73,6 +79,7 @@ function onEditClick(e, target, type) {
     const a = object.querySelector('.name');
     const name = a.textContent;
     const objectId = object.getAttribute('data-id');
+    const url = object.getAttribute('data-url');
     if (target.classList.contains('delete')) {
         removeObject(type, name, objectId);
     }
@@ -87,6 +94,9 @@ function onEditClick(e, target, type) {
     }
     if (target.classList.contains('export-group')) {
         exportGroup(objectId);
+    }
+    if (target.classList.contains('link')) {
+        newTab(url);
     }
 }
 

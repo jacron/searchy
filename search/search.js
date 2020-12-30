@@ -22,37 +22,16 @@ function version() {
     console.log('v' + manifestData.version);
 }
 
-function colorConsole(dim, target, color) {
-    if (dim === target) {
-        console.log('%c' + dim, 'background: #222; color: ' + color);
-    } else {
-        console.log(dim);
-    }
-}
-
-function sizingTool() {
-    window.onresize = () => {
-        colorConsole(window.outerWidth, 1280, '#bada55');
-        colorConsole(window.outerHeight, 800, '#ba55da');
-    }
-}
-
 function init() {
-    const debugSizing = true;
-
     initDarkmode();
     setSearchTermFromBackground();
     showEngineLinks();
     initEvents();
     initNewtab();
     version();
-    if (debugSizing) {
-        sizingTool();
-    }
 }
 
 chrome.runtime.onMessage.addListener(req => {
-    // console.log({req});
     if (req.notify) {
         switch(req.notify) {
             case 'data changed':
@@ -63,5 +42,4 @@ chrome.runtime.onMessage.addListener(req => {
     }
 })
 
-console.log();
 init();

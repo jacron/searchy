@@ -18,15 +18,16 @@ function categoryHtml(category) {
 function engineHtml(engine, defaultEngineId) {
     const nameClass = engine.id === +defaultEngineId ? 'default' : '';
     return `
-<div class="engine" data-id="${engine.id}">
+<div class="engine" data-id="${engine.id}" data-url="${engine.url}">
     <span class="visible">
         <input type="checkbox" title="visible on/off" 
         class="check-visible" ${engine.visible ? 'checked' : ''}>
     </span>
-    <a href="${engine.url}" class="name ${nameClass}">${engine.name}</a>
+    <span class="name ${nameClass}">${engine.name}</span>
     <span class="controls">
         <span>&nbsp;</span>
         <span class="fa fa-edit edit eng" title="edit"></span>    
+        <span class="fa fa-external-link link eng" title="link"></span>    
         <span class="fa fa-delete delete eng" title="delete"></span>
         <span class="fa fa-flag set-default eng" title="set default"></span>
     </span>

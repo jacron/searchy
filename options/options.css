@@ -16,6 +16,15 @@
 .controls {
     display: none;
     text-align: right;
+    position: absolute;
+    background-color: #dfe1e5;
+    padding-right: 5px;
+}
+.dark .controls {
+    background-color: #222;
+}
+.controls .fa {
+    padding: 0 4px;
 }
 .category:hover .controls,
 .engine:hover .controls {
@@ -31,3 +40,9 @@
 .default {
     text-decoration: underline;
 }
+/*#engines {*/
+/*    column-width: 23em;*/
+/*    !*column-count: 3;*!*/
+/*    width: calc(100% - 96px);*/
+/*    padding: 0 24px 0 48px;*/
+/*}*/
