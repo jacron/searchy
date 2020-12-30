@@ -14,11 +14,19 @@ function persistData(data) {
     notifyChange();
 }
 
-// function showLocalStorage() {
-//     chrome.storage.local.get(null, result => {
-//         console.log({result});
-//     })
-// }
+function maintainLocalStorage() {
+    const showLocalStorage = false;
+    if (showLocalStorage) {
+        chrome.storage.local.get(null, result => {
+            console.log({result});
+        })
+    }
+    // set true to test if searchy uses initial data when local storage is empty
+    const clearLocalStorage = false;
+    if (clearLocalStorage) {
+        chrome.storage.local.clear(()=>{});
+    }
+}
 
 function getInitialData(cb) {
     // cb(categories); // static data
@@ -42,12 +50,9 @@ function dataFromStorage(cb) {
 }
 
 function getDataFromStorage(cb) {
-    // showLocalStorage();
+    maintainLocalStorage();
 
-    // +++ test with static +++
-    const testInitial = true;
-    // +++ end test with static +++
-
+    const testInitial = false;
     if (testInitial) {
         getInitialData(cb);
     } else {
