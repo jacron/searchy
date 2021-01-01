@@ -1,5 +1,4 @@
 import config from "./config.js";
-// import {categories} from "../initial_data.js";
 
 const key = config.storageKeyCategories;
 
@@ -21,7 +20,7 @@ function maintainLocalStorage() {
             console.log({result});
         })
     }
-    // set true to test if searchy uses initial data when local storage is empty
+    // set true to test if application will use initial data when local storage is empty
     const clearLocalStorage = false;
     if (clearLocalStorage) {
         chrome.storage.local.clear(()=>{});
@@ -29,8 +28,6 @@ function maintainLocalStorage() {
 }
 
 function getInitialData(cb) {
-    // cb(categories); // static data
-    // get json
     const urlToInitialData = '../initial_data_deploy.json';
     fetch(urlToInitialData)
         .then(response => response.json())
@@ -39,11 +36,9 @@ function getInitialData(cb) {
 
 function dataFromStorage(cb) {
     chrome.storage.local.get([key], result => {
-        // console.log('Value currently is ', result[key]);
         if (result[key]) {
             cb(result[key]);
         } else {
-            // console.log('getting initial data');
             getInitialData(cb);
         }
     })

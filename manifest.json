@@ -19,9 +19,6 @@
   "icons": {
     "128": "icons/search128r.png"
   },
-  "chrome_url_overrides": {
-    "newtab": "search/search.html"
-  },
   "options_page": "options/options.html",
   "manifest_version": 2
 }
