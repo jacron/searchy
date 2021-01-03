@@ -1,4 +1,4 @@
-import {reDisplay, showEngineLinks} from "./options.create.js";
+import {reDisplay, showEngineLinks} from "./options/options.create.js";
 import {setDefaultEngineId} from "../storage/default.js";
 import {getDataFromStorage} from "../common/persist.js";
 import {getCategoryById} from "../background/fetch.js";

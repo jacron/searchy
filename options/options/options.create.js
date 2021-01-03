@@ -1,4 +1,4 @@
-import {getDefaultEngineId} from "../storage/default.js";
+import {getDefaultEngineId} from "../../storage/default.js";
 
 function categoryHtml(category) {
     return `

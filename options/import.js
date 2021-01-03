@@ -1,5 +1,5 @@
 import {getDataFromStorage, persistData} from "../common/persist.js";
-import {displayItems} from "./options.create.js";
+import {displayItems} from "./options/options.create.js";
 import {hideElement} from "../common/htmlelements.js";
 import {hideDialogs} from "./dialog/dialog.hide.js";
 import {bindToElements} from "../common/bind-events.js";

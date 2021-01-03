@@ -27,6 +27,12 @@
 .dialog select {
     width: 238px;
 }
+.dialog-input-add {
+    width: 322px;
+}
+.dialog-select-add {
+    width: 284px;
+}
 .cmds {
     margin-top: 12px;
     text-align: right;
@@ -44,4 +50,14 @@
 #trim-title-1-2 {
     cursor: default;
     visibility: hidden;
+}
+.btn-container {
+    text-align: right;
+    margin: 14px 0 0 0;
+}
+#dialogAdd {
+    margin: 24px;
+}
+#dialogAdd > div {
+    margin-bottom: 12px;
 }

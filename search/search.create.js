@@ -2,18 +2,28 @@ import {getDefaultEngineId} from "../storage/default.js";
 
 const chromeFaviconUrl = 'chrome://favicon/';
 
-function createCategoryEnginesHtml(category, defaultEngineId) {
-    let html = `<div class="category-title">${category.name}</div>`;
-    category.engines
-        .filter(engine => engine.visible)
-        .map(engine => {
-            const nameClass = engine.id === +defaultEngineId ? 'default' : '';
-            html += `
+function engineHtml(engine, nameClass) {
+    return `
 <div class="engine">
     <img src="${chromeFaviconUrl}${engine.url}" class="icon" alt="i">
     <a href="${engine.url}" class="${nameClass}">${engine.name}</a>
 </div>
-`;
+`
+}
+
+function headerHtml(category) {
+    return `<div class="category-title" title="Open all engines of '${category.name}'">
+    ${category.name}
+</div>`
+}
+
+function createCategoryEnginesHtml(category, defaultEngineId) {
+    let html = headerHtml(category);
+    category.engines
+        .filter(engine => engine.visible)
+        .map(engine => {
+            const nameClass = engine.id === +defaultEngineId ? 'default' : '';
+            html += engineHtml(engine, nameClass);
         })
     return html;
 }

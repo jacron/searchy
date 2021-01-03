@@ -1,5 +1,6 @@
 import {doAction} from './action.js';
 import {getDataFromStorage} from '../common/persist.js';
+import {openDialog} from "./openDialogAddEngine.js";
 
 const config2 = {
     searchPage: "search/search.html",
@@ -8,7 +9,9 @@ const config2 = {
 const data = {
     selectedTerm: "",
     categories: [],
-    defaultEngine: -1
+    defaultEngine: -1,
+    // currentPageInfo: ""
+    currentTab: null
 }
 
 chrome.contextMenus.create(
@@ -22,16 +25,29 @@ chrome.contextMenus.create(
             });
         }});
 
+function openDialogNewEngine() {
+    chrome.tabs.query({
+        active: true,
+        currentWindow: true
+    }, function(tabs) {
+        const currentTab = tabs.length > 0 ? tabs[0] : null;
+        data.currentTab = currentTab;
+        chrome.windows.get(currentTab.windowId, win => {
+            openDialog(win);
+        });
+    });
+}
+
 chrome.contextMenus.create(
     {
-        title: `Searchy add engine`,
+        title: `Searchy: add this page to engines`,
         contexts:["page"],
         documentUrlPatterns: [
             "https://*/*",
             "http://*/*"
         ],
-        onclick: info => {
-            console.log({info});
+        onclick: () => {
+            openDialogNewEngine();
         }});
 
 chrome.runtime.onMessage.addListener(
@@ -56,7 +72,6 @@ chrome.browserAction.onClicked.addListener(btnClicked);
 function init() {
     getDataFromStorage(categories => {
         data.categories = categories
-        // console.log(data.categories);
     });
 }
 

@@ -6,6 +6,13 @@ import {getCategoryById, getEngineById} from "./fetch.js";
 
 function doAction(request, sendResponse, data) {
     switch (request.cmd) {
+        case 'getCurrentTab':
+            sendResponse({currentTab: data.currentTab});
+            break;
+        // case 'setCurrentTab':
+        //     data.currentTab = request.currentTab;
+        //     sendResponse({msg: 'ok'});
+        //     break;
         case 'getSelectedTerm':
             sendResponse({term: data.selectedTerm});
             break;

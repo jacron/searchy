@@ -1,11 +1,11 @@
-import {exportJson} from "./export.js";
+import {exportJson} from "../export.js";
 import {reDisplay} from "./options.create.js";
-import {bindToElements} from "../common/bind-events.js";
-import {toggleDarkmode} from "../storage/dark.js";
-import {onEditClick} from "./edit.js";
-import {openDialogImport} from "./import.js";
-import {openDialogAddEngine} from "./engine/engine.dialog.js";
-import {openDialogAddCategory} from "./category/category.dialog.js";
+import {bindToElements} from "../../common/bind-events.js";
+import {toggleDarkmode} from "../../storage/dark.js";
+import {onEditClick} from "../edit.js";
+import {openDialogImport} from "../import.js";
+import {openDialogAddEngine} from "../engine/engine.dialog.js";
+import {openDialogAddCategory} from "../category/category.dialog.js";
 
 function addEngine() {
     openDialogAddEngine(-1, result => {

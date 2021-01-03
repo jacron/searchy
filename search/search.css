@@ -106,6 +106,7 @@ a:hover {
 .category-title {
     font-size: 22px;
     margin-bottom: 12px;
+    cursor: pointer;
 }
 .engine,
 .category {

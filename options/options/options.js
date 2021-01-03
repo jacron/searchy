@@ -1,6 +1,6 @@
 import {showEngineLinks} from './options.create.js';
-import {initDarkmode} from '../storage/dark.js';
-import {initFilesInput} from '../components/FilesInput/FilesInput.js';
+import {initDarkmode} from '../../storage/dark.js';
+import {initFilesInput} from '../../components/FilesInput/FilesInput.js';
 import {initEvents} from "./options.events.js";
 
 function init() {

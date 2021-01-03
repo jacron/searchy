@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>add engine to Searchy</title>
+    <link href="../../css/dialog.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <div id="dialogAdd">
+        <div id="trim-controls">
+            <button id="trim-title-1" title="title take one">1</button>
+            <button id="trim-title-2" title="title take two">2</button>
+            <button id="trim-title-1-2" title="restore title">1-2</button>
+        </div>
+        <div>
+            <span class="label">Name</span>
+            <input type="text" id="inputName" autofocus="on"
+                   class="dialog-input-add">
+        </div>
+        <div>
+            <span class="label">Category</span>
+            <select id="selectCategory" class="dialog-select-add"></select>
+            <button id="btnNewCategory">New</button>
+        </div>
+        <div>
+            <span class="label" id="labelUrl">Url</span>
+            <input type="text" id="inputUrl" class="dialog-input-add">
+        </div>
+        <div class="btn-container">
+            <button id="btnSave">Save</button>
+            <button id="btnCancel">Cancel</button>
+        </div>
+    </div>
+    <script type="module" src="addengine.js"></script>
+</body>
+</html>

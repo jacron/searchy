@@ -1,4 +1,4 @@
-import {showEngineLinks} from "../options.create.js";
+import {showEngineLinks} from "../options/options.create.js";
 
 function removeEngine(id) {
     chrome.runtime.sendMessage({
