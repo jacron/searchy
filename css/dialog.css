@@ -21,6 +21,9 @@
     width: 90px;
     display: inline-block;
 }
+#dialogAdd .label {
+    width: 60px;
+}
 .dialog-input {
     width: 230px;
 }
