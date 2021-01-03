@@ -61,3 +61,6 @@
 #dialogAdd > div {
     margin-bottom: 12px;
 }
+.dialog-form > div {
+    margin-bottom: 16px;
+}
