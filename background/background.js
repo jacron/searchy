@@ -55,19 +55,49 @@ chrome.runtime.onMessage.addListener(
         doAction(request, sendResponse, data);
 })
 
-function btnClicked() {
+function searchInNewTab(url) {
     chrome.tabs.query({
         active: true,
         lastFocusedWindow: true
     }, function(tabs) {
         const tab = tabs[0];
-        chrome.tabs.update(tab.id, {
-            url: config2.searchPage,
-        });
+        chrome.tabs.update(tab.id, {url});
     });
 }
 
-chrome.browserAction.onClicked.addListener(btnClicked);
+function setSearchTerm(term) {
+    data.selectedTerm = term;
+}
+
+function handleInputEntered(q) {
+    const words = q.split(' ');
+    const shortcuts = [
+        ['ddg', 'http://duckduckgo.com?q='],
+        ['g', 'https://www.google.nl/search?q='],
+    ];
+    let searchUrl = config2.searchPage;
+    let shortcutUsed = false;
+    shortcuts.forEach(shortcut => {
+        const [prefix, url] = shortcut;
+        if (prefix === words[0]) {
+            words.shift();
+            q = words.join(' ');
+            searchUrl = url + q;
+            shortcutUsed = true;
+        }
+    })
+    if (!shortcutUsed) {
+        setSearchTerm(q);
+    }
+    searchInNewTab(searchUrl);
+}
+
+function handleActionClicked() {
+    searchInNewTab(config2.searchPage);
+}
+
+chrome.browserAction.onClicked.addListener(handleActionClicked);
+chrome.omnibox.onInputEntered.addListener(handleInputEntered);
 
 function init() {
     getDataFromStorage(categories => {

@@ -79,10 +79,16 @@ function setNewTab(e) {
     setNewtabSetting(target.checked);
 }
 
+function pageOptions() {
+    const term = getTerm();
+    setSearchTerm(term, () => {});
+}
+
 function initEvents() {
     bindToElements('click', [
         ['engines', toSearchUrl],
         ['toggleDark', toggleDarkmode],
+        ['pageOptions', pageOptions],
     ]);
     bindToElements('keyup', [
         ['term', onInputKey],
