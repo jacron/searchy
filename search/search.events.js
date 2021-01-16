@@ -7,7 +7,7 @@ import {showRecentTerms} from "./search.recent.js";
 import {beginTour, nextAdvice, skipTour} from "./search.firstuse.js";
 
 function fillPlaceholder(url, term) {
-    const magic = '$!q';
+    const magic = '%s';
     if (url.indexOf(magic) !== -1) {
         return url.replace(magic, term);
     } else {
