@@ -5,6 +5,8 @@ import {getTerms, initHistory, setSearchTermFromBackground} from "./search.term.
 import {getNewtabSetting} from "../storage/newtab.js";
 import {getShowRecentSetting} from "../storage/recent.js";
 import {showRecentTerms} from "./search.recent.js";
+import {beginTour} from "./search.firstuse.js";
+import {getFirstUseSetting} from "../storage/first.js";
 
 function showEngineLinks() {
     chrome.runtime.sendMessage({cmd: "getCategories"},
@@ -27,6 +29,15 @@ function initShowRecents() {
     })
 }
 
+function initFirstUseHelp() {
+    getFirstUseSetting(set => {
+        if (!set) {
+            beginTour();
+        }
+    });
+
+}
+
 function version() {
     const manifestData = chrome.runtime.getManifest();
     console.log('v' + manifestData.version);
@@ -42,6 +53,7 @@ function init() {
     version();
     initHistory(getTerms());
     showRecentTerms();
+    initFirstUseHelp();
 }
 
 chrome.runtime.onMessage.addListener(req => {

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>searchy</title>
     <link href="../css/fa.css" rel="stylesheet" type="text/css">
+    <link href="../css/bubble.css" rel="stylesheet" type="text/css">
     <link href="search.css" rel="stylesheet" type="text/css">
 </head>
 <body class="dark">
@@ -15,6 +16,8 @@
         <span class="checkbox-label">Show recent</span>
         <input type="checkbox" id="newTab">
         <span class="checkbox-label">Open links in new tab</span>
+        <a id="help" title="Recommence tour">Help</a>
+        <span>&nbsp;|&nbsp;</span>
         <a href="../options/options/options.html" id="pageOptions"
            title="Edit links">Options</a>
     </div>
@@ -39,6 +42,16 @@
         </div>
     </div>
     <div id="engines"></div>
+    <div id="tourOverlay" class="overlay">
+        <div id="tour" class="tour bubble">
+            <div id="adviceHeader" class="advice-header"></div>
+            <div id="adviceMessage" class="message"></div>
+            <div class="button-bar">
+                <button id="nextAdvice">next</button>
+                <button id="skipTour">skip</button>
+            </div>
+        </div>
+    </div>
 </div>
 <script type="module" src="search.js"></script>
 </body>

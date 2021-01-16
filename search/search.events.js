@@ -4,6 +4,7 @@ import {bindToElements} from "../common/bind-events.js";
 import {getNewtabSetting, setNewtabSetting} from "../storage/newtab.js";
 import {setShowRecentSetting} from "../storage/recent.js";
 import {showRecentTerms} from "./search.recent.js";
+import {beginTour, nextAdvice, skipTour} from "./search.firstuse.js";
 
 function fillPlaceholder(url, term) {
     const magic = '$!q';
@@ -116,7 +117,10 @@ function initEvents() {
         ['engines', openEngines],
         ['toggleDark', toggleDarkmode],
         ['pageOptions', pageOptions],
-        ['recentTerms', recentTerms]
+        ['recentTerms', recentTerms],
+        ['nextAdvice', nextAdvice],
+        ['skipTour', skipTour],
+        ['help', beginTour],
     ]);
     bindToElements('keyup', [
         ['term', onInputKey],

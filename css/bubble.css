@@ -1,0 +1,58 @@
+.bubble {
+    position: relative;
+    width: 250px;
+    height: 120px;
+    padding: 10px;
+    background: rgba(240, 100, 100, .55);
+    border-radius: 10px;
+    /*opacity: .94;*/
+    backdrop-filter: blur(10px);
+}
+.dark .bubble {
+    background: rgba(240, 100, 100, .55);
+}
+.bubble:after {
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 0 20px 20px;
+    border-color: rgba(240, 100, 100, .55) transparent;
+    display: block;
+    width: 0;
+    z-index: 1;
+    top: -20px;
+    left: 105px;
+}
+.bubble.slide-left:after {
+    left: 185px;
+}
+.dark .bubble:after {
+    border-color: rgba(240, 100, 100, .55) transparent;
+}
+.overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+#tourOverlay {
+    display: none;
+}
+#skipTour {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+#nextAdvice {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+}
+.advice-header {
+    font-size: x-large;
+    margin-bottom: 3px;
+}
+.message {
+    font-size: large;
+}
