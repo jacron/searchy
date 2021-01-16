@@ -1,4 +1,5 @@
 import {getDefaultEngineId} from "../../storage/default.js";
+import {getTerms} from "../../search/search.term.js";
 
 function categoryHtml(category) {
     return `
@@ -76,10 +77,19 @@ function showEngineLinks() {
         })
 }
 
-function reDisplay(result) {
+function reDisplayEngines(result) {
     if (result.msg && result.msg === 'changed') {
         showEngineLinks();
     }
 }
 
-export {showEngineLinks, displayItems, reDisplay}
+function displayTerms() {
+    const elementTerms = document.getElementById('history');
+    elementTerms.innerHTML = '';
+    const terms = getTerms();
+    terms.forEach(term => {
+        console.log(term);
+    });
+}
+
+export {showEngineLinks, displayItems, reDisplayEngines, displayTerms}

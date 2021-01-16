@@ -130,3 +130,21 @@ a:hover {
 .default {
     text-decoration: underline;
 }
+.main-content {
+    display: flex;
+}
+.recent-container {
+    padding-top: 70px;
+}
+.recent {
+    margin-left: 24px;
+    line-height: 1.4;
+    height: 100px;
+    overflow-y: auto;
+}
+.recent > div {
+    cursor: pointer;
+}
+.recent > div:hover {
+    color: aqua;
+}

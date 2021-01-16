@@ -11,21 +11,32 @@
     <div class="top-menu">
         <div class="hspacer"></div>
         <a class="fa fa-eye cmd" id="toggleDark" title="Turn dark mode on/off"></a>
+        <input type="checkbox" id="toggleRecent">
+        <span class="checkbox-label">Show recent</span>
         <input type="checkbox" id="newTab">
         <span class="checkbox-label">Open links in new tab</span>
         <a href="../options/options/options.html" id="pageOptions"
            title="Edit links">Options</a>
     </div>
     <div class="header">searchy</div>
-<!--    <div class="subheader">search with all your special smarty engines</div>-->
-    <div class="search-form">
-        <form id="searchForm" name="searchForm">
-            <div class="search-term-container">
-                <span class="fa fa-search cmd"></span>
-                <input type="search" id="term" autofocus
-                       name="searchy">
+    <div class="main-content">
+        <div class="search-form">
+            <form id="searchForm" name="searchForm">
+                <div class="search-term-container">
+                    <span class="fa fa-search cmd"></span>
+                    <input type="search" id="term" autofocus spellcheck="false"
+                           name="searchy" list="history">
+                    <datalist id="history">
+                        <option value="greatest hits"></option>
+                    </datalist>
+                </div>
+            </form>
+        </div>
+        <div class="recent-container">
+            <div class="recent" id="recentTerms">
+                recent terms...
             </div>
-        </form>
+        </div>
     </div>
     <div id="engines"></div>
 </div>

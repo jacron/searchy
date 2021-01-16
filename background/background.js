@@ -70,25 +70,8 @@ function setSearchTerm(term) {
 }
 
 function handleInputEntered(q) {
-    const words = q.split(' ');
-    const shortcuts = [
-        ['ddg', 'http://duckduckgo.com?q='],
-        ['g', 'https://www.google.nl/search?q='],
-    ];
     let searchUrl = config2.searchPage;
-    let shortcutUsed = false;
-    shortcuts.forEach(shortcut => {
-        const [prefix, url] = shortcut;
-        if (prefix === words[0]) {
-            words.shift();
-            q = words.join(' ');
-            searchUrl = url + q;
-            shortcutUsed = true;
-        }
-    })
-    if (!shortcutUsed) {
-        setSearchTerm(q);
-    }
+    setSearchTerm(q);
     searchInNewTab(searchUrl);
 }
 

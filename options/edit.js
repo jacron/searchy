@@ -1,4 +1,4 @@
-import {reDisplay, showEngineLinks} from "./options/options.create.js";
+import {reDisplayEngines, showEngineLinks} from "./options/options.create.js";
 import {setDefaultEngineId} from "../storage/default.js";
 import {getDataFromStorage} from "../common/persist.js";
 import {getCategoryById} from "../background/fetch.js";
@@ -35,13 +35,13 @@ function editObject(type, engine, id) {
     engine.classList.add('selected');
     if (type === 'engine') {
         openDialogEngine(id, result => {
-            reDisplay(result);
+            reDisplayEngines(result);
             clearSelected();
         });
     }
     if (type === 'category') {
         openDialogCategory(id, result => {
-            reDisplay(result);
+            reDisplayEngines(result);
             clearSelected();
         });
     }
@@ -49,7 +49,7 @@ function editObject(type, engine, id) {
 
 function addEngineToCategory(categoryId) {
     openDialogAddEngine(categoryId, result => {
-        reDisplay(result);
+        reDisplayEngines(result);
     });
 }
 

@@ -1,5 +1,5 @@
 import {exportJson} from "../export.js";
-import {reDisplay} from "./options.create.js";
+import {reDisplayEngines} from "./options.create.js";
 import {bindToElements} from "../../common/bind-events.js";
 import {toggleDarkmode} from "../../storage/dark.js";
 import {onEditClick} from "../edit.js";
@@ -9,7 +9,7 @@ import {openDialogAddCategory} from "../category/category.dialog.js";
 
 function addEngine() {
     openDialogAddEngine(-1, result => {
-        reDisplay(result);
+        reDisplayEngines(result);
     });
 }
 
@@ -19,7 +19,7 @@ function importJson() {
 
 function addCategory() {
     openDialogAddCategory(result => {
-        reDisplay(result);
+        reDisplayEngines(result);
     });
 }
 

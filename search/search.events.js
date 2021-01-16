@@ -1,7 +1,9 @@
-import {getTerm} from "./search.term.js";
+import {getTerm, storeTerm} from "./search.term.js";
 import {toggleDarkmode} from "../storage/dark.js";
 import {bindToElements} from "../common/bind-events.js";
 import {getNewtabSetting, setNewtabSetting} from "../storage/newtab.js";
+import {setShowRecentSetting} from "../storage/recent.js";
+import {showRecentTerms} from "./search.recent.js";
 
 function fillPlaceholder(url, term) {
     const magic = '$!q';
@@ -47,15 +49,29 @@ function setSearchTerm(term, cb) {
     })
 }
 
-function toSearchUrl(e) {
+function recentTerms(e) {
+    const target = e.target;
+    // console.log(target);
+    if (target.id !== 'recentTerms') {
+        document.getElementById('term').value = target.textContent;
+    }
+}
+
+function openEngines(e) {
     const target = e.target;
     const term = getTerm();
     if (target.tagName === 'A') {
-        setSearchTerm(term, () => toUrl(target.href, term));
+        setSearchTerm(term, () => {
+            storeTerm(term);
+            toUrl(target.href, term);
+    });
         e.preventDefault();
     }
     if (target.classList.contains('category-title')) {
-        setSearchTerm(term, () => openCategoryEngines(target));
+        setSearchTerm(term, () => {
+            storeTerm(term);
+            openCategoryEngines(target);
+        });
         e.preventDefault();
     }
 }
@@ -65,7 +81,10 @@ function onInputKey(e) {
         const defaultEngine = document.querySelector('.default');
         if (defaultEngine) {
             const term = getTerm();
-            setSearchTerm(term, () => toUrl(defaultEngine.href, term));
+            setSearchTerm(term, () => {
+                storeTerm(term);
+                toUrl(defaultEngine.href, term)
+            });
         }
     }
 }
@@ -79,16 +98,25 @@ function setNewTab(e) {
     setNewtabSetting(target.checked);
 }
 
+function toggleRecent(e) {
+    const target = e.target;
+    setShowRecentSetting(target.checked);
+    showRecentTerms();
+}
+
 function pageOptions() {
     const term = getTerm();
-    setSearchTerm(term, () => {});
+    setSearchTerm(term, () => {
+        storeTerm(term);
+    });
 }
 
 function initEvents() {
     bindToElements('click', [
-        ['engines', toSearchUrl],
+        ['engines', openEngines],
         ['toggleDark', toggleDarkmode],
         ['pageOptions', pageOptions],
+        ['recentTerms', recentTerms]
     ]);
     bindToElements('keyup', [
         ['term', onInputKey],
@@ -98,6 +126,7 @@ function initEvents() {
     ])
     bindToElements('change', [
         ['newTab', setNewTab],
+        ['toggleRecent', toggleRecent]
     ]);
 }
 
