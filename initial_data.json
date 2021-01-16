@@ -22,7 +22,7 @@
             {
                 "id": 21,
                 "name": "Wikipedia",
-                "url": "https://nl.wikipedia.org/wiki/%s",
+                "url": "https://nl.wikipedia.org/wiki/",
                 "visible": true
             }
         ],

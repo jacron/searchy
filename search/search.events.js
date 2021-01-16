@@ -4,7 +4,7 @@ import {bindToElements} from "../common/bind-events.js";
 import {getNewtabSetting, setNewtabSetting} from "../storage/newtab.js";
 import {setShowRecentSetting} from "../storage/recent.js";
 import {showRecentTerms} from "./search.recent.js";
-import {beginTour, nextAdvice, skipTour} from "./search.firstuse.js";
+import {beginTour, nextAdvice, skipTour} from "./search.tour.js";
 
 function fillPlaceholder(url, term) {
     const magic = '%s';
@@ -37,7 +37,7 @@ function openCategoryEngines(clickedElement) {
     const term = getTerm();
     for (let i = 0; i < engines.length; i++) {
         const a = engines[i].querySelector('a');
-        newTab(a.href, term);
+        newTab(a.getAttribute('data-href'), term);
     }
 }
 
@@ -64,7 +64,7 @@ function openEngines(e) {
     if (target.tagName === 'A') {
         setSearchTerm(term, () => {
             storeTerm(term);
-            toUrl(target.href, term);
+            toUrl(target.getAttribute('data-href'), term);
     });
         e.preventDefault();
     }

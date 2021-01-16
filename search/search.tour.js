@@ -5,7 +5,8 @@ const element = {
     tour: document.getElementById('tour'),
     header: document.getElementById('adviceHeader'),
     message: document.getElementById('adviceMessage'),
-    nextButton: document.getElementById('nextAdvice')
+    nextButton: document.getElementById('nextAdvice'),
+    skipButton: document.getElementById('skipTour'),
 }
 const advices = [
     {
@@ -29,7 +30,7 @@ const advices = [
             return titles[0];
         },
         header: 'Group Header',
-        message: 'Open all engines in this group in separate tabs.',
+        message: 'Open all engines in the group in separate tabs.',
         offsetLeft: 60,
         offsetTop: 48,
     },
@@ -57,7 +58,7 @@ const advices = [
     {
         element: () => document.getElementById('help'),
         header: 'Help',
-        message: 'Repeat the first-time user help tour.',
+        message: 'Repeat this help tour.',
         offsetLeft: -90,
         offsetTop: 40,
         bubbleSlideLeft: true
@@ -85,7 +86,13 @@ function firstUseHelp() {
     element.tour.style.left = (left - 105 + advice.offsetLeft) + 'px';
     element.header.textContent = advice.header;
     element.message.textContent = advice.message;
-    element.nextButton.style.display = step === advices.length - 1 ? 'none' : 'inline-block';
+    if (step === advices.length - 1) {
+        element.nextButton.style.display = 'none';
+        element.skipButton.focus();
+    } else {
+        element.nextButton.style.display = 'inline-block';
+        element.nextButton.focus();
+    }
     if (advice.bubbleSlideLeft) {
         element.tour.classList.add('slide-left');
     } else {

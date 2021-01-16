@@ -5,7 +5,7 @@ import {getTerms, initHistory, setSearchTermFromBackground} from "./search.term.
 import {getNewtabSetting} from "../storage/newtab.js";
 import {getShowRecentSetting} from "../storage/recent.js";
 import {showRecentTerms} from "./search.recent.js";
-import {beginTour} from "./search.firstuse.js";
+import {beginTour} from "./search.tour.js";
 import {getFirstUseSetting} from "../storage/first.js";
 
 function showEngineLinks() {
