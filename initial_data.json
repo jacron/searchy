@@ -4,25 +4,25 @@
             {
                 "id": 14,
                 "name": "Google",
-                "url": "https://www.google.nl/search?q=",
+                "url": "https://www.google.nl/search?q=%s",
                 "visible": true
             },
             {
                 "id": 18,
                 "name": "DuckDuckGo",
-                "url": "https://duckduckgo.com/?q=",
+                "url": "https://duckduckgo.com/?q=%s",
                 "visible": true
             },
             {
                 "id": 20,
                 "name": "Bing",
-                "url": "https://www.bing.com/search?q=",
+                "url": "https://www.bing.com/search?q=%s",
                 "visible": true
             },
             {
                 "id": 21,
                 "name": "Wikipedia",
-                "url": "https://nl.wikipedia.org/wiki/",
+                "url": "https://nl.wikipedia.org/wiki/%s",
                 "visible": true
             }
         ],
@@ -34,31 +34,31 @@
             {
                 "id": 1,
                 "name": "Avax",
-                "url": "https://tavaz.xyz/search/?category_slug=video&query=",
+                "url": "https://tavaz.xyz/search/?category_slug=video&query=%s",
                 "visible": true
             },
             {
                 "id": 2,
                 "name": "IMDb",
-                "url": "http://www.imdb.com/find?s=tt&q=",
+                "url": "http://www.imdb.com/find?s=tt&q=%s",
                 "visible": true
             },
             {
                 "id": 3,
                 "name": "Variety",
-                "url": "http://variety.com/results/#?q=",
+                "url": "http://variety.com/results/#?q=%s",
                 "visible": true
             },
             {
                 "id": 4,
                 "name": "YouTube",
-                "url": "https://www.youtube.com/results?search_query=",
+                "url": "https://www.youtube.com/results?search_query=%s",
                 "visible": true
             },
             {
                 "id": 5,
                 "name": "Criterion",
-                "url": "https://www.criterion.com/search#stq=",
+                "url": "https://www.criterion.com/search#stq=%s",
                 "visible": true
             }
         ],
@@ -70,19 +70,19 @@
             {
                 "id": 17,
                 "name": "bol.com",
-                "url": "https://www.bol.com/nl/rnwy/search.html?searchContext=books_all&searchtext=",
+                "url": "https://www.bol.com/nl/rnwy/search.html?searchContext=books_all&searchtext=%s",
                 "visible": true
             },
             {
                 "id": 24,
                 "name": "Goodreads",
-                "url": "https://www.goodreads.com/search?q=",
+                "url": "https://www.goodreads.com/search?q=%s",
                 "visible": true
             },
             {
                 "id": 25,
                 "name": "Boekwinkeltjes.nl",
-                "url": "https://www.boekwinkeltjes.nl/s/?q=",
+                "url": "https://www.boekwinkeltjes.nl/s/?q=%s",
                 "visible": true
             }
         ],
@@ -94,19 +94,19 @@
             {
                 "id": 19,
                 "name": "Stack Overflow",
-                "url": "https://stackoverflow.com/search?q=",
+                "url": "https://stackoverflow.com/search?q=%s",
                 "visible": true
             },
             {
                 "id": 22,
                 "name": "Microsoft Docs",
-                "url": "https://docs.microsoft.com/nl-nl/search/?terms=",
+                "url": "https://docs.microsoft.com/nl-nl/search/?terms=%s",
                 "visible": true
             },
             {
                 "id": 26,
                 "name": "MDN",
-                "url": "https://developer.mozilla.org/nl/search?q=",
+                "url": "https://developer.mozilla.org/nl/search?q=%s",
                 "visible": true
             }
         ],
@@ -118,25 +118,25 @@
             {
                 "id": 27,
                 "name": "NRC",
-                "url": "https://www.nrc.nl/search/?q=",
+                "url": "https://www.nrc.nl/search/?q=%s",
                 "visible": true
             },
             {
                 "id": 28,
                 "name": "De Volkskrant",
-                "url": "https://www.volkskrant.nl/search?query=",
+                "url": "https://www.volkskrant.nl/search?query=%s",
                 "visible": true
             },
             {
                 "id": 29,
                 "name": "Trouw",
-                "url": "https://www.trouw.nl/search?query=",
+                "url": "https://www.trouw.nl/search?query=%s",
                 "visible": true
             },
             {
                 "id": 30,
                 "name": "Het Parool",
-                "url": "https://www.parool.nl/search?query=",
+                "url": "https://www.parool.nl/search?query=%s",
                 "visible": true
             }
         ],
@@ -148,19 +148,19 @@
             {
                 "id": 31,
                 "name": "theguardian",
-                "url": "https://www.google.co.uk/search?q=$!q&as_sitesearch=www.theguardian.com",
+                "url": "https://www.google.co.uk/search?q=%s&as_sitesearch=www.theguardian.com",
                 "visible": true
             },
             {
                 "id": 32,
                 "name": "The New York Times",
-                "url": "https://www.nytimes.com/search?query=",
+                "url": "https://www.nytimes.com/search?query=%s",
                 "visible": true
             },
             {
                 "id": 33,
                 "name": "FAZ",
-                "url": "https://www.faz.net/suche/?query=",
+                "url": "https://www.faz.net/suche/?query=%s",
                 "visible": true
             }
         ],
@@ -172,13 +172,13 @@
             {
                 "id": 34,
                 "name": "Scientific American",
-                "url": "https://www.scientificamerican.com/search/?q=",
+                "url": "https://www.scientificamerican.com/search/?q=%s",
                 "visible": true
             },
             {
                 "id": 35,
                 "name": "Search Science",
-                "url": "https://search.sciencemag.org/?searchTerm=$!q&order=tfidf&limit=textFields&pageSize=10&&",
+                "url": "https://search.sciencemag.org/?searchTerm=%s&order=tfidf&limit=textFields&pageSize=10&&",
                 "visible": true
             }
         ],

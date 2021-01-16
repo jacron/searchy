@@ -18,7 +18,7 @@ const advices = [
     {
         element: () => document.getElementById('pageOptions'),
         header: 'Options',
-        message: 'Add or change your search engines on Searchy',
+        message: 'Add or change your search engines for Searchy',
         offsetLeft: -90,
         offsetTop: 40,
         bubbleSlideLeft: true,
