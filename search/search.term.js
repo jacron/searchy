@@ -1,4 +1,7 @@
+import config from "../common/config.js";
+
 const inputTerm = document.getElementById("term");
+const key = config.storageKeyTerms;
 
 function createOption(item) {
     const option = document.createElement('option');
@@ -28,19 +31,22 @@ function getTerm() {
 }
 
 function storeTerm() {
-    let terms = JSON.parse(localStorage.getItem('terms'));
+    let terms = JSON.parse(localStorage.getItem(key));
     if (!terms) {
         terms = [];
     }
     if (!terms.includes(getTerm())) {
+        if (terms.length > config.storageMaxTerms) {
+            terms.shift();
+        }
         terms.push(getTerm());
         initHistory(terms);
     }
-    localStorage.setItem('terms', JSON.stringify(terms));
+    localStorage.setItem(key, JSON.stringify(terms));
 }
 
 function getTerms() {
-    return JSON.parse(localStorage.getItem('terms'));
+    return JSON.parse(localStorage.getItem(key));
 }
 
 export {setSearchTermFromBackground, getTerm, getTerms,

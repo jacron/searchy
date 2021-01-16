@@ -56,3 +56,12 @@
 .message {
     font-size: large;
 }
+.button-bar {
+    padding: 6px 2px;
+}
+.button-bar button {
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 18px;
+    color: gray;
+}
