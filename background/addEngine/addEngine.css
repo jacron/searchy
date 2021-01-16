@@ -1,0 +1,29 @@
+.dialog-input-add {
+    width: 358px;
+}
+.dialog-select-add {
+    width: 320px;
+}
+#dialogAdd {
+    margin: 24px 0 0 24px;
+}
+#dialogAdd > div {
+    margin-bottom: 12px;
+}
+#dialogAdd .label {
+    width: 60px;
+    display: inline-block;
+}
+#trim-controls {
+    text-align: right;
+    margin-right: 24px;
+}
+#trim-title-1,
+#trim-title-2,
+#trim-title-1-2 {
+    cursor: default;
+    visibility: hidden;
+}
+.btn-container {
+    margin-top: 36px;
+}

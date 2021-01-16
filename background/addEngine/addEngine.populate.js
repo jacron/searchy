@@ -22,7 +22,7 @@ function stripQueryValue(url) {
         .map(queryKey => {
             const pos = url.indexOf(queryKey);
             if (pos !== -1) {
-                url = url.substr(0, pos + queryKey.length);
+                url = url.substr(0, pos + queryKey.length) + '%s';
             }
         })
     return url;
