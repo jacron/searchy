@@ -148,3 +148,9 @@ a:hover {
 .recent > div:hover {
     color: aqua;
 }
+help-tour {
+    position: absolute;
+}
+#tourOverlay {
+    display: none;
+}

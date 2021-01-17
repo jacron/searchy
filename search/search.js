@@ -5,8 +5,9 @@ import {getTerms, initHistory, setSearchTermFromBackground} from "./search.term.
 import {getNewtabSetting} from "../storage/newtab.js";
 import {getShowRecentSetting} from "../storage/recent.js";
 import {showRecentTerms} from "./search.recent.js";
-import {beginTour} from "./search.tour.js";
+import {beginTour, initTourEvent} from "./search.tour.js";
 import {getFirstUseSetting} from "../storage/first.js";
+import {initHelpTour} from "../components/HelpTour/HelpTour.js";
 
 function showEngineLinks() {
     chrome.runtime.sendMessage({cmd: "getCategories"},
@@ -44,6 +45,8 @@ function version() {
 }
 
 function init() {
+    initHelpTour();
+    initTourEvent();
     initDarkmode();
     setSearchTermFromBackground();
     showEngineLinks();

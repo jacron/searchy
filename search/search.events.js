@@ -4,7 +4,7 @@ import {bindToElements} from "../common/bind-events.js";
 import {getNewtabSetting, setNewtabSetting} from "../storage/newtab.js";
 import {setShowRecentSetting} from "../storage/recent.js";
 import {showRecentTerms} from "./search.recent.js";
-import {beginTour, nextAdvice, skipTour} from "./search.tour.js";
+import {beginTour} from "./search.tour.js";
 
 function fillPlaceholder(url, term) {
     const magic = '%s';
@@ -90,10 +90,6 @@ function onInputKey(e) {
     }
 }
 
-function onSubmit(e) {
-    e.preventDefault();
-}
-
 function setNewTab(e) {
     const target = e.target;
     setNewtabSetting(target.checked);
@@ -118,16 +114,13 @@ function initEvents() {
         ['toggleDark', toggleDarkmode],
         ['pageOptions', pageOptions],
         ['recentTerms', recentTerms],
-        ['nextAdvice', nextAdvice],
-        ['skipTour', skipTour],
+        // ['nextAdvice', nextAdvice],
+        // ['skipTour', skipTour],
         ['help', beginTour],
     ]);
     bindToElements('keyup', [
         ['term', onInputKey],
     ]);
-    // bindToElements('submit', [
-    //     ['searchForm', onSubmit]
-    // ])
     bindToElements('change', [
         ['newTab', setNewTab],
         ['toggleRecent', toggleRecent]
