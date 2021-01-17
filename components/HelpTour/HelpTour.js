@@ -16,13 +16,6 @@ class HelpTour extends HTMLElement {
         this.messageElement.textContent = s;
     }
 
-    dispatch(content, name) {
-        this.dispatchEvent(new CustomEvent('load', {
-            detail: {content, name},
-            bubbles: true
-        }))
-    }
-
     hideNext() {
         this.nextButton.style.display = 'none';
     }
