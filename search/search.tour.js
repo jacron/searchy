@@ -30,7 +30,7 @@ const advices = [
             return titles[0];
         },
         header: 'Group Header',
-        message: 'Open all engines in the group in separate tabs.',
+        message: 'Click on the header to open all engines in the group in separate tabs.',
         offsetLeft: 60,
         offsetTop: 48,
     },

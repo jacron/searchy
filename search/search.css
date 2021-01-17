@@ -55,7 +55,7 @@ a:hover {
     display: flex;
     flex-direction: column;
     height: 110px;
-    padding-top: 100px;
+    /*padding-top: 100px;*/
 }
 .search-form input {
     font-size: 16px;
@@ -134,12 +134,12 @@ a:hover {
     display: flex;
 }
 .recent-container {
-    padding-top: 70px;
+    padding: 20px 0;
 }
 .recent {
     margin-left: 24px;
     line-height: 1.4;
-    height: 100px;
+    height: 70px;
     overflow-y: auto;
 }
 .recent > div {
