@@ -1,12 +1,5 @@
 const advices = [
     {
-        element: () => document.getElementById('toggleDark'),
-        header: 'Omnibox',
-        message: "In the omnibox, type 'sy ' to use Searchy for searching.",
-        offsetTop: 10,
-        offsetLeft: -260
-    },
-    {
         element: () => document.getElementById('toHome'),
         header: 'Home',
         message: 'Go back to the search page.',
