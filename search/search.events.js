@@ -114,8 +114,6 @@ function initEvents() {
         ['toggleDark', toggleDarkmode],
         ['pageOptions', pageOptions],
         ['recentTerms', recentTerms],
-        // ['nextAdvice', nextAdvice],
-        // ['skipTour', skipTour],
         ['help', beginTour],
     ]);
     bindToElements('keyup', [

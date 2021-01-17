@@ -6,6 +6,7 @@ import {onEditClick} from "../edit.js";
 import {openDialogImport} from "../import.js";
 import {openDialogAddEngine} from "../engine/engine.dialog.js";
 import {openDialogAddCategory} from "../category/category.dialog.js";
+import {beginTour} from "./options.tour.js";
 
 function addEngine() {
     openDialogAddEngine(-1, result => {
@@ -62,6 +63,7 @@ function initEvents() {
         ['addCategory', addCategory],
         ['toggleDark', toggleDarkmode],
         ['engines', editObject],
+        ['help', beginTour],
     ]);
     bindToElements('change', [
         ['engines', engineToggleVisible]

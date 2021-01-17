@@ -41,9 +41,14 @@ class HelpTour extends HTMLElement {
 
     slideLeft(state) {
         if (state) {
-            this.tour.classList.add('slide-left');
+            if (state > 0) {
+                this.tour.classList.add('slide-left');
+            } else {
+                this.tour.classList.add('slide-right');
+            }
         } else {
             this.tour.classList.remove('slide-left');
+            this.tour.classList.remove('slide-right');
         }
     }
 

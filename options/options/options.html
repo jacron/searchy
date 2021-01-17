@@ -25,11 +25,16 @@
             </div>
             <div class="hspacer"></div>
             <a class="fa fa-eye cmd" id="toggleDark"></a>
-            <a href="../../search/search.html">Home</a>
+            <a id="help" title="Recommence tour">Help</a>
+            <span>&nbsp;|&nbsp;</span>
+            <a id="toHome" href="../../search/search.html">Home</a>
         </div>
         <div class="header2">Edit my Searchy Engines</div>
         <div class="vert-spacer"></div>
         <div id="engines"></div>
+        <div id="tourOverlay" class="overlay">
+            <help-tour id="helpTour"></help-tour>
+        </div>
     </div>
     <div id="dialogBackground"></div>
     <script type="module" src="options.js"></script>

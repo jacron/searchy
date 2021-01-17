@@ -29,7 +29,7 @@ class Helptour {
             this.helpTour.focusNext();
         }
         if (advice.bubbleSlideLeft) {
-            this.helpTour.slideLeft(true);
+            this.helpTour.slideLeft(advice.bubbleSlideLeft);
         } else {
             this.helpTour.slideLeft(false);
         }

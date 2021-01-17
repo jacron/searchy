@@ -22,9 +22,13 @@ const template = `
     z-index: 1;
     top: -20px;
     left: 105px;
+    backdrop-filter: blur(10px);
 }
 .bubble.slide-left:after {
     left: 185px;
+}
+.bubble.slide-right:after {
+    left: 35px;
 }
 .dark .bubble:after {
     border-color: rgba(240, 100, 100, .55) transparent;
