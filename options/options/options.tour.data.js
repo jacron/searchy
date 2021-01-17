@@ -1,19 +1,11 @@
 const advices = [
     {
-        element: () => document.getElementById('toHome'),
-        header: 'Home',
-        message: 'Go back to the search page.',
-        offsetLeft: -90,
-        offsetTop: 40,
-        bubbleSlideLeft: 1,
-    },
-    {
         element: () => {
             const titles = document.querySelectorAll('.category-title');
             return titles[0];
         },
         header: 'Group Header',
-        message: 'Hover to edit, remove or export this group, or add an engine to it',
+        message: 'Hover to edit, remove or export this group, or add an engine to it.',
         offsetLeft: 60,
         offsetTop: 48,
     },
@@ -23,7 +15,7 @@ const advices = [
             return titles[0];
         },
         header: 'Engine',
-        message: 'Hover to edit, jump to, remove, or flag this engine. \nFlag means setting it to default.',
+        message: 'Hover to edit, jump to, remove, or flag this engine. \nFlag means: setting it to default.',
         offsetLeft: 100,
         offsetTop: 40,
         bubbleSlideLeft: -1,
@@ -67,6 +59,14 @@ const advices = [
         message: 'Import all engines and groups from a json file.',
         offsetLeft: -10,
         offsetTop: 40,
+    },
+    {
+        element: () => document.getElementById('toHome'),
+        header: 'Home',
+        message: 'Go back to the search page.',
+        offsetLeft: -90,
+        offsetTop: 40,
+        bubbleSlideLeft: 1,
     },
 ];
 
