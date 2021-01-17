@@ -84,7 +84,7 @@ function onInputKey(e) {
             const term = getTerm();
             setSearchTerm(term, () => {
                 storeTerm(term);
-                toUrl(defaultEngine.href, term)
+                toUrl(defaultEngine.getAttribute('data-href'), term)
             });
         }
     }
@@ -125,9 +125,9 @@ function initEvents() {
     bindToElements('keyup', [
         ['term', onInputKey],
     ]);
-    bindToElements('submit', [
-        ['searchForm', onSubmit]
-    ])
+    // bindToElements('submit', [
+    //     ['searchForm', onSubmit]
+    // ])
     bindToElements('change', [
         ['newTab', setNewTab],
         ['toggleRecent', toggleRecent]

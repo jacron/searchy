@@ -23,29 +23,27 @@
     </div>
     <div class="header">searchy</div>
     <div class="recent-container">
-        <div class="recent" id="recentTerms">
-            recent terms...
-        </div>
+        <div class="recent" id="recentTerms"></div>
     </div>
     <div class="main-content">
         <div class="search-form">
-            <form id="searchForm" name="searchForm">
-                <div class="search-term-container">
-                    <span class="fa fa-search cmd"></span>
-                    <input type="search" id="term" autofocus spellcheck="false"
-                           name="searchy" list="history">
-                    <datalist id="history">
-                        <option value="greatest hits"></option>
-                    </datalist>
-                </div>
-            </form>
+            <div class="search-term-container">
+                <span class="fa fa-search cmd"></span>
+                <input type="search" id="term" autofocus spellcheck="false"
+                       name="searchy" list="history">
+                <datalist id="history">
+                    <option value="greatest hits"></option>
+                </datalist>
+            </div>
         </div>
     </div>
     <div id="engines"></div>
     <div id="tourOverlay" class="overlay">
         <div id="tour" class="tour bubble">
             <div id="adviceHeader" class="advice-header"></div>
+            <hr>
             <div id="adviceMessage" class="message"></div>
+            <hr>
             <div class="button-bar">
                 <button id="nextAdvice">next</button>
                 <button id="skipTour">skip</button>

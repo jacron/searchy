@@ -1,8 +1,6 @@
 .dialog {
     display: none;
     position: fixed;
-    /*background-color: #dfe1e5;*/
-    /*color: #222222;*/
     background-color: inherit;
     padding: 14px;
     border: 1px solid #999;

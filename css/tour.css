@@ -1,11 +1,9 @@
 .bubble {
     position: relative;
     width: 250px;
-    height: 120px;
     padding: 10px;
     background: rgba(240, 100, 100, .55);
     border-radius: 10px;
-    /*opacity: .94;*/
     backdrop-filter: blur(10px);
 }
 .dark .bubble {
@@ -40,14 +38,9 @@
     display: none;
 }
 #skipTour {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
+    margin-left: 8px;
 }
 #nextAdvice {
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
 }
 .advice-header {
     font-size: x-large;
@@ -55,6 +48,7 @@
 }
 .message {
     font-size: large;
+    margin-bottom: 3px;
 }
 .button-bar {
     padding: 6px 2px;

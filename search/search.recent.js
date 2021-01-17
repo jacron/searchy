@@ -8,20 +8,27 @@ function createRecentTerm(term) {
 }
 
 function displayRecentTerms(elementRecentTerms) {
-    getTerms()
-        // .slice(-7)
-        .reverse()
-        .forEach(term => {
-            elementRecentTerms.appendChild(createRecentTerm(term));
-        })
+    const terms = getTerms();
+    if (terms) {
+        elementRecentTerms.innerHTML = '';
+        terms
+            // .slice(-7)
+            .reverse()
+            .forEach(term => {
+                elementRecentTerms.appendChild(createRecentTerm(term));
+            })
+    } else {
+        elementRecentTerms.innerHTML = 'You have not searched yet...';
+    }
 }
 
 function showRecentTerms() {
     const elementRecentTerms = document.getElementById('recentTerms');
-    elementRecentTerms.innerHTML = '';
     getShowRecentSetting(set => {
         if (set) {
             displayRecentTerms(elementRecentTerms);
+        } else {
+            elementRecentTerms.innerHTML = '';
         }
     })
 }
