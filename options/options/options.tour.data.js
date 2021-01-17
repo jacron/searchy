@@ -24,7 +24,7 @@ const advices = [
         },
         header: 'Engine',
         message: 'Hover to edit, jump to, remove, or flag this engine. \nFlag means setting it to default.',
-        offsetLeft: 80,
+        offsetLeft: 100,
         offsetTop: 40,
         bubbleSlideLeft: -1,
     },
@@ -40,20 +40,34 @@ const advices = [
         bubbleSlideLeft: -1,
     },
     {
-        element: () => document.getElementById('toggleDark'),
-        header: 'Toggle Dark',
-        message: 'Turn dark mode on/off.',
-        offsetLeft: -15,
-        offsetTop: 40
+        element: () => document.getElementById('addEngine'),
+        header: 'Add Engine',
+        message: 'Add a new engine to one of the groups of Searchy.',
+        offsetLeft: 80,
+        offsetTop: 40,
+        bubbleSlideLeft: 1
     },
     {
-        element: () => document.getElementById('help'),
-        header: 'Help',
-        message: 'Repeat this help tour.',
-        offsetLeft: -90,
+        element: () => document.getElementById('addCategory'),
+        header: 'Add Category',
+        message: 'Add a new group.',
+        offsetLeft: 0,
         offsetTop: 40,
-        bubbleSlideLeft: true
-    }
+    },
+    {
+        element: () => document.getElementById('exportData'),
+        header: 'Export Data',
+        message: 'Export all engines and groups to a json file.',
+        offsetLeft: -10,
+        offsetTop: 40,
+    },
+    {
+        element: () => document.getElementById('importData'),
+        header: 'Import Data',
+        message: 'Import all engines and groups from a json file.',
+        offsetLeft: -10,
+        offsetTop: 40,
+    },
 ];
 
 export {advices}
