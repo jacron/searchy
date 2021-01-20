@@ -7,7 +7,7 @@ export default {
     storageKeyFirstUse: 'firstuse',
     storageKeyFirstUseOptions: 'firstuseoptions',
     storageKeyTerms: 'terms',
-    storageMaxTerms: 120,
+    storageMaxTerms: 2000,
     transportFileNameJson: 'searchy.json',
     transportFileNameStatic: 'searchy.js',
 }

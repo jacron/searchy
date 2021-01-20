@@ -77,16 +77,19 @@ function openEngines(e) {
     }
 }
 
+function defaultEnter(term) {
+    const defaultEngine = document.querySelector('.default');
+    if (defaultEngine) {
+        setSearchTerm(term, () => {
+            storeTerm(term);
+            toUrl(defaultEngine.getAttribute('data-href'), term)
+        });
+    }
+}
+
 function onInputKey(e) {
     if (e.key === 'Enter') {
-        const defaultEngine = document.querySelector('.default');
-        if (defaultEngine) {
-            const term = getTerm();
-            setSearchTerm(term, () => {
-                storeTerm(term);
-                toUrl(defaultEngine.getAttribute('data-href'), term)
-            });
-        }
+        defaultEnter(getTerm());
     }
 }
 
@@ -123,6 +126,26 @@ function initEvents() {
         ['newTab', setNewTab],
         ['toggleRecent', toggleRecent]
     ]);
+    const searchTA = document.querySelector('type-ahead');
+    searchTA.addEventListener('select', itemSelected);
+    searchTA.addEventListener('enter', itemEntered);
 }
 
-export {initEvents}
+function itemSelected(e) {
+    e.detail.search.value = e.detail.label;
+}
+
+function itemEntered(e) {
+    // console.log(e.detail.label);
+
+    defaultEnter(e.detail.search.value);
+}
+
+function initTypeAheadEvents() {
+    const searchTA = document.querySelector('type-ahead');
+    searchTA.addEventListener('select', itemSelected);
+    searchTA.addEventListener('enter', itemEntered);
+
+}
+
+export {initEvents, initTypeAheadEvents}

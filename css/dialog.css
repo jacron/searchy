@@ -6,6 +6,7 @@
     border: 1px solid #999;
     border-top: none;
     border-radius: 0 0 6px 6px;
+    box-shadow: 0 6px 12px 3px rgba(100, 100, 100, 0.24);
 }
 #dialogBackground {
     display: none;
