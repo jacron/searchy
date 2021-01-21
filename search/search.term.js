@@ -1,6 +1,8 @@
 import config from "../common/config.js";
 
-const inputTerm = document.getElementById("term");
+// const inputTerm = document.getElementById("term");
+const inputTerm = document.getElementById("searchTypeAhead");
+
 const key = config.storageKeyTerms;
 
 function createOption(item) {
@@ -22,12 +24,18 @@ function initHistory(terms) {
 function setSearchTermFromBackground() {
     chrome.runtime.sendMessage({cmd: "getSelectedTerm"},
         response => {
-            inputTerm.value = response.term;
+            setTerm(response.term);
+            // inputTerm.value = response.term;
         })
 }
 
 function getTerm() {
-    return inputTerm.value;
+    return inputTerm.search.value;
+}
+
+function setTerm(t) {
+    // console.log(inputTerm.search);
+    inputTerm.search.value = t;
 }
 
 function storeTerm() {
@@ -40,7 +48,7 @@ function storeTerm() {
             terms.shift();
         }
         terms.push(getTerm());
-        initHistory(terms);
+        // initHistory(terms);
     }
     localStorage.setItem(key, JSON.stringify(terms));
 }

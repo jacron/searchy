@@ -6,6 +6,9 @@ import {setShowRecentSetting} from "../storage/recent.js";
 import {showRecentTerms} from "./search.recent.js";
 import {beginTour} from "./search.tour.js";
 
+const searchTA = document.querySelector('type-ahead');
+// console.log(searchTA);
+
 function fillPlaceholder(url, term) {
     const magic = '%s';
     if (url.indexOf(magic) !== -1) {
@@ -111,6 +114,14 @@ function pageOptions() {
     });
 }
 
+function cmdSearch() {
+    defaultEnter(getTerm());
+}
+
+function containerClick() {
+    searchTA.closeList();
+}
+
 function initEvents() {
     bindToElements('click', [
         ['engines', openEngines],
@@ -119,16 +130,17 @@ function initEvents() {
         ['recentTerms', recentTerms],
         ['help', beginTour],
     ]);
-    bindToElements('keyup', [
-        ['term', onInputKey],
-    ]);
+    // bindToElements('keyup', [
+    //     ['term', onInputKey],
+    // ]);
     bindToElements('change', [
         ['newTab', setNewTab],
         ['toggleRecent', toggleRecent]
     ]);
-    const searchTA = document.querySelector('type-ahead');
     searchTA.addEventListener('select', itemSelected);
     searchTA.addEventListener('enter', itemEntered);
+    document.querySelector('.cmd-search').addEventListener('click', cmdSearch);
+    document.querySelector('.container').addEventListener('click', containerClick);
 }
 
 function itemSelected(e) {
@@ -136,16 +148,13 @@ function itemSelected(e) {
 }
 
 function itemEntered(e) {
-    // console.log(e.detail.label);
-
-    defaultEnter(e.detail.search.value);
+    // defaultEnter(e.detail.search.value);
+    defaultEnter(searchTA.search.value);
 }
 
 function initTypeAheadEvents() {
-    const searchTA = document.querySelector('type-ahead');
     searchTA.addEventListener('select', itemSelected);
     searchTA.addEventListener('enter', itemEntered);
-
 }
 
 export {initEvents, initTypeAheadEvents}

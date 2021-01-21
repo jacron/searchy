@@ -82,7 +82,7 @@ a:hover {
     border: 1px solid #dfe1e5;
     padding: 14px;
     margin-left: 30px;
-    font-size: 14px;
+    font-size: 16px;
     /*flex: 1;*/
     width: 424px;
     border-radius: 24px;
@@ -92,6 +92,10 @@ a:hover {
 }
 .search-term-container input {
     width: calc(100% - 20px);
+}
+.input-container {
+    width: calc(100% - 20px);
+    display: inline-block;
 }
 #engines {
     column-width: 18em;

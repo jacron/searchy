@@ -59,18 +59,18 @@ function init() {
     initHelpTour();
     initTourEvent();
     initDarkmode();
+    initTypeAhead();
+    initSearchTypeAhead();
+    initTypeAheadEvents();
     setSearchTermFromBackground();
     showEngineLinks();
     initEvents();
     initNewtab();
     initShowRecents();
     version();
-    initHistory(getTerms());
+    // initHistory(getTerms());
     showRecentTerms();
     initFirstUseHelp();
-    initTypeAhead();
-    initSearchTypeAhead();
-    initTypeAheadEvents();
 }
 
 chrome.runtime.onMessage.addListener(req => {

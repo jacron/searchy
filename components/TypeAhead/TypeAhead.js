@@ -6,7 +6,6 @@ attributes with defaults:
     bgInput='#aaa',
     colInput='#333',
     colTitle='#aaa',
-    label='',
     [idProp=''],
 events:
     // events deliver e.details with properties
@@ -17,7 +16,8 @@ events:
         id
     // enter term in input box
     enter:
-        label
+        label,
+        search
 methods:
     getItems(q, cb)
     renderLabel(obj)
@@ -41,8 +41,6 @@ class TypeAhead extends HTMLElement {
             .replace('%colInput', this.fromAttribute('colInput', '#333'))
             .replace('%colTitle', this.fromAttribute('colTitle', '#aaa'))
     }
-    // connectedCallback() {
-    // }
     startListFocus() {
         const a = this.list.querySelector('.title');
         if (a) {
@@ -62,9 +60,14 @@ class TypeAhead extends HTMLElement {
     }
     fillList(result) {
         this.list.innerHTML = '';
+        this.savedSearch = this.search.value;
         for (const item of result) {
             this.list.appendChild(this.createRow(item));
         }
+    }
+    searchSearchHandler(e, that) {
+        // only handle clear here
+        that.list.innerHTML = '';
     }
     searchKeyHandler(e, that) {
         if (e.key === 'Enter') {
@@ -77,6 +80,7 @@ class TypeAhead extends HTMLElement {
             that.list.innerHTML = '';
         } else {
             const q = that.search.value;
+            // console.log({q});
             if (q.length > 2) {
                 // getItems is defined in client code
                 that.getItems(q, items => {
@@ -126,6 +130,9 @@ class TypeAhead extends HTMLElement {
             }
         }
     }
+    closeList() {
+        this.list.innerHTML = '';
+    }
     clearList() {
         this.list.innerHTML = '';
         this.search.focus();
@@ -173,21 +180,33 @@ class TypeAhead extends HTMLElement {
     listClickHandler(e, that) {
         that.dispatchSelect(e);
     }
+    listMouseOver(e, that) {
+        // console.log(e.path[0]);
+        const text = e.path[0].textContent;
+        this.search.value = text;
+    }
+    listMouseLeave(e, that) {
+        this.search.value = this.savedSearch;
+
+    }
     attachEvents() {
         this.search.addEventListener('keyup',
             e => this.searchKeyHandler(e, this))
         this.search.addEventListener('search',
-            e => this.searchKeyHandler(e, this))
+            e => this.searchSearchHandler(e, this))
         this.list.addEventListener('keydown',
             e => this.listKeyHandler(e, this))
         this.list.addEventListener('click',
             e => this.listClickHandler(e, this))
+        this.list.addEventListener('mouseover', e => this.listMouseOver(e, this))
+        this.list.addEventListener('mouseleave', e => this.listMouseLeave(e, this))
     }
     createWrapper() {
         const wrapper = document.createElement('div');
+        wrapper.className = 'wrapper';
         wrapper.innerHTML = this.setStyling(template);
-        wrapper.querySelector('.search-label')
-            .textContent = this.getAttribute('label');
+        // wrapper.querySelector('.search-label')
+        //     .textContent = this.getAttribute('label');
         this.search = wrapper.querySelector('#search');
         this.list = wrapper.querySelector('.slist');
         return wrapper;
