@@ -17,24 +17,6 @@ class TypeAhead extends HTMLElement {
             .replace('%bgInput', this.fromAttribute('bgInput', '#aaa'))
             .replace('%colInput', this.fromAttribute('colInput', '#333'))
     }
-    createRow(obj) {
-        const title = document.createElement('div');
-        const idProp = this.getAttribute('idProp');
-        title.className = 'title';
-        title.tabIndex = -1;
-        if (idProp) {
-            title.setAttribute('id', obj[idProp]);
-        }
-        title.textContent = this.renderLabel(obj);
-        return title;
-    }
-    fillList(list, result) {
-        list.innerHTML = '';
-        this.saveSearchValue();
-        for (const item of result) {
-            list.appendChild(this.createRow(item));
-        }
-    }
     searchSearchHandler(e, that) {
         // only handle clear here
         that.closeList();
@@ -54,8 +36,6 @@ class TypeAhead extends HTMLElement {
             if (q.length > 2) {
                 // getItems is defined in client code
                 that.getItems(q, items => {
-                    // that.fillList(this.list, items)
-                    // that.fillList(this.typeAheadList.list, items)
                     that.typeAheadList.fillList(items);
                 })
             } else {
@@ -92,9 +72,19 @@ class TypeAhead extends HTMLElement {
             this.search.value = this.savedSearch;
         }
     }
-    // setSearch(s) {
-    //     this.search.value = s;
-    // }
+    doAction(action) {
+        switch(action) {
+            case 'restore':
+                this.restoreSearchValue();
+                break;
+            case 'focus':
+                this.search.focus();
+                break;
+            case 'save':
+                this.saveSearchValue();
+                break;
+        }
+    }
     attachEvents() {
         this.search.addEventListener('keyup',
             e => this.searchKeyHandler(e, this))
@@ -102,8 +92,8 @@ class TypeAhead extends HTMLElement {
             e => this.searchSearchHandler(e, this))
         this.typeAheadList.addEventListener('search',
             e => this.search.value = e.detail.text)
-        this.typeAheadList.addEventListener('restore',
-            () => this.restoreSearchValue())
+        this.typeAheadList.addEventListener('action',
+            e => this.doAction(e.action))
     }
     createWrapper() {
         const wrapper = document.createElement('div');

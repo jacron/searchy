@@ -34,6 +34,7 @@ class TypeAheadList extends HTMLElement {
     fillList(result) {
         this.list.innerHTML = '';
         // this.saveSearchValue();
+        this.dispatchSearchSave();
         for (const item of result) {
             this.list.appendChild(this.createRow(item));
         }
@@ -71,7 +72,8 @@ class TypeAheadList extends HTMLElement {
         const rows = this.getRows();
         let activeFound = false;
         if (this.shadowRoot.activeElement === rows[0]) {
-            this.restoreSearchValue();
+            // this.restoreSearchValue();
+            this.dispatchRestoreSearch();
             this.search.focus();
         } else {
             for (let i = rows.length - 1; i > -1; i--) {
@@ -109,14 +111,13 @@ class TypeAheadList extends HTMLElement {
                 break;
             case 'Escape':
                 that.closeList();
-                this.restoreSearchValue();
+                this.dispatchRestoreSearch();
                 this.search.focus();
                 break;
             case 'Enter':
-                const title = e.path[0];
-                console.log(title);
-                // that.setSearch(title.textContent)
+                // const title = e.path[0];
                 that.dispatchSelect(e);
+                that.dispatchSearchFocus();
                 break;
         }
     }
@@ -130,7 +131,7 @@ class TypeAheadList extends HTMLElement {
             bubbles: true
         }))
         this.closeList();
-        this.search.focus();
+        this.dispatchSearchFocus();
     }
 
     dispatchSetSearch(s) {
@@ -142,30 +143,39 @@ class TypeAheadList extends HTMLElement {
         }))
     }
 
-    dispatchRestoreSearch() {
+    dispatchAction(action) {
         this.dispatchEvent(new CustomEvent('restore', {
+            action,
             bubbles: true
         }))
     }
 
+    dispatchRestoreSearch() {
+        this.dispatchAction('restore');
+    }
+
+    dispatchSearchFocus() {
+        this.dispatchAction('focus');
+    }
+
+    dispatchSearchSave() {
+        this.dispatchAction('save');
+    }
     startListFocus() {
         const title = this.list.querySelector('.title');
         if (title) {
             title.focus();
-            // this.setSearch(title.textContent)
             this.dispatchSetSearch(title.textContent);
         }
     }
 
     listMouseOver(e) {
         const title = e.path[0];
-        // this.setSearch(title.textContent);
         this.dispatchSetSearch(title.textContent);
         title.focus();
     }
 
     listMouseLeave() {
-        // this.restoreSearchValue();
         this.dispatchRestoreSearch();
     }
 
