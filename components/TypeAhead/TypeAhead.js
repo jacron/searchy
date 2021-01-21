@@ -1,33 +1,11 @@
-/*
-TypeAhead
-
-attributes with defaults:
-    bgTitle='#333',
-    bgInput='#aaa',
-    colInput='#333',
-    colTitle='#aaa',
-    [idProp=''],
-events:
-    // events deliver e.details with properties
-    // select item from list
-    select:
-        label,
-        search,
-        id
-    // enter term in input box
-    enter:
-        label,
-        search
-methods:
-    getItems(q, cb)
-    renderLabel(obj)
- */
 import {template} from './TypeAhead.template.js';
+import {initTypeAheadList} from "../TypeAheadList/TypeAheadList.js";
 
 class TypeAhead extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({mode: 'open'}); // sets and returns 'this.shadowRoot'
+        initTypeAheadList();
         this.shadowRoot.appendChild(this.createWrapper());
         this.attachEvents();
     }
@@ -37,15 +15,7 @@ class TypeAhead extends HTMLElement {
     setStyling(template) {
         return template
             .replace('%bgInput', this.fromAttribute('bgInput', '#aaa'))
-            .replace('%bgTitle', this.fromAttribute('bgTitle', '#333'))
             .replace('%colInput', this.fromAttribute('colInput', '#333'))
-            .replace('%colTitle', this.fromAttribute('colTitle', '#aaa'))
-    }
-    startListFocus() {
-        const a = this.list.querySelector('.title');
-        if (a) {
-            a.focus();
-        }
     }
     createRow(obj) {
         const title = document.createElement('div');
@@ -58,101 +28,40 @@ class TypeAhead extends HTMLElement {
         title.textContent = this.renderLabel(obj);
         return title;
     }
-    fillList(result) {
-        this.list.innerHTML = '';
-        this.savedSearch = this.search.value;
+    fillList(list, result) {
+        list.innerHTML = '';
+        this.saveSearchValue();
         for (const item of result) {
-            this.list.appendChild(this.createRow(item));
+            list.appendChild(this.createRow(item));
         }
     }
     searchSearchHandler(e, that) {
         // only handle clear here
-        that.list.innerHTML = '';
+        that.closeList();
+        this.restoreSearchValue();
     }
     searchKeyHandler(e, that) {
         if (e.key === 'Enter') {
             that.dispatchEnter(e);
             e.preventDefault();
         } else if (e.key === 'ArrowDown') {
-            that.startListFocus();
+            that.typeAheadList.startListFocus();
             e.preventDefault();
         } else if (e.key === 'Escape') {
             that.list.innerHTML = '';
         } else {
             const q = that.search.value;
-            // console.log({q});
             if (q.length > 2) {
                 // getItems is defined in client code
                 that.getItems(q, items => {
-                    that.fillList(items)
+                    // that.fillList(this.list, items)
+                    // that.fillList(this.typeAheadList.list, items)
+                    that.typeAheadList.fillList(items);
                 })
             } else {
-                that.list.innerHTML = '';
+                that.closeList();
+                this.restoreSearchValue();
             }
-        }
-    }
-    getRows() {
-        return this.list.querySelectorAll('.title');
-    }
-    next() {
-        const rows = this.getRows();
-        let activeFound = false;
-        if (this.shadowRoot.activeElement === rows[rows.length - 1]) {
-            this.search.focus();
-        } else {
-            for (let i = 0; i < rows.length; i++) {
-                const row = rows[i];
-                if (activeFound) {
-                    row.focus();
-                    break;
-                }
-                if (this.shadowRoot.activeElement === row) {
-                    activeFound = true;
-                }
-            }
-        }
-    }
-    prev() {
-        const rows = this.getRows();
-        let activeFound = false;
-        if (this.shadowRoot.activeElement === rows[0]) {
-            this.search.focus();
-        } else {
-            for (let i = rows.length - 1; i > -1; i--) {
-                const row = rows[i];
-                if (activeFound) {
-                    row.focus();
-                    break;
-                }
-                if (this.shadowRoot.activeElement === row) {
-                    activeFound = true;
-                }
-            }
-        }
-    }
-    closeList() {
-        this.list.innerHTML = '';
-    }
-    clearList() {
-        this.list.innerHTML = '';
-        this.search.focus();
-    }
-    listKeyHandler(e, that) {
-        switch(e.key) {
-            case 'ArrowDown':
-                e.preventDefault();
-                that.next();
-                break;
-            case 'ArrowUp':
-                that.prev();
-                e.preventDefault();
-                break;
-            case 'Escape':
-                that.clearList();
-                break;
-            case 'Enter':
-                that.dispatchSelect(e);
-                break;
         }
     }
     dispatchSelect(e) {
@@ -161,54 +70,48 @@ class TypeAhead extends HTMLElement {
             detail: {
                 id: target.id,
                 label: target.textContent,
-                search: this.search
             },
             bubbles: true
         }))
-        this.clearList();
+        this.closeList();
+        this.search.focus();
     }
-    dispatchEnter(e) {
-        // const target = e.path[0];
+    dispatchEnter() {
         this.dispatchEvent(new CustomEvent('enter', {
             detail: {
                 label: this.search.value,
-                search: this.search
             },
             bubbles: true
         }))
     }
-    listClickHandler(e, that) {
-        that.dispatchSelect(e);
+    saveSearchValue() {
+        this.savedSearch = this.search.value;
     }
-    listMouseOver(e, that) {
-        // console.log(e.path[0]);
-        const text = e.path[0].textContent;
-        this.search.value = text;
+    restoreSearchValue() {
+        if (this.savedSearch) {
+            this.search.value = this.savedSearch;
+        }
     }
-    listMouseLeave(e, that) {
-        this.search.value = this.savedSearch;
-
-    }
+    // setSearch(s) {
+    //     this.search.value = s;
+    // }
     attachEvents() {
         this.search.addEventListener('keyup',
             e => this.searchKeyHandler(e, this))
         this.search.addEventListener('search',
             e => this.searchSearchHandler(e, this))
-        this.list.addEventListener('keydown',
-            e => this.listKeyHandler(e, this))
-        this.list.addEventListener('click',
-            e => this.listClickHandler(e, this))
-        this.list.addEventListener('mouseover', e => this.listMouseOver(e, this))
-        this.list.addEventListener('mouseleave', e => this.listMouseLeave(e, this))
+        this.typeAheadList.addEventListener('search',
+            e => this.search.value = e.detail.text)
+        this.typeAheadList.addEventListener('restore',
+            () => this.restoreSearchValue())
     }
     createWrapper() {
         const wrapper = document.createElement('div');
         wrapper.className = 'wrapper';
         wrapper.innerHTML = this.setStyling(template);
-        // wrapper.querySelector('.search-label')
-        //     .textContent = this.getAttribute('label');
         this.search = wrapper.querySelector('#search');
         this.list = wrapper.querySelector('.slist');
+        this.typeAheadList = wrapper.querySelector('type-ahead-list');
         return wrapper;
     }
 }

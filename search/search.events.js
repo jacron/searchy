@@ -120,6 +120,7 @@ function cmdSearch() {
 
 function containerClick() {
     searchTA.closeList();
+    searchTA.restoreSearchValue();
 }
 
 function initEvents() {
@@ -144,11 +145,10 @@ function initEvents() {
 }
 
 function itemSelected(e) {
-    e.detail.search.value = e.detail.label;
+    searchTA.search.value = e.detail.label;
 }
 
 function itemEntered(e) {
-    // defaultEnter(e.detail.search.value);
     defaultEnter(searchTA.search.value);
 }
 

@@ -1,0 +1,21 @@
+TypeAhead
+
+attributes with defaults:
+    bgTitle='#333',
+    bgInput='#aaa',
+    colInput='#333',
+    colTitle='#aaa',
+    bgSelected='#555',
+    [idProp=''],
+events:
+    // events deliver e.details with properties
+    // select item from list
+    select:
+        label,
+        id
+    // enter term in input box
+    enter:
+        label,
+methods:
+    getItems(q, cb)
+    renderLabel(obj)

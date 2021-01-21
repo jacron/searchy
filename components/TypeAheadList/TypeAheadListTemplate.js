@@ -1,7 +1,7 @@
 const template = `
 <style>
     .wrapper {
-        display: inline-block;
+        /*display: inline-block;*/
         width: 100%;
     }
     input {
@@ -36,9 +36,7 @@ const template = `
         outline-width: 0;
     }
 </style>
-<input type='search' id="search" autocomplete="off" autofocus>
-<!--<div class="slist" tabindex="-1"></div>-->
-<type-ahead-list></type-ahead-list>
+<div class="slist" tabindex="-1"></div>
 `;
 
 export {template}
