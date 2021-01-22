@@ -1,9 +1,9 @@
 TypeAhead
 
 attributes with defaults:
-    bgTitle='#333',
     bgInput='#aaa',
     colInput='#333',
+    bgTitle='#333',
     colTitle='#aaa',
     bgSelected='#555',
     [idProp=''],

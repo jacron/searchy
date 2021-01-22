@@ -5,9 +5,7 @@ const template = `
         width: 100%;
     }
     input {
-        background-color: %bgInput;
         font-size: 1.1em;
-        color: %colInput;
         width: 100%;
         border: none;
     }
@@ -19,8 +17,9 @@ const template = `
         width: 90px;
     }
 </style>
-<input type='search' id="search" autocomplete="off" autofocus>
-<type-ahead-list></type-ahead-list>
+<input id="search" autocomplete="off" autofocus>
+<type-ahead-list
+></type-ahead-list>
 `;
 
 export {template}

@@ -8,30 +8,49 @@ class TypeAhead extends HTMLElement {
         initTypeAheadList();
         this.shadowRoot.appendChild(this.createWrapper());
         this.attachEvents();
+        this.setStyling();
     }
     fromAttribute(attr, deflt) {
         return this.getAttribute(attr) || deflt;
     }
-    setStyling(template) {
-        return template
-            .replace('%bgInput', this.fromAttribute('bgInput', '#aaa'))
-            .replace('%colInput', this.fromAttribute('colInput', '#333'))
+    setStyling() {
+        this.search.style.backgroundColor = this.fromAttribute('bgInput', '#aaa');
+        this.search.style.color = this.fromAttribute('colInput', '#333');
+        this.typeAheadList.setColors({
+            bgTitle: this.fromAttribute('bgTitle', '#292a2d'),
+            colTitle: this.fromAttribute('colTitle', '#eee'),
+            bgSelected: this.fromAttribute('bgSelected', '#4b4c4f')
+        });
     }
-    searchSearchHandler(e, that) {
-        // only handle clear here
-        that.closeList();
-        this.restoreSearchValue();
-    }
+    // searchSearchHandler(e, that) {
+    //     // only handle clear here
+    //     console.log('on search event...');
+    //     console.log(e);
+    //     // that.closeList();
+    //     this.typeAheadList.closeList();
+    //     // this.restoreSearchValue();
+    // }
+    // closeList() {
+    //     this.typeAheadList.closeList();
+    // }
     searchKeyHandler(e, that) {
+        // console.log(e);
         if (e.key === 'Enter') {
             that.dispatchEnter(e);
             e.preventDefault();
         } else if (e.key === 'ArrowDown') {
-            that.typeAheadList.startListFocus();
+            that.typeAheadList.next();
             e.preventDefault();
-        } else if (e.key === 'Escape') {
-            that.list.innerHTML = '';
-        } else {
+        } else if (e.key === 'ArrowUp') {
+            that.typeAheadList.prev();
+            e.preventDefault();
+        }
+        else if (e.key === 'Escape') {
+            if (that.typeAheadList.closeList()) {
+                that.search.value = '';
+            }
+            e.preventDefault();
+        } else if (e.key !== 'Meta') {
             const q = that.search.value;
             if (q.length > 2) {
                 // getItems is defined in client code
@@ -39,23 +58,25 @@ class TypeAhead extends HTMLElement {
                     that.typeAheadList.fillList(items);
                 })
             } else {
-                that.closeList();
-                this.restoreSearchValue();
+                that.typeAheadList.closeList();
+                // that.restoreSearchValue();
             }
         }
     }
-    dispatchSelect(e) {
-        const target = e.path[0];
+
+    handleSelect(e) {
+        // console.log('only focus here...');
         this.dispatchEvent(new CustomEvent('select', {
             detail: {
-                id: target.id,
-                label: target.textContent,
+                id: e.detail.id,
+                label: e.detail.label
             },
-            bubbles: true
+            bubbles: false
         }))
-        this.closeList();
         this.search.focus();
+        e.preventDefault();
     }
+
     dispatchEnter() {
         this.dispatchEvent(new CustomEvent('enter', {
             detail: {
@@ -72,33 +93,43 @@ class TypeAhead extends HTMLElement {
             this.search.value = this.savedSearch;
         }
     }
-    doAction(action) {
+
+    doAction(action, that) {
         switch(action) {
             case 'restore':
-                this.restoreSearchValue();
+                that.restoreSearchValue();
                 break;
             case 'focus':
-                this.search.focus();
+                that.search.focus();
                 break;
             case 'save':
-                this.saveSearchValue();
+                that.saveSearchValue();
                 break;
         }
     }
+
+    setSearch(e, that) {
+        // console.log(e.detail);
+        that.search.value = e.detail.text;
+    }
+
     attachEvents() {
         this.search.addEventListener('keyup',
             e => this.searchKeyHandler(e, this))
-        this.search.addEventListener('search',
-            e => this.searchSearchHandler(e, this))
-        this.typeAheadList.addEventListener('search',
-            e => this.search.value = e.detail.text)
+        // this.search.addEventListener('search',
+        //     e => this.searchSearchHandler(e, this))
+        this.typeAheadList.addEventListener('setsearch',
+            e => this.setSearch(e, this))
         this.typeAheadList.addEventListener('action',
-            e => this.doAction(e.action))
+            e => this.doAction(e.detail.action, this))
+        this.typeAheadList.addEventListener('select',
+            e => this.handleSelect(e))
     }
     createWrapper() {
         const wrapper = document.createElement('div');
         wrapper.className = 'wrapper';
-        wrapper.innerHTML = this.setStyling(template);
+        // wrapper.innerHTML = this.setStyling(template);
+        wrapper.innerHTML = template;
         this.search = wrapper.querySelector('#search');
         this.list = wrapper.querySelector('.slist');
         this.typeAheadList = wrapper.querySelector('type-ahead-list');

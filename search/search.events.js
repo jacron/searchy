@@ -6,9 +6,6 @@ import {setShowRecentSetting} from "../storage/recent.js";
 import {showRecentTerms} from "./search.recent.js";
 import {beginTour} from "./search.tour.js";
 
-const searchTA = document.querySelector('type-ahead');
-// console.log(searchTA);
-
 function fillPlaceholder(url, term) {
     const magic = '%s';
     if (url.indexOf(magic) !== -1) {
@@ -55,7 +52,6 @@ function setSearchTerm(term, cb) {
 
 function recentTerms(e) {
     const target = e.target;
-    // console.log(target);
     if (target.id !== 'recentTerms') {
         document.getElementById('term').value = target.textContent;
     }
@@ -80,22 +76,6 @@ function openEngines(e) {
     }
 }
 
-function defaultEnter(term) {
-    const defaultEngine = document.querySelector('.default');
-    if (defaultEngine) {
-        setSearchTerm(term, () => {
-            storeTerm(term);
-            toUrl(defaultEngine.getAttribute('data-href'), term)
-        });
-    }
-}
-
-function onInputKey(e) {
-    if (e.key === 'Enter') {
-        defaultEnter(getTerm());
-    }
-}
-
 function setNewTab(e) {
     const target = e.target;
     setNewtabSetting(target.checked);
@@ -114,13 +94,14 @@ function pageOptions() {
     });
 }
 
-function cmdSearch() {
-    defaultEnter(getTerm());
-}
-
-function containerClick() {
-    searchTA.closeList();
-    searchTA.restoreSearchValue();
+function defaultEnter(term) {
+    const defaultEngine = document.querySelector('.default');
+    if (defaultEngine) {
+        setSearchTerm(term, () => {
+            storeTerm(term);
+            toUrl(defaultEngine.getAttribute('data-href'), term)
+        });
+    }
 }
 
 function initEvents() {
@@ -131,30 +112,10 @@ function initEvents() {
         ['recentTerms', recentTerms],
         ['help', beginTour],
     ]);
-    // bindToElements('keyup', [
-    //     ['term', onInputKey],
-    // ]);
     bindToElements('change', [
         ['newTab', setNewTab],
         ['toggleRecent', toggleRecent]
     ]);
-    searchTA.addEventListener('select', itemSelected);
-    searchTA.addEventListener('enter', itemEntered);
-    document.querySelector('.cmd-search').addEventListener('click', cmdSearch);
-    document.querySelector('.container').addEventListener('click', containerClick);
 }
 
-function itemSelected(e) {
-    searchTA.search.value = e.detail.label;
-}
-
-function itemEntered(e) {
-    defaultEnter(searchTA.search.value);
-}
-
-function initTypeAheadEvents() {
-    searchTA.addEventListener('select', itemSelected);
-    searchTA.addEventListener('enter', itemEntered);
-}
-
-export {initEvents, initTypeAheadEvents}
+export {initEvents, defaultEnter}

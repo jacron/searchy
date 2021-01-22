@@ -1,25 +1,9 @@
 import config from "../common/config.js";
 
 // const inputTerm = document.getElementById("term");
-const inputTerm = document.getElementById("searchTypeAhead");
+const TASearch = document.getElementById("searchTypeAhead");
 
 const key = config.storageKeyTerms;
-
-function createOption(item) {
-    const option = document.createElement('option');
-    option.value = item;
-    return option;
-}
-
-function initHistory(terms) {
-    const historyElement = document.getElementById('history');
-    historyElement.innerHTML = '';
-    if (terms) {
-        terms.forEach(item => {
-            historyElement.appendChild(createOption(item));
-        });
-    }
-}
 
 function setSearchTermFromBackground() {
     chrome.runtime.sendMessage({cmd: "getSelectedTerm"},
@@ -30,12 +14,12 @@ function setSearchTermFromBackground() {
 }
 
 function getTerm() {
-    return inputTerm.search.value;
+    return TASearch.search.value;
 }
 
 function setTerm(t) {
     // console.log(inputTerm.search);
-    inputTerm.search.value = t;
+    TASearch.search.value = t;
 }
 
 function storeTerm() {
@@ -48,7 +32,6 @@ function storeTerm() {
             terms.shift();
         }
         terms.push(getTerm());
-        // initHistory(terms);
     }
     localStorage.setItem(key, JSON.stringify(terms));
 }
@@ -58,4 +41,4 @@ function getTerms() {
 }
 
 export {setSearchTermFromBackground, getTerm, getTerms,
-    storeTerm, initHistory}
+    storeTerm}

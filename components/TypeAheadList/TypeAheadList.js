@@ -8,15 +8,8 @@ class TypeAheadList extends HTMLElement {
         this.attachEvents();
     }
 
-    fromAttribute(attr, deflt) {
-        return this.getAttribute(attr) || deflt;
-    }
-
-    setStyling(template) {
-        return template
-            .replace('%bgTitle', this.fromAttribute('bgTitle', '#292a2d'))
-            .replace('%colTitle', this.fromAttribute('colTitle', '#eee'))
-            .replace('%bgSelected', this.fromAttribute('bgSelected', '#4b4c4f'))
+    setColors(colors) {
+        this.colors = colors;
     }
 
     createRow(obj) {
@@ -28,63 +21,60 @@ class TypeAheadList extends HTMLElement {
             title.setAttribute('id', obj[idProp]);
         }
         title.textContent = obj;  // this.renderLabel(obj);
+        title.style.backgroundColor = this.colors.bgTitle;
+        title.style.color = this.colors.colTitle;
+        title.addEventListener('blur', () => {
+            title.style.backgroundColor = this.colors.bgTitle;
+        })
         return title;
     }
 
     fillList(result) {
         this.list.innerHTML = '';
-        // this.saveSearchValue();
         this.dispatchSearchSave();
         for (const item of result) {
             this.list.appendChild(this.createRow(item));
         }
     }
 
-    listClickHandler(e, that) {
-        that.dispatchSelect(e);
-    }
-
     next() {
         const rows = this.getRows();
-        let activeFound = false;
-        if (this.shadowRoot.activeElement === rows[rows.length - 1]) {
-            // this.search.focus();
-            rows[0].focus();
-            this.dispatchSetSearch(rows[0].textContent);
-            // this.setSearch(rows[0].textContent);
+        if (this.isSelected(rows[rows.length -1])) {
+            this.dispatchRestoreSearch();
         } else {
+            let activeFound = false;
             for (let i = 0; i < rows.length; i++) {
                 const row = rows[i];
                 if (activeFound) {
-                    row.focus();
+                    this.moveSelector(row);
                     this.dispatchSetSearch(row.textContent);
-                    // this.setSearch(row.textContent);
                     break;
                 }
-                if (this.shadowRoot.activeElement === row) {
+                if (this.isSelected(row)) {
                     activeFound = true;
                 }
+            }
+            if (!activeFound) {
+                this.moveSelector(rows[0]);
+                this.dispatchSetSearch(rows[0].textContent);
             }
         }
     }
 
     prev() {
         const rows = this.getRows();
-        let activeFound = false;
-        if (this.shadowRoot.activeElement === rows[0]) {
-            // this.restoreSearchValue();
+        if (this.isSelected(rows[0])) {
             this.dispatchRestoreSearch();
-            this.search.focus();
         } else {
+            let activeFound = false;
             for (let i = rows.length - 1; i > -1; i--) {
                 const row = rows[i];
                 if (activeFound) {
-                    row.focus();
+                    this.moveSelector(row);
                     this.dispatchSetSearch(row.textContent);
-                    // this.setSearch(row.textContent);
                     break;
                 }
-                if (this.shadowRoot.activeElement === row) {
+                if (this.isSelected(row)) {
                     activeFound = true;
                 }
             }
@@ -96,7 +86,9 @@ class TypeAheadList extends HTMLElement {
     }
 
     closeList() {
+        const isEmpty = this.list.innerHTML === '';
         this.list.innerHTML = '';
+        return isEmpty;
     }
 
     listKeyHandler(e, that) {
@@ -111,31 +103,18 @@ class TypeAheadList extends HTMLElement {
                 break;
             case 'Escape':
                 that.closeList();
-                this.dispatchRestoreSearch();
-                this.search.focus();
+                that.dispatchRestoreSearch();
+                e.preventDefault();
                 break;
-            case 'Enter':
-                // const title = e.path[0];
-                that.dispatchSelect(e);
-                that.dispatchSearchFocus();
+            case ' ':
+                that.closeList();
+                e.preventDefault();
                 break;
         }
     }
-    dispatchSelect(e) {
-        const target = e.path[0];
-        this.dispatchEvent(new CustomEvent('select', {
-            detail: {
-                id: target.id,
-                label: target.textContent,
-            },
-            bubbles: true
-        }))
-        this.closeList();
-        this.dispatchSearchFocus();
-    }
 
     dispatchSetSearch(s) {
-        this.dispatchEvent(new CustomEvent('search', {
+        this.dispatchEvent(new CustomEvent('setsearch', {
             detail: {
                 text: s
             },
@@ -144,39 +123,53 @@ class TypeAheadList extends HTMLElement {
     }
 
     dispatchAction(action) {
-        this.dispatchEvent(new CustomEvent('restore', {
-            action,
+        this.dispatchEvent(new CustomEvent('action', {
+            detail: {action},
             bubbles: true
         }))
-    }
-
-    dispatchRestoreSearch() {
-        this.dispatchAction('restore');
     }
 
     dispatchSearchFocus() {
         this.dispatchAction('focus');
     }
 
+    dispatchRestoreSearch() {
+        this.dispatchAction('restore');
+    }
+
     dispatchSearchSave() {
         this.dispatchAction('save');
     }
-    startListFocus() {
-        const title = this.list.querySelector('.title');
-        if (title) {
-            title.focus();
-            this.dispatchSetSearch(title.textContent);
+
+    moveSelector(element) {
+        const titles = this.list.querySelectorAll('.title');
+        for (let i = 0; i < titles.length; i++) {
+            titles[i].style.backgroundColor = this.colors.bgTitle;
+            titles[i].removeAttribute('selected');
         }
+        element.style.backgroundColor = this.colors.bgSelected;
+        element.setAttribute('selected', 'on');
     }
 
-    listMouseOver(e) {
+    isSelected(element) {
+        return element.getAttribute('selected');
+    }
+
+    listMouseOver(e, that) {
         const title = e.path[0];
-        this.dispatchSetSearch(title.textContent);
-        title.focus();
+        that.dispatchSetSearch(title.textContent);
+        this.moveSelector(title);
     }
 
     listMouseLeave() {
         this.dispatchRestoreSearch();
+    }
+
+    listClickHandler(e, that) {
+        const title = e.path[0];
+        that.dispatchSetSearch(title.textContent);
+        that.dispatchSearchFocus();
+        that.closeList();
     }
 
     attachEvents() {
@@ -184,14 +177,16 @@ class TypeAheadList extends HTMLElement {
             e => this.listKeyHandler(e, this))
         this.list.addEventListener('click',
             e => this.listClickHandler(e, this))
-        this.list.addEventListener('mouseover', e => this.listMouseOver(e, this))
-        this.list.addEventListener('mouseleave', e => this.listMouseLeave(e, this))
+        this.list.addEventListener('mouseover',
+                e => this.listMouseOver(e, this))
+        this.list.addEventListener('mouseleave',
+                e => this.listMouseLeave(e, this))
     }
 
     createWrapper() {
         const wrapper = document.createElement('span');
         wrapper.className = 'wrapper';
-        wrapper.innerHTML = this.setStyling(template);
+        wrapper.innerHTML = template;
         this.list = wrapper.querySelector('.slist');
         return wrapper;
     }
