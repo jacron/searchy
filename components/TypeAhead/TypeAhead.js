@@ -10,6 +10,10 @@ class TypeAhead extends HTMLElement {
         this.attachEvents();
         this.setStyling();
     }
+    closeList() {
+        this.typeAheadList.closeList();
+        this.restoreSearchValue();
+    }
     fromAttribute(attr, deflt) {
         return this.getAttribute(attr) || deflt;
     }
@@ -22,19 +26,7 @@ class TypeAhead extends HTMLElement {
             bgSelected: this.fromAttribute('bgSelected', '#4b4c4f')
         });
     }
-    // searchSearchHandler(e, that) {
-    //     // only handle clear here
-    //     console.log('on search event...');
-    //     console.log(e);
-    //     // that.closeList();
-    //     this.typeAheadList.closeList();
-    //     // this.restoreSearchValue();
-    // }
-    // closeList() {
-    //     this.typeAheadList.closeList();
-    // }
     searchKeyHandler(e, that) {
-        // console.log(e);
         if (e.key === 'Enter') {
             that.dispatchEnter(e);
             e.preventDefault();
@@ -46,8 +38,11 @@ class TypeAhead extends HTMLElement {
             e.preventDefault();
         }
         else if (e.key === 'Escape') {
-            if (that.typeAheadList.closeList()) {
+            if (that.typeAheadList.isEmptyList()) {
                 that.search.value = '';
+            } else {
+                that.typeAheadList.closeList();
+                that.restoreSearchValue();
             }
             e.preventDefault();
         } else if (e.key !== 'Meta') {
@@ -59,13 +54,11 @@ class TypeAhead extends HTMLElement {
                 })
             } else {
                 that.typeAheadList.closeList();
-                // that.restoreSearchValue();
             }
         }
     }
 
     handleSelect(e) {
-        // console.log('only focus here...');
         this.dispatchEvent(new CustomEvent('select', {
             detail: {
                 id: e.detail.id,
@@ -116,8 +109,6 @@ class TypeAhead extends HTMLElement {
     attachEvents() {
         this.search.addEventListener('keyup',
             e => this.searchKeyHandler(e, this))
-        // this.search.addEventListener('search',
-        //     e => this.searchSearchHandler(e, this))
         this.typeAheadList.addEventListener('setsearch',
             e => this.setSearch(e, this))
         this.typeAheadList.addEventListener('action',

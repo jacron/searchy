@@ -41,6 +41,7 @@ class TypeAheadList extends HTMLElement {
         const rows = this.getRows();
         if (this.isSelected(rows[rows.length -1])) {
             this.dispatchRestoreSearch();
+            this.clearSelector();
         } else {
             let activeFound = false;
             for (let i = 0; i < rows.length; i++) {
@@ -65,6 +66,7 @@ class TypeAheadList extends HTMLElement {
         const rows = this.getRows();
         if (this.isSelected(rows[0])) {
             this.dispatchRestoreSearch();
+            this.clearSelector();
         } else {
             let activeFound = false;
             for (let i = rows.length - 1; i > -1; i--) {
@@ -78,6 +80,11 @@ class TypeAheadList extends HTMLElement {
                     activeFound = true;
                 }
             }
+            if (!activeFound) {
+                const lastRow = rows[rows.length - 1];
+                this.moveSelector(lastRow);
+                this.dispatchSetSearch(lastRow.textContent);
+            }
         }
     }
 
@@ -85,32 +92,12 @@ class TypeAheadList extends HTMLElement {
         return this.list.querySelectorAll('.title');
     }
 
-    closeList() {
-        const isEmpty = this.list.innerHTML === '';
-        this.list.innerHTML = '';
-        return isEmpty;
+    isEmptyList() {
+        return this.list.innerHTML === '';
     }
 
-    listKeyHandler(e, that) {
-        switch(e.key) {
-            case 'ArrowDown':
-                e.preventDefault();
-                that.next();
-                break;
-            case 'ArrowUp':
-                that.prev();
-                e.preventDefault();
-                break;
-            case 'Escape':
-                that.closeList();
-                that.dispatchRestoreSearch();
-                e.preventDefault();
-                break;
-            case ' ':
-                that.closeList();
-                e.preventDefault();
-                break;
-        }
+    closeList() {
+        this.list.innerHTML = '';
     }
 
     dispatchSetSearch(s) {
@@ -142,17 +129,21 @@ class TypeAheadList extends HTMLElement {
     }
 
     moveSelector(element) {
-        const titles = this.list.querySelectorAll('.title');
-        for (let i = 0; i < titles.length; i++) {
-            titles[i].style.backgroundColor = this.colors.bgTitle;
-            titles[i].removeAttribute('selected');
-        }
+        this.clearSelector();
         element.style.backgroundColor = this.colors.bgSelected;
         element.setAttribute('selected', 'on');
     }
 
     isSelected(element) {
         return element.getAttribute('selected');
+    }
+
+    clearSelector() {
+        const titles = this.list.querySelectorAll('.title');
+        for (let i = 0; i < titles.length; i++) {
+            titles[i].style.backgroundColor = this.colors.bgTitle;
+            titles[i].removeAttribute('selected');
+        }
     }
 
     listMouseOver(e, that) {
@@ -173,8 +164,6 @@ class TypeAheadList extends HTMLElement {
     }
 
     attachEvents() {
-        this.list.addEventListener('keydown',
-            e => this.listKeyHandler(e, this))
         this.list.addEventListener('click',
             e => this.listClickHandler(e, this))
         this.list.addEventListener('mouseover',

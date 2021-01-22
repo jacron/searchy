@@ -4,15 +4,14 @@ const searchTA = document.querySelector('type-ahead');
 
 function containerClick() {
     searchTA.closeList();
-    searchTA.restoreSearchValue();
 }
 
 function initTypeAheadEvents() {
     searchTA
         .addEventListener('enter',
             () => defaultEnter(searchTA.search.value));
-    // document.querySelector('.container')
-    //     .addEventListener('click', containerClick);
+    document.querySelector('.container')
+        .addEventListener('click', containerClick);
 }
 
 export {initTypeAheadEvents}
