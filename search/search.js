@@ -7,8 +7,8 @@ import {getShowRecentSetting} from "../storage/recent.js";
 import {showRecentTerms} from "./search.recent.js";
 import {beginTour, initTourEvent} from "./search.tour.js";
 import {getFirstUseSetting} from "../storage/first.js";
-import {initHelpTour} from "../components/HelpTour/HelpTour.js";
-import {initTypeAhead} from "../components/TypeAhead/TypeAhead.js";
+import {initHelpTour} from "../web-components/HelpTour/HelpTour.js";
+import {initTypeAhead} from "../web-components/TypeAhead/TypeAhead.js";
 import {initTypeAheadEvents} from "./search.typeahead.events.js";
 
 function showEngineLinks() {

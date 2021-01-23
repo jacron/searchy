@@ -55,7 +55,8 @@ chrome.runtime.onMessage.addListener(
         doAction(request, sendResponse, data);
 })
 
-function searchInNewTab(url) {
+function searchInCurrentTab() {
+    let url = config2.searchPage;
     chrome.tabs.query({
         active: true,
         lastFocusedWindow: true
@@ -69,18 +70,17 @@ function setSearchTerm(term) {
     data.selectedTerm = term;
 }
 
-function handleInputEntered(q) {
-    let searchUrl = config2.searchPage;
+function handleOmniboxInputEntered(q) {
     setSearchTerm(q);
-    searchInNewTab(searchUrl);
+    searchInCurrentTab();
 }
 
 function handleActionClicked() {
-    searchInNewTab(config2.searchPage);
+    searchInCurrentTab();
 }
 
 chrome.browserAction.onClicked.addListener(handleActionClicked);
-chrome.omnibox.onInputEntered.addListener(handleInputEntered);
+chrome.omnibox.onInputEntered.addListener(handleOmniboxInputEntered);
 
 function init() {
     getDataFromStorage(categories => {

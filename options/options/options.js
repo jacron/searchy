@@ -1,10 +1,10 @@
 import {showEngineLinks} from './options.create.js';
 import {initDarkmode} from '../../storage/dark.js';
-import {initFilesInput} from '../../components/FilesInput/FilesInput.js';
+import {initFilesInput} from '../../web-components/FilesInput/FilesInput.js';
 import {initEvents} from "./options.events.js";
 import {getFirstUseSetting} from "../../storage/firstoptions.js";
 import {beginTour} from "./options.tour.js";
-import {initHelpTour} from "../../components/HelpTour/HelpTour.js";
+import {initHelpTour} from "../../web-components/HelpTour/HelpTour.js";
 import {initTourEvent} from "./options.tour.js";
 
 function initFirstUseHelp() {

@@ -9,6 +9,7 @@ class TypeAhead extends HTMLElement {
         this.shadowRoot.appendChild(this.createWrapper());
         this.attachEvents();
         this.setStyling();
+        this.setFlyOnEnter();
     }
 
     closeList() {
@@ -30,12 +31,26 @@ class TypeAhead extends HTMLElement {
         });
     }
 
+    setFlyOnEnter() {
+        const attr = this.fromAttribute('flyOnEnter', 'true');
+        this.flyOnEnter = attr === 'true' || attr === 'on' || attr === '1';
+    }
+
     handleEscapeKey() {
         if (this.typeAheadList.isEmptyList()) {
             this.search.value = '';
         } else {
             this.typeAheadList.closeList();
             this.restoreSearchValue();
+        }
+    }
+
+    handleEnterKey() {
+        if (this.flyOnEnter || this.typeAheadList.isEmptyList()) {
+            this.typeAheadList.closeList();
+            this.dispatchEnter();
+        } else {
+            this.typeAheadList.closeList();
         }
     }
 
@@ -52,20 +67,15 @@ class TypeAhead extends HTMLElement {
     }
 
     searchKeyHandler(e, that) {
-        // console.log(e);
         if (e.key === 'Enter') {
-            that.dispatchEnter(e);
-            e.preventDefault();
+            that.handleEnterKey();
         } else if (e.key === 'ArrowDown') {
             that.typeAheadList.next();
-            e.preventDefault();
         } else if (e.key === 'ArrowUp') {
             that.typeAheadList.prev();
-            e.preventDefault();
         }
         else if (e.key === 'Escape') {
             that.handleEscapeKey();
-            e.preventDefault();
         } else if (e.key !== 'Meta' && e.key !== 'Alt') {
             that.handleNormalKey();
         }

@@ -6,7 +6,8 @@ function engineHtml(engine, nameClass) {
     return `
 <div class="engine">
     <img src="${chromeFaviconUrl}${engine.url}" class="icon" alt="i">
-    <a data-href="${engine.url}" class="${nameClass}">${engine.name}</a>
+    <a data-href="${engine.url}" data-id="${engine.id}"
+        class="${nameClass}">${engine.name}</a>
 </div>
 `
 }
