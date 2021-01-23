@@ -38,6 +38,9 @@ class TypeAheadList extends HTMLElement {
     }
 
     next() {
+        if (this.isEmptyList()) {
+            return;
+        }
         const rows = this.getRows();
         if (this.isSelected(rows[rows.length -1])) {
             this.dispatchRestoreSearch();
@@ -63,6 +66,9 @@ class TypeAheadList extends HTMLElement {
     }
 
     prev() {
+        if (this.isEmptyList()) {
+            return;
+        }
         const rows = this.getRows();
         if (this.isSelected(rows[0])) {
             this.dispatchRestoreSearch();
@@ -158,7 +164,8 @@ class TypeAheadList extends HTMLElement {
 
     listClickHandler(e, that) {
         const title = e.path[0];
-        that.dispatchSetSearch(title.textContent);
+        // console.log(title.textContent);
+        that.dispatchSearchSave(title.textContent);
         that.dispatchSearchFocus();
         that.closeList();
     }

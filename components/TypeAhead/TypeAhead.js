@@ -10,13 +10,16 @@ class TypeAhead extends HTMLElement {
         this.attachEvents();
         this.setStyling();
     }
+
     closeList() {
         this.typeAheadList.closeList();
         this.restoreSearchValue();
     }
+
     fromAttribute(attr, deflt) {
         return this.getAttribute(attr) || deflt;
     }
+
     setStyling() {
         this.search.style.backgroundColor = this.fromAttribute('bgInput', '#aaa');
         this.search.style.color = this.fromAttribute('colInput', '#333');
@@ -26,7 +29,30 @@ class TypeAhead extends HTMLElement {
             bgSelected: this.fromAttribute('bgSelected', '#4b4c4f')
         });
     }
+
+    handleEscapeKey() {
+        if (this.typeAheadList.isEmptyList()) {
+            this.search.value = '';
+        } else {
+            this.typeAheadList.closeList();
+            this.restoreSearchValue();
+        }
+    }
+
+    handleNormalKey() {
+        const q = this.search.value;
+        if (q.length > 2) {
+            // getItems is defined in client code
+            this.getItems(q, items => {
+                this.typeAheadList.fillList(items);
+            })
+        } else {
+            this.typeAheadList.closeList();
+        }
+    }
+
     searchKeyHandler(e, that) {
+        // console.log(e);
         if (e.key === 'Enter') {
             that.dispatchEnter(e);
             e.preventDefault();
@@ -38,36 +64,11 @@ class TypeAhead extends HTMLElement {
             e.preventDefault();
         }
         else if (e.key === 'Escape') {
-            if (that.typeAheadList.isEmptyList()) {
-                that.search.value = '';
-            } else {
-                that.typeAheadList.closeList();
-                that.restoreSearchValue();
-            }
+            that.handleEscapeKey();
             e.preventDefault();
-        } else if (e.key !== 'Meta') {
-            const q = that.search.value;
-            if (q.length > 2) {
-                // getItems is defined in client code
-                that.getItems(q, items => {
-                    that.typeAheadList.fillList(items);
-                })
-            } else {
-                that.typeAheadList.closeList();
-            }
+        } else if (e.key !== 'Meta' && e.key !== 'Alt') {
+            that.handleNormalKey();
         }
-    }
-
-    handleSelect(e) {
-        this.dispatchEvent(new CustomEvent('select', {
-            detail: {
-                id: e.detail.id,
-                label: e.detail.label
-            },
-            bubbles: false
-        }))
-        this.search.focus();
-        e.preventDefault();
     }
 
     dispatchEnter() {
@@ -78,9 +79,11 @@ class TypeAhead extends HTMLElement {
             bubbles: true
         }))
     }
+
     saveSearchValue() {
         this.savedSearch = this.search.value;
     }
+
     restoreSearchValue() {
         if (this.savedSearch) {
             this.search.value = this.savedSearch;
@@ -102,7 +105,6 @@ class TypeAhead extends HTMLElement {
     }
 
     setSearch(e, that) {
-        // console.log(e.detail);
         that.search.value = e.detail.text;
     }
 
@@ -113,13 +115,11 @@ class TypeAhead extends HTMLElement {
             e => this.setSearch(e, this))
         this.typeAheadList.addEventListener('action',
             e => this.doAction(e.detail.action, this))
-        this.typeAheadList.addEventListener('select',
-            e => this.handleSelect(e))
     }
+
     createWrapper() {
         const wrapper = document.createElement('div');
         wrapper.className = 'wrapper';
-        // wrapper.innerHTML = this.setStyling(template);
         wrapper.innerHTML = template;
         this.search = wrapper.querySelector('#search');
         this.list = wrapper.querySelector('.slist');
