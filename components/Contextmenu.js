@@ -22,17 +22,18 @@ const optionStyle = {
 }
 
 class Contextmenu {
-    constructor(options, id) {
-        this.menu = this.createMenu(options, id);
+    constructor(data, id) {
+        this.menu = this.createMenu(data.options, id);
         this.rect = this.menu.getBoundingClientRect();
         this.attachEvents();
     }
 
-    open(e, disabled) {
+    open(e, colors, disabled) {
         this.clearSelector();
         if (disabled) {
             this.disableOptions(disabled);
         }
+        this.colors = colors;
         this.menu.style.visibility = 'visible';
         this.positionMenu(e);
         this.menu.focus();
@@ -52,7 +53,9 @@ class Contextmenu {
 
     moveSelector(option) {
         this.clearSelector();
-        option.style.backgroundColor = '#3065b4';
+        // console.log(this.colors);
+        option.style.backgroundColor = this.colors.bgOption || '#3065b4';
+        // option.style.color = this.colors.colOption || 'rgb(234,234,234)';
         option.setAttribute('selected', 'true');
     }
 

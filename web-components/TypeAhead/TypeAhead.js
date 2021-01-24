@@ -8,7 +8,7 @@ class TypeAhead extends HTMLElement {
         initTypeAheadList();
         this.shadowRoot.appendChild(this.createWrapper());
         this.attachEvents();
-        this.setStyling();
+        // this.setStyling();
         this.setFlyOnEnter();
     }
 
@@ -21,15 +21,26 @@ class TypeAhead extends HTMLElement {
         return this.getAttribute(attr) || deflt;
     }
 
-    setStyling() {
-        this.search.style.backgroundColor = this.fromAttribute('bgInput', '#aaa');
-        this.search.style.color = this.fromAttribute('colInput', '#333');
+    setColors(colors) {
+        // this.colors = colors;
+        this.search.style.backgroundColor = colors.bgInput;
+        this.search.style.color = colors.colInput;
         this.typeAheadList.setColors({
-            bgTitle: this.fromAttribute('bgTitle', '#292a2d'),
-            colTitle: this.fromAttribute('colTitle', '#eee'),
-            bgSelected: this.fromAttribute('bgSelected', '#4b4c4f')
+            bgTitle: colors.bgTitle,
+            colTitle: colors.colTitle,
+            bgSelected: colors.bgSelected,
         });
     }
+
+    // setStyling() {
+    //     this.search.style.backgroundColor = this.fromAttribute('bgInput', '#aaa');
+    //     this.search.style.color = this.fromAttribute('colInput', '#333');
+    //     this.typeAheadList.setColors({
+    //         bgTitle: this.fromAttribute('bgTitle', '#292a2d'),
+    //         colTitle: this.fromAttribute('colTitle', '#eee'),
+    //         bgSelected: this.fromAttribute('bgSelected', '#4b4c4f')
+    //     });
+    // }
 
     setFlyOnEnter() {
         const attr = this.fromAttribute('flyOnEnter', 'true');

@@ -1,7 +1,7 @@
 import {initDarkmode} from '../storage/dark.js';
 import {displayEngines} from './search.create-engines.js';
 import {initEvents} from "./search.events.js";
-import {getTerms, setSearchTermFromBackground} from "./search.term.js";
+import {setSearchTermFromBackground} from "./search.term.js";
 import {getNewtabSetting} from "../storage/newtab.js";
 import {getShowRecentSetting} from "../storage/recent.js";
 import {showRecentTerms} from "./search.recent.js";
@@ -10,6 +10,7 @@ import {getFirstUseSetting} from "../storage/first.js";
 import {initHelpTour} from "../web-components/HelpTour/HelpTour.js";
 import {initTypeAhead} from "../web-components/TypeAhead/TypeAhead.js";
 import {initTypeAheadEvents} from "./search.typeahead.events.js";
+import {initSearchTypeAhead} from "./search.typeahead.js";
 
 function showEngineLinks() {
     chrome.runtime.sendMessage({cmd: "getCategories"},
@@ -46,21 +47,9 @@ function version() {
     console.log('v' + manifestData.version);
 }
 
-function fetchIt(q, cb) {
-    // console.log({q});
-    cb(getTerms().filter(term => term.toUpperCase().indexOf(q.toUpperCase()) !== -1));
-}
-
-function initSearchTypeAhead() {
-    const searchTA = document.querySelector('type-ahead');
-    searchTA.getItems = (q, cb) => fetchIt(q, cb);
-    searchTA.renderLabel = obj => obj;
-}
-
 function init() {
     initHelpTour();
     initTourEvent();
-    initDarkmode();
     initTypeAhead();
     initSearchTypeAhead();
     initTypeAheadEvents();
@@ -85,4 +74,4 @@ chrome.runtime.onMessage.addListener(req => {
     }
 })
 
-init();
+initDarkmode(() => init());

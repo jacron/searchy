@@ -16,6 +16,16 @@ const menuOptions = [
     ['Open Engine in New Incognito Window', 'incognito'],
 ];
 
+const menuColors = {
+    bgOption: '#b0d5f4',
+    // colOption: '#333',
+};
+
+const menuColorsDark = {
+    bgOption: '#3065b4',
+    // colOption: 'rgb(234,234,234)',
+}
+
 function clearDefault() {
     const links = document.querySelectorAll('.engine a');
     for (let i = 0; i < links.length; i++) {
@@ -32,34 +42,40 @@ function setDefault(id) {
 function handleMenuSelect(choice) {
     switch(choice) {
         case 'setdefault':
-            setDefault(engineForContextmenu.getAttribute('data-id'));
+            setDefault(engineForContextmenu
+                .getAttribute('data-id'));
             break;
         case 'newtab':
             storeTerm(term);
-            newTab(engineForContextmenu.getAttribute('data-href'), getTerm());
+            newTab(engineForContextmenu
+                .getAttribute('data-href'), getTerm());
             break;
         case 'newwindow':
             storeTerm(term);
-            newWindow(engineForContextmenu.getAttribute('data-href'), getTerm());
+            newWindow(engineForContextmenu
+                .getAttribute('data-href'), getTerm());
             break;
         case 'incognito':
             storeTerm(term);
-            incognitoWindow(engineForContextmenu.getAttribute('data-href'), getTerm());
+            incognitoWindow(engineForContextmenu
+                .getAttribute('data-href'), getTerm());
             break;
     }
 }
 
 function initSingletonContextmenuEngines() {
     if (!contextmenuEngines) {
-        contextmenuEngines = new Contextmenu(
-            menuOptions, 'engineContextmenu');
+        contextmenuEngines = new Contextmenu({
+            options: menuOptions,
+        }, 'engineContextmenu');
 
         // handle selection of user in contextmenu
         contextmenuEngines.menu.addEventListener('select',
             e => handleMenuSelect(e.detail))
 
         // close contextmenu on click
-        document.body.addEventListener('click', () => contextmenuEngines.close());
+        document.body.addEventListener('click',
+            () => contextmenuEngines.close());
     }
 }
 
@@ -73,7 +89,9 @@ function setDisabledList(target) {
 
 function openContextmenuEngines(e) {
     engineForContextmenu = e.target;
-    contextmenuEngines.open(e, setDisabledList(e.target));
+    const colors = document.body.classList.contains('dark') ?
+        menuColorsDark : menuColors;
+    contextmenuEngines.open(e, colors, setDisabledList(e.target));
 }
 
 function enginesContextmenu(e) {

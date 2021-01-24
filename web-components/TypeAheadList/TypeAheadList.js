@@ -35,6 +35,7 @@ class TypeAheadList extends HTMLElement {
         for (const item of result) {
             this.list.appendChild(this.createRow(item));
         }
+        this.list.style.visibility = 'visible';
     }
 
     next() {
@@ -104,6 +105,7 @@ class TypeAheadList extends HTMLElement {
 
     closeList() {
         this.list.innerHTML = '';
+        this.list.style.visibility = 'hidden';
     }
 
     dispatchSetSearch(s) {
