@@ -1,39 +1,6 @@
 import {getDefaultEngineId} from "../../storage/default.js";
-
-function categoryHtml(category) {
-    return `
-<div class="category" data-id="${category.id}">
-    <span class="category-title name">${category.name}</span>
-    <span class="controls">
-        <span>&nbsp;</span>
-        <span class="fa fa-edit edit cat" title="edit"></span>    
-        <span class="fa fa-delete delete cat" title="delete"></span>
-        <span class="fa fa-plus add cat" title="add engine"></span>
-        <span class="fa fa-floppy-o export-group cat" title="export group"></span>
-    </span>
-</div>
-`
-}
-
-function engineHtml(engine, defaultEngineId) {
-    const nameClass = engine.id === +defaultEngineId ? 'default' : '';
-    return `
-<div class="engine" data-id="${engine.id}" data-url="${engine.url}">
-    <span class="visible">
-        <input type="checkbox" title="visible on/off" 
-        class="check-visible" ${engine.visible ? 'checked' : ''}>
-    </span>
-    <span class="name ${nameClass}">${engine.name}</span>
-    <span class="controls">
-        <span>&nbsp;</span>
-        <span class="fa fa-edit edit eng" title="edit"></span>    
-        <span class="fa fa-external-link link eng" title="link"></span>    
-        <span class="fa fa-delete delete eng" title="delete"></span>
-        <span class="fa fa-flag set-default eng" title="set default"></span>
-    </span>
-</div>
-`;
-}
+import {getCategories} from "../../background/fetch.js";
+import {categoryHtml, engineHtml} from "./options.templates.js";
 
 function createCategoryEnginesHtml(category, defaultEngineId) {
     let html = categoryHtml(category);
@@ -49,19 +16,21 @@ function createCategoryDiv(category, defaultEngineId) {
     return categoryDiv;
 }
 
-function displayEngines(categories) {
-    getDefaultEngineId(defaultEngineId => {
-        const elementEngines = document.getElementById('engines');
-        elementEngines.innerHTML = '';
-        // console.log({categories});
-        categories.map(category => {
-            elementEngines.appendChild(createCategoryDiv(category, defaultEngineId));
-        })
+function createCategories(categories, defaultEngineId) {
+    const elementEngines = document.getElementById('engines');
+    elementEngines.innerHTML = '';
+    categories.map(category => {
+        elementEngines.appendChild(createCategoryDiv(category, defaultEngineId));
     })
+}
+
+function displayEngines(categories) {
+    getDefaultEngineId(defaultEngineId => createCategories(categories, defaultEngineId));
 }
 
 function displayItems(categories, cb) {
     displayEngines(categories);
+    // createCategories(categories);
     if (cb) {
         setTimeout(() => {
             cb();
@@ -70,10 +39,11 @@ function displayItems(categories, cb) {
 }
 
 function showEngineLinks() {
-    chrome.runtime.sendMessage({cmd: "getCategories"},
-        response => {
-            displayItems(response.categories);
-        })
+    // getCategories().then(categories => displayItems(categories));
+    chrome.storage.local.get(['categories', 'default'], res => {
+        createCategories(res.categories, res.default)
+    })
+
 }
 
 function reDisplayEngines(result) {

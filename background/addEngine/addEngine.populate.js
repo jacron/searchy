@@ -30,7 +30,7 @@ function stripQueryValue(url) {
 
 function populateOptions() {
     formAdd.selectCategory.innerHTML = '';
-    chrome.runtime.sendMessage({cmd: 'getCategories'}, response => {
+    chrome.storage.local.get(['categories'], response => {
         response.categories.map(category => {
             const option = document.createElement('option');
             option.value = category.id;
@@ -38,6 +38,14 @@ function populateOptions() {
             formAdd.selectCategory.appendChild(option);
         });
     })
+    // chrome.runtime.sendMessage({cmd: 'getCategories'}, response => {
+    //     response.categories.map(category => {
+    //         const option = document.createElement('option');
+    //         option.value = category.id;
+    //         option.label = category.name;
+    //         formAdd.selectCategory.appendChild(option);
+    //     });
+    // })
 }
 
 function populateDialogAdd(currentTab) {

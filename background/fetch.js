@@ -1,15 +1,15 @@
-function getEngineById(engineId, data, cb) {
-    data.categories.map(category => {
+function getEngineById(engineId, categories, cb) {
+    categories.map(category => {
         const engine = category.engines
             .filter(engine => engine.id === +engineId);
         if (engine.length > 0) {
-            cb(engine[0], category, data.categories);
+            cb(engine[0], category, categories);
         }
     })
 }
 
-function getCategoryById(categoryId, data, cb) {
-    const category = data.categories.filter(category => category.id === +categoryId);
+function getCategoryById(categoryId, categories, cb) {
+    const category = categories.filter(category => category.id === +categoryId);
     if (category.length > 0) {
         if (cb) {
             cb(category[0]);
@@ -18,4 +18,10 @@ function getCategoryById(categoryId, data, cb) {
     return category[0];
 }
 
-export {getEngineById, getCategoryById}
+function getCategories() {
+    return new Promise((resolve) => {
+        chrome.storage.local.get('categories', res => resolve(res.categories))
+    });
+}
+
+export {getEngineById, getCategoryById, getCategories}

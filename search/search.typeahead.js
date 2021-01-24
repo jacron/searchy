@@ -17,8 +17,8 @@ const menuColorsDark = {
 }
 
 function fetchIt(q, cb) {
-    // console.log({q});
-    cb(getTerms().filter(term => term.toUpperCase().indexOf(q.toUpperCase()) !== -1));
+    cb(getTerms().filter(term =>
+        term.toUpperCase().indexOf(q.toUpperCase()) !== -1));
 }
 
 function setTypeaheadColors() {

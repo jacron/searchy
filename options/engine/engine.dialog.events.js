@@ -1,6 +1,8 @@
 import {getTitleParts} from "../../common/stringutils.js";
 import {bindToElements} from "../../common/bind-events.js";
 import {hideDialogs} from "../dialog/dialog.hide.js";
+import {saveEngine} from "../../background/update.js";
+import {showEngineLinks} from "../options/options.create.js";
 
 let currentEngineName;
 
@@ -35,7 +37,7 @@ function trimTitle12(e) {
     e.preventDefault();
 }
 
-function saveEngine(cb) {
+function saveTheEngine() {
     const dialog = document.getElementById('dialogEngine');
     const nameElement = dialog.querySelector('#engineName');
     const urlElement = dialog.querySelector('#engineUrl');
@@ -44,21 +46,32 @@ function saveEngine(cb) {
         alert('Can\'t save empty name');
         return;
     }
-    chrome.runtime.sendMessage({
-        cmd: 'saveEngine',
-        id: dialog.getAttribute('data-id'),
-        name: nameElement.value,
-        url: addHttps(urlElement.value),
-        categoryId: categoryElement.value
-    }, () => {
+    chrome.storage.local.get(['categories'], res => {
+        saveEngine(dialog.getAttribute('data-id'),
+            nameElement.value,
+            addHttps(urlElement.value),
+            categoryElement.value,
+            res.categories
+        );
+        // sendResponse({msg: 'ok'});
         hideDialogs();
-        cb({msg: 'changed'});
+        showEngineLinks();
     })
+    // chrome.runtime.sendMessage({
+    //     cmd: 'saveEngine',
+    //     id: dialog.getAttribute('data-id'),
+    //     name: nameElement.value,
+    //     url: addHttps(urlElement.value),
+    //     categoryId: categoryElement.value
+    // }, () => {
+    //     hideDialogs();
+    //     cb({msg: 'changed'});
+    // })
 }
 
 function onKeydown(e, cb) {
     if (e.key === 'Enter') {
-        saveEngine(cb);
+        saveTheEngine(cb);
     }
     if (e.key === 'Escape') {
         hideDialogs();
@@ -68,7 +81,7 @@ function onKeydown(e, cb) {
 function initEngineEvents(cb) {
     bindToElements('click', [
         ['cancelEngine', hideDialogs],
-        ['saveEngine', () => saveEngine(cb)],
+        ['saveEngine', () => saveTheEngine(cb)],
         ['trim-title-1', trimTitle1],
         ['trim-title-2', trimTitle2],
         ['trim-title-1-2', trimTitle12],

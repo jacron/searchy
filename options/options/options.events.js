@@ -2,11 +2,14 @@ import {exportJson} from "../export.js";
 import {reDisplayEngines} from "./options.create.js";
 import {bindToElements} from "../../common/bind-events.js";
 import {toggleDarkmode} from "../../storage/dark.js";
-import {onEditClick} from "../edit.js";
+import {onEditClick} from "../options.edit.js";
 import {openDialogImport} from "../import.js";
 import {openDialogAddEngine} from "../engine/engine.dialog.js";
 import {openDialogAddCategory} from "../category/category.dialog.js";
 import {beginTour} from "./options.tour.js";
+import {setVisible} from "../../background/update.js";
+import {getCategories} from "../../background/fetch.js";
+// import {categories} from "../../initial_data old";
 
 function addEngine() {
     openDialogAddEngine(-1, result => {
@@ -48,11 +51,11 @@ function getIdFromCheckbox(target) {
 
 function engineToggleVisible(e) {
     const target = e.target;
-    chrome.runtime.sendMessage({
-        cmd: 'setVisible',
-        value: target.checked,
-        id: getIdFromCheckbox(target)
-    })
+    getCategories().then(categories =>
+        setVisible(getIdFromCheckbox(target), target.checked, categories));
+    // chrome.storage.local.get(['categories'], res => {
+    //     setVisible(getIdFromCheckbox(target), target.checked, res.categories);
+    // })
 }
 
 function initEvents() {

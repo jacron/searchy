@@ -14,7 +14,7 @@ function showDialog(dialog) {
 
 function populateOptions(selectElement, selectedCategoryId) {
     selectElement.innerHTML = '';
-    chrome.runtime.sendMessage({cmd: 'getCategories'}, response => {
+    chrome.storage.local.get(['categories'], response => {
         response.categories.map(category => {
             const option = document.createElement('option');
             option.value = category.id;
@@ -23,6 +23,15 @@ function populateOptions(selectElement, selectedCategoryId) {
         });
         selectElement.value = selectedCategoryId;
     })
+    // chrome.runtime.sendMessage({cmd: 'getCategories'}, response => {
+    //     response.categories.map(category => {
+    //         const option = document.createElement('option');
+    //         option.value = category.id;
+    //         option.label = category.name;
+    //         selectElement.appendChild(option);
+    //     });
+    //     selectElement.value = selectedCategoryId;
+    // })
 }
 
 export {showDialog, populateOptions}

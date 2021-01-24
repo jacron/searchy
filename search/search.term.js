@@ -6,11 +6,12 @@ const TASearch = document.getElementById("searchTypeAhead");
 const key = config.storageKeyTerms;
 
 function setSearchTermFromBackground() {
-    chrome.runtime.sendMessage({cmd: "getSelectedTerm"},
-        response => {
-            setTerm(response.term);
-            // inputTerm.value = response.term;
-        })
+    chrome.storage.local.get(['selectedTerm'], res => setTerm(res.selectedTerm));
+    // chrome.runtime.sendMessage({cmd: "getSelectedTerm"},
+    //     response => {
+    //         setTerm(response.term);
+    //         // inputTerm.value = response.term;
+    //     })
 }
 
 function getTerm() {

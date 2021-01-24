@@ -1,12 +1,13 @@
 import {reDisplayEngines, showEngineLinks} from "./options/options.create.js";
 import {setDefaultEngineId} from "../storage/default.js";
-import {getDataFromStorage} from "../common/persist.js";
-import {getCategoryById} from "../background/fetch.js";
+// import {getCategoriesFromStorage} from "../common/persist.js";
+import {getCategories, getCategoryById} from "../background/fetch.js";
 import {downloadJson} from "../common/download.js";
 import {openDialogAddEngine, openDialogEngine} from "./engine/engine.dialog.js";
 import {openDialogCategory} from "./category/category.dialog.js";
 import {removeEngine} from "./engine/engine.remove.js";
-import {removeCategory} from "./category/category.remove.js";
+import {askRemoveCategory} from "./category/category.remove.js";
+// import {categories} from "../initial_data old";
 
 function clearSelected() {
     const selectedElements = document.getElementsByClassName('selected');
@@ -20,7 +21,7 @@ function remove(type, id) {
         removeEngine(id);
     }
     if (type === 'category') {
-        removeCategory(id);
+        askRemoveCategory(id);
     }
 }
 
@@ -59,11 +60,17 @@ function setEngineDefault(engineId) {
 }
 
 function exportGroup(categoryId) {
-    getDataFromStorage(data => {
-        getCategoryById(categoryId, {categories: data}, category => {
-            downloadJson(category, `searchy.${category.name}.json`);
-        })
-    });
+    getCategories().then(categories => {
+            getCategoryById(categoryId, categories, category => {
+                downloadJson(category, `searchy.${category.name}.json`);
+            })
+        }
+    )
+    // getCategoriesFromStorage(data => {
+    //     getCategoryById(categoryId, {categories: data}, category => {
+    //         downloadJson(category, `searchy.${category.name}.json`);
+    //     })
+    // });
 }
 
 function newTab(url) {

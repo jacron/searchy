@@ -1,25 +1,28 @@
 import {doAction} from './action.js';
-import {getDataFromStorage} from '../common/persist.js';
+import {getCategoriesFromStorage} from '../common/persist.js';
 import {openDialog} from "./openDialogAddEngine.js";
 
 const config2 = {
     searchPage: "search/search.html",
 };
 
-const data = {
-    selectedTerm: "",
-    categories: [],
-    defaultEngine: -1,
-    // currentPageInfo: ""
-    currentTab: null
-}
+// const data = {
+//     selectedTerm: "",
+//     categories: [],
+//     defaultEngine: -1,
+//     // currentPageInfo: ""
+//     currentTab: null
+// }
 
 chrome.contextMenus.create(
     {
         title: `Searchy "%s"`,
         contexts:["selection"],
         onclick: info => {
-            data.selectedTerm = info.selectionText;
+            chrome.storage.local.set({
+                selectedTerm: info.selectionText
+            })
+            // data.selectedTerm = info.selectionText;
             chrome.tabs.create({
                 url: config2.searchPage
             });
@@ -31,7 +34,8 @@ function openDialogNewEngine() {
         currentWindow: true
     }, function(tabs) {
         const currentTab = tabs.length > 0 ? tabs[0] : null;
-        data.currentTab = currentTab;
+        // data.currentTab = currentTab;
+        chrome.storage.local.set({currentTab})
         chrome.windows.get(currentTab.windowId, win => {
             openDialog(win);
         });
@@ -52,7 +56,7 @@ chrome.contextMenus.create(
 
 chrome.runtime.onMessage.addListener(
     (request, sender, sendResponse) => {
-        doAction(request, sendResponse, data);
+        doAction(request, sendResponse);
 })
 
 function searchInCurrentTab() {
@@ -66,8 +70,9 @@ function searchInCurrentTab() {
     });
 }
 
-function setSearchTerm(term) {
-    data.selectedTerm = term;
+function setSearchTerm(selectedTerm) {
+    // data.selectedTerm = term;
+    chrome.storage.local.set({selectedTerm});
 }
 
 function handleOmniboxInputEntered(q) {
@@ -83,8 +88,9 @@ chrome.browserAction.onClicked.addListener(handleActionClicked);
 chrome.omnibox.onInputEntered.addListener(handleOmniboxInputEntered);
 
 function init() {
-    getDataFromStorage(categories => {
-        data.categories = categories
+    getCategoriesFromStorage(categories => {
+        // data.categories = categories
+        chrome.local.storage.set({categories});
     });
 }
 

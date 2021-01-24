@@ -1,39 +1,41 @@
 import {getCategoryById} from "./fetch.js";
-import {persistData} from '../common/persist.js';
+// import {persistData} from '../common/persist.js';
 
-function setVisible(engineId, value, data) {
-    data.categories.map(category => {
+function setVisible(engineId, value, categories) {
+    // console.log(engineId, value, categories);
+    categories.map(category => {
         category.engines
             .filter(engine => engine.id === +engineId)
             .map(engine => {
                 engine.visible = value
             })
     })
-    persistData(data);
+    chrome.storage.local.set({categories});
+    // persistData(data);
 }
 
-function removeEngine(enigineId, data) {
-    data.categories.map(category => {
+function removeEngine(enigineId, categories) {
+    categories.map(category => {
         category.engines = category.engines
             .filter(engine => engine.id !== +enigineId)
-        persistData(data);
+        // persistData(data);
     })
+    chrome.storage.local.set({categories});
 }
 
-function removeEmptyCategory(categoryId, data) {
-    data.categories = data.categories
-        .filter(category => category.id !== +categoryId);
-    persistData(data);
+function removeEmptyCategory(categoryId, categories) {
+    categories = categories.filter(category => category.id !== +categoryId);
+    chrome.storage.local.set({categories});
+    // persistData(data);
 }
 
-function removeCategoryWithEngines(categoryId, engines, data) {
+function removeCategoryWithEngines(categoryId, engines, categories) {
     engines.map(engine => {
-        engines = engines
-            .filter(engine2 => engine.id !== engine2.id)
+        engines = engines.filter(engine2 => engine.id !== engine2.id)
     });
-    data.categories = data.categories
-        .filter(category => category.id !== +categoryId);
-    persistData(data);
+    categories = categories.filter(category => category.id !== +categoryId);
+    chrome.storage.local.set({categories});
+    // persistData(data);
 }
 
 function removeCategory(id, forced, data) {
@@ -51,17 +53,17 @@ function removeCategory(id, forced, data) {
     }
 }
 
-function copyEngineToCategory(engine, categoryId, data) {
-    data.categories
+function copyEngineToCategory(engine, categoryId, categories) {
+    categories
         .filter(category => category.id === +categoryId)
         .map(category => {
             category.engines.push(engine);
     })
 }
 
-function getNewEngineId(data) {
+function getNewEngineId(categories) {
     let max = 0;
-    data.categories.map(category => {
+    categories.map(category => {
         category.engines.map(engine => {
             if (engine.id > max) {
                 max = engine.id;
@@ -71,9 +73,9 @@ function getNewEngineId(data) {
     return max + 1;
 }
 
-function getNewCategoryId(data) {
+function getNewCategoryId(categories) {
     let max = 0;
-    data.categories.map(category => {
+    categories.map(category => {
         if (category.id > max) {
             max = category.id;
         }
@@ -81,22 +83,23 @@ function getNewCategoryId(data) {
     return max + 1;
 }
 
-function addEngine(name, url, categoryId, data) {
-    data.categories
+function addEngine(name, url, categoryId, categories) {
+    categories
         .filter(category => category.id === +categoryId)
         .map(category => {
             category.engines.push({
                 name,
                 url,
                 visible: true,
-                id: getNewEngineId(data)
+                id: getNewEngineId(categories)
             })
-            persistData(data);
+            chrome.storage.local.set({categories});
+            // persistData(data);
         })
 }
 
-function updateEngine(engineId, name, url, categoryId, data) {
-    data.categories.map(category => {
+function updateEngine(engineId, name, url, categoryId, categories) {
+    categories.map(category => {
         const engines = category.engines
             .filter(engine => engine.id === +engineId);
         if (engines.length > 0) {
@@ -105,56 +108,59 @@ function updateEngine(engineId, name, url, categoryId, data) {
             engine.url = url;
             if (category.id !== +categoryId) {
                 // add engine to new category
-                copyEngineToCategory(engine, categoryId, data);
+                copyEngineToCategory(engine, categoryId, categories);
                 // remove engine from old category
                 category.engines = category.engines.filter(eng => eng.id !== engine.id);
             }
-            persistData(data);
+            chrome.storage.local.set({categories});
+            // persistData(data);
         }
     })
 }
 
-function updateCategory(categoryId, name, data) {
-    data.categories
+function updateCategory(categoryId, name, categories) {
+    categories
         .filter(category => category.id === +categoryId)
         .map(category => {
             category.name = name;
         })
-    persistData(data);
+    chrome.storage.local.set({categories});
+    // persistData(data);
 }
 
-function saveEngine(engineId, name, url, categoryId, data) {
+function saveEngine(engineId, name, url, categoryId, categories) {
     if (engineId === '-1') {
-        addEngine(name, url, categoryId, data);
+        addEngine(name, url, categoryId, categories);
     } else {
-        updateEngine(engineId, name, url, categoryId, data);
+        updateEngine(engineId, name, url, categoryId, categories);
     }
 }
 
-function addCategory(name, id, engines, data) {
-    data.categories.push({
+function addCategory(name, id, engines, categories) {
+    categories.push({
         name,
         engines,
         id
     });
-    persistData(data);
+    chrome.storage.local.set({categories});
+    // persistData(data);
 }
 
-function saveCategory(categoryId, name, data, cb) {
+function saveCategory(categoryId, name, categories, cb) {
     if (categoryId === '-1') {
-        const newId = getNewCategoryId(data);
-        addCategory(name, newId, [], data);
+        const newId = getNewCategoryId(categories);
+        addCategory(name, newId, [], categories);
         if (cb) {
             cb(newId);
         }
     } else {
-        updateCategory(categoryId, name, data);
+        updateCategory(categoryId, name, categories);
     }
 }
 
-function addImportedCategory(category, name, data) {
-    const newId = getNewCategoryId(data);
-    addCategory(name, newId, category.engines, data);
+function addImportedCategory(category, name, categories) {
+    const newId = getNewCategoryId(categories);
+    addCategory(name, newId, category.engines, categories);
 }
 
 export {setVisible, removeEngine, removeCategory,

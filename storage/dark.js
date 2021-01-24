@@ -16,7 +16,9 @@ function toggleDarkmode(dark) {
 function initDarkmode(cb) {
     chrome.storage.local.get([key], result => {
         document.body.className = result[key] ? 'dark' : '';
-        cb();
+        if (cb) {
+            cb();
+        }
     })
 }
 

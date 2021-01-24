@@ -4,66 +4,95 @@ import {
 } from "./update.js";
 import {getCategoryById, getEngineById} from "./fetch.js";
 
-function doAction(request, sendResponse, data) {
+function fromStorageSend(sendResponse, storageKey, responseKey) {
+    if (!responseKey) {
+        responseKey = storageKey;
+    }
+    chrome.storage.local.get([storageKey],
+        data => {
+            sendResponse({
+                [responseKey]: data[storageKey]
+            });
+        });
+}
+
+function doAction(request, sendResponse) {
     switch (request.cmd) {
         case 'getCurrentTab':
-            sendResponse({currentTab: data.currentTab});
+            fromStorageSend(sendResponse, 'currentTab');
             break;
-        // case 'setCurrentTab':
-        //     data.currentTab = request.currentTab;
-        //     sendResponse({msg: 'ok'});
-        //     break;
         case 'getSelectedTerm':
-            sendResponse({term: data.selectedTerm});
+            fromStorageSend(sendResponse, 'selectedTerm');
             break;
         case 'setSearchTerm':
-            data.selectedTerm = request.term;
+            chrome.storage.local.set({
+                selectedTerm: request.term
+            });
             sendResponse({msg: 'ok'});
             break;
         case 'getCategories':
-            sendResponse({categories: data.categories});
+            fromStorageSend(sendResponse, 'categories');
             break;
         case 'setCategories':
-            data.categories = request.categories;
+            chrome.local.storage.set({
+                categories: request.categories
+            });
             sendResponse({msg: 'ok'});
             break;
         case 'getEngineById':
-            getEngineById(request.id, data, (engine, category, categories) => {
-                sendResponse({engine, category, categories});
-            });
+            chrome.storage.local.get(['categories'], res => {
+                getEngineById(request.id, res.categories, (engine, category, categories) => {
+                    sendResponse({engine, category, categories});
+                });
+            })
             break;
         case 'getCategoryById':
-            getCategoryById(request.id, data, category => {
-                sendResponse({category});
-            });
+            chrome.storage.local.get(['categories'], res => {
+                getCategoryById(request.id, res.categories, category => {
+                    sendResponse({category});
+                });
+            })
             break;
 
         //    CRUD
         case 'addCategory':
-            addImportedCategory(request.category, request.name, data);
-            sendResponse(data);
+            chrome.storage.local.get(['categories'], res => {
+                addImportedCategory(request.category, request.name, res.categories);
+                // sendResponse(data);//??
+                sendResponse({msg: 'ok'});
+            })
             break;
         case 'setVisible':
-            setVisible(request.id, request.value, data);
-            sendResponse({msg: 'ok'});
+            chrome.storage.local.get(['categories'], res => {
+                setVisible(request.id, request.value, res.categories);
+                sendResponse({msg: 'ok'});
+            })
             break;
         case 'removeEngine':
-            removeEngine(request.id, data);
-            sendResponse({msg: 'ok'});
+            chrome.storage.local.get(['categories'], res => {
+                removeEngine(request.id, res.categories);
+                sendResponse({msg: 'ok'});
+            })
             break;
         case 'removeCategory':
-            const msg = removeCategory(request.id, request.forced, data) ?
-                'ok' : 'category not empty';
-            sendResponse({msg});
+            chrome.storage.local.get(['categories'], res => {
+                const msg = removeCategory(request.id, request.forced, res.categories) ?
+                    'ok' : 'category not empty';
+                sendResponse({msg});
+            })
             break;
         case 'saveEngine':
-            saveEngine(request.id, request.name, request.url, request.categoryId, data);
-            sendResponse({msg: 'ok'});
+            chrome.storage.local.get(['categories'], res => {
+                saveEngine(request.id, request.name, request.url, request.categoryId, res.categories);
+                sendResponse({msg: 'ok'});
+            })
             break;
         case "saveCategory":
-            saveCategory(request.id, request.name, data, newId => {
-                sendResponse({msg: 'ok', newId});
-            });
+            chrome.storage.local.get(['categories'], res => {
+                saveCategory(request.id, request.name, res.categories, newId => {
+                    sendResponse({msg: 'ok', newId});
+                });
+            })
             break;
     }
 }

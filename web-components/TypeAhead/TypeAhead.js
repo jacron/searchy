@@ -32,16 +32,6 @@ class TypeAhead extends HTMLElement {
         });
     }
 
-    // setStyling() {
-    //     this.search.style.backgroundColor = this.fromAttribute('bgInput', '#aaa');
-    //     this.search.style.color = this.fromAttribute('colInput', '#333');
-    //     this.typeAheadList.setColors({
-    //         bgTitle: this.fromAttribute('bgTitle', '#292a2d'),
-    //         colTitle: this.fromAttribute('colTitle', '#eee'),
-    //         bgSelected: this.fromAttribute('bgSelected', '#4b4c4f')
-    //     });
-    // }
-
     setFlyOnEnter() {
         const attr = this.fromAttribute('flyOnEnter', 'true');
         this.flyOnEnter = attr === 'true' || attr === 'on' || attr === '1';
@@ -67,7 +57,8 @@ class TypeAhead extends HTMLElement {
 
     handleNormalKey() {
         const q = this.search.value;
-        if (q.length > 2) {
+        const minLength = this.getAttribute('minLength') || 2;
+        if (q.length >= minLength) {
             // getItems is defined in client code
             this.getItems(q, items => {
                 this.typeAheadList.fillList(items);

@@ -1,11 +1,14 @@
-import {getDataFromStorage, persistData} from "../common/persist.js";
-import {displayItems} from "./options/options.create.js";
+// import {getCategoriesFromStorage} from "../common/persist.js";
+import {displayItems, showEngineLinks} from "./options/options.create.js";
 import {hideElement} from "../common/htmlelements.js";
-import {hideDialogs} from "./dialog/dialog.hide.js";
 import {bindToElements} from "../common/bind-events.js";
 import {initBackground} from "./dialog/dialog.background.js";
 import {insertTemplate} from "./dialog/dialog.insert.js";
 import {showDialog} from "./dialog/dialog.js";
+import {addImportedCategory} from "../background/update.js";
+import {getCategories} from "../background/fetch.js";
+import {hideDialogs} from "./dialog/dialog.hide.js";
+// import {categories} from "../initial_data old";
 
 const templateImport = `
 <div class="dialog" id="dialogImport">
@@ -33,25 +36,28 @@ function setImportedFileName(name) {
     importedFileName = name;
 }
 
-function restoreData(cb) {
-    getDataFromStorage(categories => {
-        chrome.runtime.sendMessage({
-            cmd: 'setCategories',
-            categories
-        }, () => {
-            cb(categories);
-        })
-    })
-}
+// function restoreData(cb) {
+//     chrome.storage.local.get(['categories'],
+//             res => cb(res.categories));
+//     // getCategoriesFromStorage(categories => {
+//     //     chrome.runtime.sendMessage({
+//     //         cmd: 'setCategories',
+//     //         categories
+//     //     }, () => {
+//     //         cb(categories);
+//     //     })
+//     // })
+// }
 
 function dialogImport(categories) {
     displayItems(categories, () => {
         if (confirm("Do you want to keep these changes?")) {
-            persistData({categories});
+            // persistData({categories});
+            chrome.local.storage.set({categories});
             hideElement('dialogImport');
         } else {
-            restoreData(categories => {
-                displayItems(categories);
+            chrome.storage.local.get(['categories'], res =>  {
+                displayItems(res.categories);
                 hideElement('dialogImport');
             });
         }
@@ -59,21 +65,21 @@ function dialogImport(categories) {
 }
 
 function setCategories(categories) {
-    chrome.runtime.sendMessage({
-        cmd: 'setCategories',
-        categories
-    }, () => {
-        dialogImport(categories);
-    });
+    // chrome.local.storage.set({categories});
+    dialogImport(categories);
+    // chrome.runtime.sendMessage({
+    //     cmd: 'setCategories',
+    //     categories
+    // }, () => {
+    //     dialogImport(categories);
+    // });
 }
 
 function setCategory(category, name) {
-    chrome.runtime.sendMessage({
-        cmd: 'addCategory',
-        category,
-        name
-    }, () => {
+    getCategories().then(categories => {
+        addImportedCategory(category, name, categories)
         hideDialogs();
+        showEngineLinks();
     });
 }
 
@@ -91,7 +97,6 @@ function importData() {
 function onReaderLoad(e) {
     setImportedData(e.detail.content);
     if (e.detail.content) {
-        // console.log(e.detail.name);
         setImportedFileName(e.detail.name)
         document.getElementById('btnImportData')
             .style.display = 'block';

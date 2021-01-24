@@ -18,19 +18,22 @@ function openCategoryEngines(clickedElement) {
     }
 }
 
-function setSearchTerm(term, cb) {
-    chrome.runtime.sendMessage({
-        cmd: 'setSearchTerm',
-        term
-    }, () => {
-        cb();
-    })
+function storeSearchTerm(selectedTerm) {
+    chrome.storage.local.set({selectedTerm});
+    //
+    // chrome.runtime.sendMessage({
+    //     cmd: 'setSearchTerm',
+    //     term
+    // }, () => {
+    //     cb();
+    // })
 }
 
 function recentTerms(e) {
     const target = e.target;
     if (target.id !== 'recentTerms') {
-        document.getElementById('term').value = target.textContent;
+        const searchTA = document.querySelector('type-ahead');
+        searchTA.search.value = target.textContent;
     }
 }
 
@@ -38,24 +41,21 @@ function enginesClick(e) {
     const target = e.target;
     const term = getTerm();
     if (target.tagName === 'A') {
-        setSearchTerm(term, () => {
-            storeTerm(term);
-            toUrl(target.getAttribute('data-href'), term);
-        });
+        storeSearchTerm(term);
+        storeTerm(term);
+        toUrl(target.getAttribute('data-href'), term);
         e.preventDefault();
     }
     if (target.classList.contains('category-title')) {
-        setSearchTerm(term, () => {
-            storeTerm(term);
-            openCategoryEngines(target);
-        });
+        storeSearchTerm(term);
+        storeTerm(term);
+        openCategoryEngines(target);
         e.preventDefault();
     }
 }
 
 function setNewTab(e) {
-    const target = e.target;
-    setNewtabSetting(target.checked);
+    setNewtabSetting(e.target.checked);
 }
 
 function toggleRecent(e) {
@@ -66,18 +66,16 @@ function toggleRecent(e) {
 
 function pageOptions() {
     const term = getTerm();
-    setSearchTerm(term, () => {
-        storeTerm(term);
-    });
+    storeSearchTerm(term);
+    storeTerm(term);
 }
 
 function defaultEnter(term) {
     const defaultEngine = document.querySelector('.default');
     if (defaultEngine) {
-        setSearchTerm(term, () => {
-            storeTerm(term);
-            toUrl(defaultEngine.getAttribute('data-href'), term)
-        });
+        storeSearchTerm(term);
+        storeTerm(term);
+        toUrl(defaultEngine.getAttribute('data-href'), term)
     }
 }
 

@@ -1,0 +1,28 @@
+{
+  "name": "Searchy Start",
+  "description": "Open multiple search engines with one query",
+  "version": "0.4",
+  "permissions": [
+    "contextMenus",
+    "storage",
+    "downloads",
+    "tabs"
+  ],
+  "host_permissions": [
+    "chrome://favicon/*"
+  ],
+  "background": {
+    "page": "background/background.html"
+  },
+  "action": {
+    "default_icon": "icons/search128r.png"
+  },
+  "icons": {
+    "128": "icons/search128r.png"
+  },
+  "omnibox": {
+    "keyword": "sy"
+  },
+  "options_page": "options/options/options.html",
+  "manifest_version": 3
+}

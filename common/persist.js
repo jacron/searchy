@@ -2,16 +2,16 @@ import config from "./config.js";
 
 const key = config.storageKeyCategories;
 
-function notifyChange() {
-    chrome.runtime.sendMessage({
-        notify: 'data changed'
-    })
-}
+// function notifyChange() {
+//     chrome.runtime.sendMessage({
+//         notify: 'data changed'
+//     })
+// }
 
-function persistData(data) {
-    chrome.storage.local.set({[key]: data.categories}, () => {})
-    notifyChange();
-}
+// function persistData(data) {
+//     chrome.storage.local.set({[key]: data.categories}, () => {})
+//     notifyChange();
+// }
 
 function maintainLocalStorage() {
     const showLocalStorage = false;
@@ -44,7 +44,7 @@ function dataFromStorage(cb) {
     })
 }
 
-function getDataFromStorage(cb) {
+function getCategoriesFromStorage(cb) {
     maintainLocalStorage();
 
     const testInitial = false;
@@ -55,4 +55,4 @@ function getDataFromStorage(cb) {
     }
 }
 
-export {persistData, getDataFromStorage}
+export {getCategoriesFromStorage}
