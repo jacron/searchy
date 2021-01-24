@@ -14,7 +14,7 @@ function setSearchTermFromBackground() {
 }
 
 function getTerm() {
-    return TASearch.search.value;
+    return TASearch.search.value.trim();
 }
 
 function setTerm(t) {
@@ -27,11 +27,12 @@ function storeTerm() {
     if (!terms) {
         terms = [];
     }
-    if (!terms.includes(getTerm())) {
+    const term = getTerm();
+    if (!terms.includes(term)) {
         if (terms.length > config.storageMaxTerms) {
             terms.shift();
         }
-        terms.push(getTerm());
+        terms.push(term);
     }
     localStorage.setItem(key, JSON.stringify(terms));
 }

@@ -9,8 +9,10 @@ const menuStyle = {
     backgroundColor: 'inherit',
     padding: '5px',
     lineHeight: '1.8',
-    border: '1px solid #ccc',
+    border: '1px solid rgba(200, 200, 200, .3)',
     borderRadius: '6px',
+    boxShadow: '0 6px 12px 3px rgba(0, 0, 0, 0.24)',
+    outlineWidth: 0,
 }
 
 const optionStyle = {
@@ -32,13 +34,12 @@ class Contextmenu {
             this.disableOptions(disabled);
         }
         this.menu.style.visibility = 'visible';
-        // this.menu.style.display = 'block';
         this.positionMenu(e);
+        this.menu.focus();
     }
 
     close() {
         this.menu.style.visibility = 'hidden';
-        // this.menu.style.display = 'none';
     }
 
     clearSelector() {
@@ -77,13 +78,45 @@ class Contextmenu {
         }
     }
 
+    menuKey(e, that) {
+        if (e.key === 'Escape') {
+            if (that.isOpen) {
+                that.close();
+            }
+        }
+        if (e.key === 'ArrowDown') {
+            if (that.isOpen) {
+                e.preventDefault();
+                e.cancelBubble = true;
+                e.stopPropagation();
+                that.next();
+            }
+        }
+        if (e.key === 'ArrowUp') {
+            if (that.isOpen) {
+                that.prev();
+                e.preventDefault();
+                e.cancelBubble = true;
+                e.stopPropagation();
+            }
+        }
+        if (e.key === 'Enter') {
+            that.menu.dispatchEvent(new CustomEvent('select', {
+                detail: that.selectedOptionChoice()
+            }));
+        }
+    }
+
     attachEvents() {
-        this.menu.addEventListener('mouseover',
-            e => this.menuMouseOver(e, this))
-        this.menu.addEventListener('mouseleave',
-            e => this.menuMouseLeave(e, this))
-        this.menu.addEventListener('click',
-            e => this.menuClick(e, this))
+        [
+            ['mouseover', this.menuMouseOver],
+            ['mouseleave', this.menuMouseLeave],
+            ['click', this.menuClick],
+            ['keydown', this.menuKey]
+        ].forEach(binding => {
+            const [event, listener] = binding;
+            this.menu.addEventListener(event, e => listener(e, this))
+        });
     }
 
     positionMenu(e) {
@@ -149,7 +182,11 @@ class Contextmenu {
 
     selectedOptionChoice() {
         const selectedOption = this.menu.querySelector('[selected="true"]');
-        return selectedOption.getAttribute('id');
+        if (selectedOption) {
+            return selectedOption.getAttribute('id');
+        } else {
+            return null;
+        }
     }
 
     next() {

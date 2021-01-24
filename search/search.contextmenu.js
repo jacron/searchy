@@ -1,5 +1,5 @@
 import {Contextmenu} from "../components/Contextmenu.js";
-import {getTerm} from "./search.term.js";
+import {getTerm, storeTerm} from "./search.term.js";
 import {setDefaultEngineId} from "../storage/default.js";
 import {newTab, newWindow, incognitoWindow} from "./search.open.js";
 
@@ -35,67 +35,52 @@ function handleMenuSelect(choice) {
             setDefault(engineForContextmenu.getAttribute('data-id'));
             break;
         case 'newtab':
+            storeTerm(term);
             newTab(engineForContextmenu.getAttribute('data-href'), getTerm());
             break;
         case 'newwindow':
+            storeTerm(term);
             newWindow(engineForContextmenu.getAttribute('data-href'), getTerm());
             break;
         case 'incognito':
+            storeTerm(term);
             incognitoWindow(engineForContextmenu.getAttribute('data-href'), getTerm());
             break;
     }
 }
 
-function bodyKeyup(e) {
-    if (e.key === 'Escape') {
-        if (contextmenuEngines.isOpen) {
-            contextmenuEngines.close();
-        }
-    }
-    if (e.key === 'ArrowDown') {
-        if (contextmenuEngines.isOpen) {
-            contextmenuEngines.next();
-            e.preventDefault();
-            e.cancelBubble = true;
-            e.stopPropagation();
-        }
-    }
-    if (e.key === 'ArrowUp') {
-        if (contextmenuEngines.isOpen) {
-            contextmenuEngines.prev();
-            e.preventDefault();
-            e.cancelBubble = true;
-            e.stopPropagation();
-        }
-    }
-    if (e.key === 'Enter') {
-        handleMenuSelect(contextmenuEngines.selectedOptionChoice())
-    }
-}
-
-function initContextmenuEngines() {
+function initSingletonContextmenuEngines() {
     if (!contextmenuEngines) {
         contextmenuEngines = new Contextmenu(
             menuOptions, 'engineContextmenu');
+
+        // handle selection of user in contextmenu
         contextmenuEngines.menu.addEventListener('select',
             e => handleMenuSelect(e.detail))
+
+        // close contextmenu on click
         document.body.addEventListener('click', () => contextmenuEngines.close());
-        contextmenuEngines.menu.addEventListener('keyup', bodyKeyup, false);
     }
+}
+
+function setDisabledList(target) {
+    const disabled = [];
+    if (target.classList.contains('default')) {
+        disabled.push('setdefault');
+    }
+    return disabled;
+}
+
+function openContextmenuEngines(e) {
+    engineForContextmenu = e.target;
+    contextmenuEngines.open(e, setDisabledList(e.target));
 }
 
 function enginesContextmenu(e) {
     const target = e.target;
     if (target.tagName === 'A') {
-        initContextmenuEngines();
-        engineForContextmenu = target;
-        const disabled = [];
-        if (target.classList.contains('default')) {
-            disabled.push('setdefault');
-        }
-        contextmenuEngines.menu.style.outlineWidth = '0';
-        contextmenuEngines.open(e, disabled);
-        contextmenuEngines.menu.focus();
+        initSingletonContextmenuEngines();
+        openContextmenuEngines(e);
     }
     e.preventDefault();
 }
