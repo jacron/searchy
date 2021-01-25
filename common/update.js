@@ -41,21 +41,23 @@ function removeCategoryWithEngines(categoryId, engines, categories) {
     setCategories(categories);
 }
 
-function removeCategory(id, forced, categories) {
+function removeCategory(id, forced) {
     return new Promise(resolve => {
-        getCategoryById(id).then(category => {
-            if (category.engines.length > 0) {
-                if (forced) {
-                    removeCategoryWithEngines(id, category.engines, categories);
-                    resolve(true);
+        getCategories().then(categories => {
+            getCategoryById(id).then(category => {
+                if (category.engines.length > 0) {
+                    if (forced) {
+                        removeCategoryWithEngines(id, category.engines, categories);
+                        resolve(true);
+                    } else {
+                        resolve(false);
+                    }
                 } else {
-                    resolve(false);
+                    removeEmptyCategory(id, categories);
+                    resolve(true);
                 }
-            } else {
-                removeEmptyCategory(id, categories);
-                resolve(true);
-            }
-        });
+            });
+        })
     })
 }
 

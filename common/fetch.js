@@ -5,7 +5,7 @@ function getEngineById(engineId) {
                 const engine = category.engines
                     .find(engine => engine.id === +engineId);
                 if (engine) {
-                    resolve(engine, category);
+                    resolve([engine, category]);
                 }
             })
         })

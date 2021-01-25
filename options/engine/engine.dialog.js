@@ -32,11 +32,11 @@ function populateEngine(engine, category) {
 
 function openDialogEngine(id, cb) {
     const dialogAction = initDialogEngine(templateEngine, 'Edit Engine', cb);
-    getEngineById(id).then((engine, category) => {
+    getEngineById(id).then(([engine, category]) => {
         populateEngine(engine, category);
+        showDialog(dialogAction);
+        initialFocus();
     })
-    showDialog(dialogAction);
-    initialFocus();
 }
 
 function openDialogAddEngine(catId, cb) {

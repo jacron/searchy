@@ -1,16 +1,17 @@
-import {showEngineLinks} from "../options/options.create.js";
-import {getCategories} from "../../common/fetch.js";
 import {removeCategory} from "../../common/update.js";
 
 function askRemoveCategory(id) {
-    getCategories().then(categories => {
-        removeCategory(id, false, categories).then(success => {
+    return new Promise(resolve => {
+        removeCategory(id, false).then(success => {
             if (success) {
-                showEngineLinks();
+                resolve(true);
             } else {
                 if (confirm("This category contains engines. Delete them also?")) {
-                    removeCategory(id, true, categories)
-                        .then(() => showEngineLinks());
+                    removeCategory(id, true).then(() => {
+                            resolve(true);
+                        });
+                } else {
+                    resolve(false);
                 }
             }
         })

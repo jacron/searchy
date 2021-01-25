@@ -12,6 +12,12 @@ const formAdd = {
 
 let currentTab;
 
+function notify() {
+    chrome.runtime.sendMessage({
+        notify: 'data changed'
+    })
+}
+
 function save() {
     storeEngine('-1',
         formAdd.inputName.value,
@@ -19,6 +25,7 @@ function save() {
         formAdd.selectCategory.value)
         .then(() => {
             window.close();
+            notify();
         })
 }
 
@@ -46,8 +53,10 @@ function newCategory() {
     const answer = prompt('New category');
     console.log(answer);
     if (answer) {
-        storeCategory('-1', answer).then(newId =>
-            populateOptions(formAdd.selectCategory, newId))
+        storeCategory('-1', answer).then(newId => {
+            populateOptions(formAdd.selectCategory, newId);
+            notify();
+        })
     }
 }
 

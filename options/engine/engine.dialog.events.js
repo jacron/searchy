@@ -37,13 +37,17 @@ function trimTitle12(e) {
     e.preventDefault();
 }
 
-function saveTheEngine() {
+function saveTheEngine(cb) {
     const dialog = document.getElementById('dialogEngine');
     const nameElement = dialog.querySelector('#engineName');
     const urlElement = dialog.querySelector('#engineUrl');
     const categoryElement = dialog.querySelector('#engineCategory');
     if (nameElement.value === '') {
         alert('Can\'t save empty name');
+        return;
+    }
+    if (categoryElement.value === '') {
+        alert('An engine has to have a category!');
         return;
     }
     storeEngine(dialog.getAttribute('data-id'),
@@ -53,7 +57,7 @@ function saveTheEngine() {
         .then(() => {
             hideDialogs();
             showEngineLinks();
-
+            cb(true);
     })
 }
 

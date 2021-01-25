@@ -8,6 +8,13 @@ import {askRemoveCategory} from "./category/category.remove.js";
 import {removeEngine} from "../common/update.js";
 // import {categories} from "../initial_data old";
 
+function notify() {
+    console.log('notified');
+    chrome.runtime.sendMessage({
+        notify: 'data changed'
+    })
+}
+
 function clearSelected() {
     const selectedElements = document.getElementsByClassName('selected');
     for (let i = 0; i < selectedElements.length; i++) {
@@ -17,11 +24,18 @@ function clearSelected() {
 
 function remove(type, id) {
     if (type === 'engine') {
-        removeEngine(id).then(() => showEngineLinks());
-        // removeTheEngine(id);
+        removeEngine(id).then(() => {
+            showEngineLinks();
+            notify();
+        });
     }
     if (type === 'category') {
-        askRemoveCategory(id);
+        askRemoveCategory(id).then(success => {
+            if (success) {
+                showEngineLinks();
+                notify();
+            }
+        });
     }
 }
 
@@ -36,14 +50,16 @@ function editObject(type, engine, id) {
     engine.classList.add('selected');
     if (type === 'engine') {
         openDialogEngine(id, result => {
-            reDisplayEngines(result);
-            clearSelected();
+            // reDisplayEngines(result);
+            // clearSelected();
+            // notify();
         });
     }
     if (type === 'category') {
         openDialogCategory(id, result => {
-            reDisplayEngines(result);
-            clearSelected();
+            // reDisplayEngines(result);
+            // clearSelected();
+            // notify();
         });
     }
 }
@@ -51,23 +67,20 @@ function editObject(type, engine, id) {
 function addEngineToCategory(categoryId) {
     openDialogAddEngine(categoryId, result => {
         reDisplayEngines(result);
+        notify();
     });
 }
 
 function setEngineDefault(engineId) {
     setDefaultEngineId(engineId);
     showEngineLinks();
+    notify();
 }
 
 function exportGroup(categoryId) {
     getCategoryById(categoryId).then(category =>
         downloadJson(category, `searchy.${category.name}.json`)
     )
-    // getCategoriesFromStorage(data => {
-    //     getCategoryById(categoryId, {categories: data}, category => {
-    //         downloadJson(category, `searchy.${category.name}.json`);
-    //     })
-    // });
 }
 
 function newTab(url) {

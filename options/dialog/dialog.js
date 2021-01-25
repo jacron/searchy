@@ -1,6 +1,5 @@
 import {showBackground} from "./dialog.background.js";
 import {getCategories} from "../../common/fetch.js";
-// import {categories} from "../../initial_data old";
 
 function calcCenteredLeft(w) {
     return window.innerWidth / 2 - (w / 2);

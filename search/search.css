@@ -150,6 +150,10 @@ a:hover {
     cursor: pointer;
 }
 .recent > div:hover {
+    color: black;
+    font-weight: bold;
+}
+.dark .recent > div:hover {
     color: aqua;
 }
 help-tour {
