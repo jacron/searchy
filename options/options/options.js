@@ -37,4 +37,10 @@ chrome.runtime.onMessage.addListener(req => {
     }
 })
 
+chrome.storage.onChanged.addListener((changes, areaName) => {
+    if (changes.categories) {
+        showEngineLinks();
+    }
+})
+
 init();
