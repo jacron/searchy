@@ -2,6 +2,7 @@ import {insertTemplate} from "../dialog/dialog.insert.js";
 import {initCategoryEvents} from "./category.dialog.events.js";
 import {showDialog} from "../dialog/dialog.js";
 import {templateCategory} from "./category.template.js";
+import {getCategoryById} from "../../background/fetch.js";
 
 function openDialogAddCategory(cb) {
     const dialogAction = initDialogCategory(templateCategory, 'New Category', cb);
@@ -21,14 +22,16 @@ function populateCategory(category) {
 
 function openDialogCategory(id, cb) {
     const dialogAction = initDialogCategory(templateCategory, 'Edit Category', cb);
-    chrome.runtime.sendMessage({
-        cmd: 'getCategoryById', id
-    }, response => {
-        if (response) {
-            const {category} = response;
-            populateCategory(category);
-        }
-    })
+    getCategoryById(id).then(category => populateCategory(category))
+
+    // chrome.runtime.sendMessage({
+    //     cmd: 'getCategoryById', id
+    // }, response => {
+    //     if (response) {
+    //         const {category} = response;
+    //         populateCategory(category);
+    //     }
+    // })
     showDialog(dialogAction);
     initialFocus();
 }

@@ -5,17 +5,10 @@ function init() {
     chrome.storage.local.get(['currentTab'], response =>{
         populateDialog(response.currentTab);
         initEvents(response.currentTab);
-        window.addEventListener('blur', () => {
-            window.close();
-        })
+        // window.addEventListener('blur', () => {
+        //     window.close();
+        // })
     });
-    // chrome.runtime.sendMessage({cmd: 'getCurrentTab'}, response => {
-    //     populateDialog(response.currentTab);
-    //     initEvents(response.currentTab);
-    //     window.addEventListener('blur', () => {
-    //         window.close();
-    //     })
-    // })
 }
 
 init();

@@ -18,17 +18,28 @@
     text-align: right;
     position: absolute;
     background-color: #dfe1e5;
-    padding-right: 5px;
+    padding: 2px;
+    box-shadow: 0 6px 12px 3px rgba(0, 0, 0, 0.24);
+    border: 1px solid #999999;
+    border-radius: 6px;
+    margin-left: 3px;
+    cursor: default;
 }
 .dark .controls {
-    background-color: #222;
+    background-color: #333;
 }
-.controls .fa {
-    padding: 0 4px;
+.controls .fa:hover {
+    background-color: #ccf;
+}
+.controls .fa:before {
+    padding: 8px;
+}
+.dark .controls .fa:hover {
+    background-color: black;
 }
 .category:hover .controls,
 .engine:hover .controls {
-    display: inline;
+    display: inline-flex;
 }
 .action {
     cursor: pointer;
@@ -45,4 +56,7 @@ help-tour {
 }
 #tourOverlay {
     display: none;
+}
+[disabled=true] {
+    opacity: .1;
 }

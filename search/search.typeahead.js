@@ -23,9 +23,11 @@ function fetchIt(q, cb) {
 
 function setTypeaheadColors() {
     const searchTA = document.querySelector('type-ahead');
-    const colors = document.body.classList.contains('dark') ?
-        menuColorsDark : menuColors;
-    searchTA.setColors(colors);
+    if (searchTA) {
+        const colors = document.body.classList.contains('dark') ?
+            menuColorsDark : menuColors;
+        searchTA.setColors(colors);
+    }
 }
 
 function initSearchTypeAhead() {

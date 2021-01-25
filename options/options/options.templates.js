@@ -14,7 +14,9 @@ function categoryHtml(category) {
 }
 
 function engineHtml(engine, defaultEngineId) {
-    const nameClass = engine.id === +defaultEngineId ? 'default' : '';
+    const isDefault = engine.id === +defaultEngineId;
+    const nameClass = isDefault ? 'default' : '';
+    const disabled = isDefault ? 'disabled="true" ' : '';
     return `
 <div class="engine" data-id="${engine.id}" data-url="${engine.url}">
     <span class="visible">
@@ -23,11 +25,10 @@ function engineHtml(engine, defaultEngineId) {
     </span>
     <span class="name ${nameClass}">${engine.name}</span>
     <span class="controls">
-        <span>&nbsp;</span>
         <span class="fa fa-edit edit eng" title="edit"></span>    
         <span class="fa fa-external-link link eng" title="link"></span>    
         <span class="fa fa-delete delete eng" title="delete"></span>
-        <span class="fa fa-flag set-default eng" title="set default"></span>
+        <span class="fa fa-flag set-default eng" ${disabled} title="set default"></span>
     </span>
 </div>
 `;

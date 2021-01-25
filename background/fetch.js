@@ -8,14 +8,12 @@ function getEngineById(engineId, categories, cb) {
     })
 }
 
-function getCategoryById(categoryId, categories, cb) {
-    const category = categories.filter(category => category.id === +categoryId);
-    if (category.length > 0) {
-        if (cb) {
-            cb(category[0]);
-        }
-    }
-    return category[0];
+function getCategoryById(categoryId) {
+    return new Promise((resolve) => {
+        getCategories().then(categories => {
+            resolve(categories.find(category => category.id === +categoryId));
+        })
+    })
 }
 
 function getCategories() {

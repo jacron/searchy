@@ -1,12 +1,12 @@
 import {reDisplayEngines, showEngineLinks} from "./options/options.create.js";
 import {setDefaultEngineId} from "../storage/default.js";
 // import {getCategoriesFromStorage} from "../common/persist.js";
-import {getCategories, getCategoryById} from "../background/fetch.js";
+import {getCategoryById} from "../background/fetch.js";
 import {downloadJson} from "../common/download.js";
 import {openDialogAddEngine, openDialogEngine} from "./engine/engine.dialog.js";
 import {openDialogCategory} from "./category/category.dialog.js";
-import {removeEngine} from "./engine/engine.remove.js";
 import {askRemoveCategory} from "./category/category.remove.js";
+import {removeEngine} from "../background/update.js";
 // import {categories} from "../initial_data old";
 
 function clearSelected() {
@@ -18,7 +18,8 @@ function clearSelected() {
 
 function remove(type, id) {
     if (type === 'engine') {
-        removeEngine(id);
+        removeEngine(id).then(() => showEngineLinks());
+        // removeTheEngine(id);
     }
     if (type === 'category') {
         askRemoveCategory(id);
@@ -60,11 +61,8 @@ function setEngineDefault(engineId) {
 }
 
 function exportGroup(categoryId) {
-    getCategories().then(categories => {
-            getCategoryById(categoryId, categories, category => {
-                downloadJson(category, `searchy.${category.name}.json`);
-            })
-        }
+    getCategoryById(categoryId).then(category =>
+        downloadJson(category, `searchy.${category.name}.json`)
     )
     // getCategoriesFromStorage(data => {
     //     getCategoryById(categoryId, {categories: data}, category => {

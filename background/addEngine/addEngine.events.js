@@ -1,6 +1,7 @@
 import {bindToElements} from "../../common/bind-events.js";
 import {getTitleParts} from "../../common/stringutils.js";
 import {populateOptions} from "../../options/dialog/dialog.js";
+import {storeCategory, storeEngine} from "../update.js";
 
 const formAdd = {
     inputName: document.getElementById('inputName'),
@@ -12,15 +13,22 @@ const formAdd = {
 let currentTab;
 
 function save() {
-    chrome.runtime.sendMessage({
-        cmd: 'saveEngine',
-        id: '-1',
-        name: formAdd.inputName.value,
-        url: formAdd.inputUrl.value,
-        categoryId: formAdd.selectCategory.value
-    }, () => {
-        window.close();
-    });
+    storeEngine('-1',
+        formAdd.inputName.value,
+        formAdd.inputUrl.value,
+        formAdd.selectCategory.value)
+        .then(() => {
+            window.close();
+        })
+    // chrome.runtime.sendMessage({
+    //     cmd: 'saveEngine',
+    //     id: '-1',
+    //     name: formAdd.inputName.value,
+    //     url: formAdd.inputUrl.value,
+    //     categoryId: formAdd.selectCategory.value
+    // }, () => {
+    //     window.close();
+    // });
 }
 
 function cancel() {
@@ -45,14 +53,17 @@ function trimTitle12() {
 
 function newCategory() {
     const answer = prompt('New category');
+    console.log(answer);
     if (answer) {
-        chrome.runtime.sendMessage({
-            cmd: 'saveCategory',
-            id: '-1',
-            name: answer
-        }, response => {
-            populateOptions(formAdd.selectCategory, response.newId);
-        })
+        storeCategory('-1', answer).then(newId =>
+            populateOptions(formAdd.selectCategory, newId))
+        // chrome.runtime.sendMessage({
+        //     cmd: 'saveCategory',
+        //     id: '-1',
+        //     name: answer
+        // }, response => {
+        //     populateOptions(formAdd.selectCategory, response.newId);
+        // })
     }
 }
 

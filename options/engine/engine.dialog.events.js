@@ -1,7 +1,7 @@
 import {getTitleParts} from "../../common/stringutils.js";
 import {bindToElements} from "../../common/bind-events.js";
 import {hideDialogs} from "../dialog/dialog.hide.js";
-import {saveEngine} from "../../background/update.js";
+import {saveEngine, storeEngine} from "../../background/update.js";
 import {showEngineLinks} from "../options/options.create.js";
 
 let currentEngineName;
@@ -46,27 +46,15 @@ function saveTheEngine() {
         alert('Can\'t save empty name');
         return;
     }
-    chrome.storage.local.get(['categories'], res => {
-        saveEngine(dialog.getAttribute('data-id'),
-            nameElement.value,
-            addHttps(urlElement.value),
-            categoryElement.value,
-            res.categories
-        );
-        // sendResponse({msg: 'ok'});
-        hideDialogs();
-        showEngineLinks();
+    storeEngine(dialog.getAttribute('data-id'),
+        nameElement.value,
+        addHttps(urlElement.value),
+        categoryElement.value)
+        .then(() => {
+            hideDialogs();
+            showEngineLinks();
+
     })
-    // chrome.runtime.sendMessage({
-    //     cmd: 'saveEngine',
-    //     id: dialog.getAttribute('data-id'),
-    //     name: nameElement.value,
-    //     url: addHttps(urlElement.value),
-    //     categoryId: categoryElement.value
-    // }, () => {
-    //     hideDialogs();
-    //     cb({msg: 'changed'});
-    // })
 }
 
 function onKeydown(e, cb) {

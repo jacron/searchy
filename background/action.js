@@ -1,8 +1,8 @@
 import {
-    addImportedCategory, removeCategory, removeEngine, saveCategory,
+    addImportedCategory, removeCategory, saveCategory,
     saveEngine, setVisible
 } from "./update.js";
-import {getCategoryById, getEngineById} from "./fetch.js";
+import {getEngineById} from "./fetch.js";
 
 function fromStorageSend(sendResponse, storageKey, responseKey) {
     if (!responseKey) {
@@ -46,13 +46,13 @@ function doAction(request, sendResponse) {
                 });
             })
             break;
-        case 'getCategoryById':
-            chrome.storage.local.get(['categories'], res => {
-                getCategoryById(request.id, res.categories, category => {
-                    sendResponse({category});
-                });
-            })
-            break;
+        // case 'getCategoryById':
+        //     chrome.storage.local.get(['categories'], res => {
+        //         getCategoryById(request.id, res.categories, category => {
+        //             sendResponse({category});
+        //         });
+        //     })
+        //     break;
 
         //    CRUD
         case 'addCategory':
@@ -68,12 +68,12 @@ function doAction(request, sendResponse) {
                 sendResponse({msg: 'ok'});
             })
             break;
-        case 'removeEngine':
-            chrome.storage.local.get(['categories'], res => {
-                removeEngine(request.id, res.categories);
-                sendResponse({msg: 'ok'});
-            })
-            break;
+        // case 'removeTheEngine':
+        //     chrome.storage.local.get(['categories'], res => {
+        //         removeTheEngine(request.id, res.categories);
+        //         sendResponse({msg: 'ok'});
+        //     })
+        //     break;
         case 'removeCategory':
             chrome.storage.local.get(['categories'], res => {
                 const msg = removeCategory(request.id, request.forced, res.categories) ?

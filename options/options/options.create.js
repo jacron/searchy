@@ -1,5 +1,4 @@
 import {getDefaultEngineId} from "../../storage/default.js";
-import {getCategories} from "../../background/fetch.js";
 import {categoryHtml, engineHtml} from "./options.templates.js";
 
 function createCategoryEnginesHtml(category, defaultEngineId) {
@@ -30,7 +29,6 @@ function displayEngines(categories) {
 
 function displayItems(categories, cb) {
     displayEngines(categories);
-    // createCategories(categories);
     if (cb) {
         setTimeout(() => {
             cb();
@@ -39,7 +37,6 @@ function displayItems(categories, cb) {
 }
 
 function showEngineLinks() {
-    // getCategories().then(categories => displayItems(categories));
     chrome.storage.local.get(['categories', 'default'], res => {
         createCategories(res.categories, res.default)
     })

@@ -90,7 +90,7 @@ chrome.omnibox.onInputEntered.addListener(handleOmniboxInputEntered);
 function init() {
     getCategoriesFromStorage(categories => {
         // data.categories = categories
-        chrome.local.storage.set({categories});
+        chrome.storage.local.set({categories});
     });
 }
 

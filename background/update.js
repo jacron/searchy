@@ -1,4 +1,5 @@
-import {getCategoryById} from "./fetch.js";
+import {getCategories, getCategoryById} from "./fetch.js";
+// import {categories} from "../initial_data old";
 // import {persistData} from '../common/persist.js';
 
 function setVisible(engineId, value, categories) {
@@ -14,13 +15,18 @@ function setVisible(engineId, value, categories) {
     // persistData(data);
 }
 
-function removeEngine(enigineId, categories) {
-    categories.map(category => {
-        category.engines = category.engines
-            .filter(engine => engine.id !== +enigineId)
-        // persistData(data);
+function removeEngine(enigineId) {
+    return new Promise((resolve) => {
+        getCategories().then(categories => {
+            categories.map(category => {
+                category.engines = category.engines
+                    .filter(engine => engine.id !== +enigineId)
+                // persistData(data);
+            })
+            chrome.storage.local.set({categories});
+            resolve();
+        })
     })
-    chrome.storage.local.set({categories});
 }
 
 function removeEmptyCategory(categoryId, categories) {
@@ -39,18 +45,20 @@ function removeCategoryWithEngines(categoryId, engines, categories) {
 }
 
 function removeCategory(id, forced, data) {
-    const category = getCategoryById(id, data);
-    if (category.engines.length > 0) {
-        if (forced) {
-            removeCategoryWithEngines(id, category.engines, data);
-            return true;
+    // const category =
+    getCategoryById(id).then(category => {
+        if (category.engines.length > 0) {
+            if (forced) {
+                removeCategoryWithEngines(id, category.engines, data);
+                return true;
+            } else {
+                return false;
+            }
         } else {
-            return false;
+            removeEmptyCategory(id, data);
+            return true;
         }
-    } else {
-        removeEmptyCategory(id, data);
-        return true;
-    }
+    });
 }
 
 function copyEngineToCategory(engine, categoryId, categories) {
@@ -128,6 +136,20 @@ function updateCategory(categoryId, name, categories) {
     // persistData(data);
 }
 
+function storeEngine(engineId, name, url, categoryId) {
+    return new Promise((resolve) => {
+        getCategories().then(categories => {
+            if (engineId === '-1') {
+                addEngine(name, url, categoryId, categories);
+                resolve('added');
+            } else {
+                updateEngine(engineId, name, url, categoryId, categories);
+                resolve('updated');
+            }
+        })
+    });
+}
+
 function saveEngine(engineId, name, url, categoryId, categories) {
     if (engineId === '-1') {
         addEngine(name, url, categoryId, categories);
@@ -144,6 +166,21 @@ function addCategory(name, id, engines, categories) {
     });
     chrome.storage.local.set({categories});
     // persistData(data);
+}
+
+function storeCategory(categoryId, name) {
+    return new Promise((resolve) => {
+        getCategories().then(categories => {
+            if (categoryId === '-1') {
+                const newId = getNewCategoryId(categories);
+                addCategory(name, newId, [], categories);
+                resolve(newId);
+            } else {
+                updateCategory(categoryId, name, categories);
+                resolve(null);
+            }
+        })
+    });
 }
 
 function saveCategory(categoryId, name, categories, cb) {
@@ -164,4 +201,5 @@ function addImportedCategory(category, name, categories) {
 }
 
 export {setVisible, removeEngine, removeCategory,
+    storeCategory, storeEngine,
     saveEngine, saveCategory, addImportedCategory}
