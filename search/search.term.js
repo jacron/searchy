@@ -7,11 +7,6 @@ const key = config.storageKeyTerms;
 
 function setSearchTermFromBackground() {
     chrome.storage.local.get(['selectedTerm'], res => setTerm(res.selectedTerm));
-    // chrome.runtime.sendMessage({cmd: "getSelectedTerm"},
-    //     response => {
-    //         setTerm(response.term);
-    //         // inputTerm.value = response.term;
-    //     })
 }
 
 function getTerm() {
@@ -19,7 +14,6 @@ function getTerm() {
 }
 
 function setTerm(t) {
-    // console.log(inputTerm.search);
     TASearch.search.value = t;
 }
 

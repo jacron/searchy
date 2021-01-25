@@ -1,14 +1,12 @@
-// import {getCategoriesFromStorage} from "../common/persist.js";
 import {displayItems, showEngineLinks} from "./options/options.create.js";
 import {hideElement} from "../common/htmlelements.js";
 import {bindToElements} from "../common/bind-events.js";
 import {initBackground} from "./dialog/dialog.background.js";
 import {insertTemplate} from "./dialog/dialog.insert.js";
 import {showDialog} from "./dialog/dialog.js";
-import {addImportedCategory} from "../background/update.js";
-import {getCategories} from "../background/fetch.js";
+import {addImportedCategory} from "../common/update.js";
+import {getCategories} from "../common/fetch.js";
 import {hideDialogs} from "./dialog/dialog.hide.js";
-// import {categories} from "../initial_data old";
 
 const templateImport = `
 <div class="dialog" id="dialogImport">
@@ -36,19 +34,6 @@ function setImportedFileName(name) {
     importedFileName = name;
 }
 
-// function restoreData(cb) {
-//     chrome.storage.local.get(['categories'],
-//             res => cb(res.categories));
-//     // getCategoriesFromStorage(categories => {
-//     //     chrome.runtime.sendMessage({
-//     //         cmd: 'setCategories',
-//     //         categories
-//     //     }, () => {
-//     //         cb(categories);
-//     //     })
-//     // })
-// }
-
 function dialogImport(categories) {
     displayItems(categories, () => {
         if (confirm("Do you want to keep these changes?")) {
@@ -65,14 +50,7 @@ function dialogImport(categories) {
 }
 
 function setCategories(categories) {
-    // chrome.local.storage.set({categories});
     dialogImport(categories);
-    // chrome.runtime.sendMessage({
-    //     cmd: 'setCategories',
-    //     categories
-    // }, () => {
-    //     dialogImport(categories);
-    // });
 }
 
 function setCategory(category, name) {

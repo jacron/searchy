@@ -1,18 +1,18 @@
 import {getCategories, getCategoryById} from "./fetch.js";
-// import {categories} from "../initial_data old";
-// import {persistData} from '../common/persist.js';
 
-function setVisible(engineId, value, categories) {
-    // console.log(engineId, value, categories);
-    categories.map(category => {
-        category.engines
-            .filter(engine => engine.id === +engineId)
-            .map(engine => {
-                engine.visible = value
-            })
-    })
+function setCategories(categories) {
     chrome.storage.local.set({categories});
-    // persistData(data);
+}
+
+function setVisible(engineId, value) {
+    getCategories().then(categories => {
+        categories.map(category => {
+            category.engines
+                .filter(engine => engine.id === +engineId)
+                .map(engine => engine.visible = value)
+        })
+        setCategories(categories);
+    })
 }
 
 function removeEngine(enigineId) {
@@ -21,9 +21,8 @@ function removeEngine(enigineId) {
             categories.map(category => {
                 category.engines = category.engines
                     .filter(engine => engine.id !== +enigineId)
-                // persistData(data);
             })
-            chrome.storage.local.set({categories});
+            setCategories(categories);
             resolve();
         })
     })
@@ -31,8 +30,7 @@ function removeEngine(enigineId) {
 
 function removeEmptyCategory(categoryId, categories) {
     categories = categories.filter(category => category.id !== +categoryId);
-    chrome.storage.local.set({categories});
-    // persistData(data);
+    setCategories(categories);
 }
 
 function removeCategoryWithEngines(categoryId, engines, categories) {
@@ -40,25 +38,25 @@ function removeCategoryWithEngines(categoryId, engines, categories) {
         engines = engines.filter(engine2 => engine.id !== engine2.id)
     });
     categories = categories.filter(category => category.id !== +categoryId);
-    chrome.storage.local.set({categories});
-    // persistData(data);
+    setCategories(categories);
 }
 
-function removeCategory(id, forced, data) {
-    // const category =
-    getCategoryById(id).then(category => {
-        if (category.engines.length > 0) {
-            if (forced) {
-                removeCategoryWithEngines(id, category.engines, data);
-                return true;
+function removeCategory(id, forced, categories) {
+    return new Promise(resolve => {
+        getCategoryById(id).then(category => {
+            if (category.engines.length > 0) {
+                if (forced) {
+                    removeCategoryWithEngines(id, category.engines, categories);
+                    resolve(true);
+                } else {
+                    resolve(false);
+                }
             } else {
-                return false;
+                removeEmptyCategory(id, categories);
+                resolve(true);
             }
-        } else {
-            removeEmptyCategory(id, data);
-            return true;
-        }
-    });
+        });
+    })
 }
 
 function copyEngineToCategory(engine, categoryId, categories) {
@@ -101,8 +99,7 @@ function addEngine(name, url, categoryId, categories) {
                 visible: true,
                 id: getNewEngineId(categories)
             })
-            chrome.storage.local.set({categories});
-            // persistData(data);
+            setCategories(categories);
         })
 }
 
@@ -120,8 +117,7 @@ function updateEngine(engineId, name, url, categoryId, categories) {
                 // remove engine from old category
                 category.engines = category.engines.filter(eng => eng.id !== engine.id);
             }
-            chrome.storage.local.set({categories});
-            // persistData(data);
+            setCategories(categories);
         }
     })
 }
@@ -132,8 +128,7 @@ function updateCategory(categoryId, name, categories) {
         .map(category => {
             category.name = name;
         })
-    chrome.storage.local.set({categories});
-    // persistData(data);
+    setCategories(categories);
 }
 
 function storeEngine(engineId, name, url, categoryId) {
@@ -164,8 +159,7 @@ function addCategory(name, id, engines, categories) {
         engines,
         id
     });
-    chrome.storage.local.set({categories});
-    // persistData(data);
+    setCategories(categories);
 }
 
 function storeCategory(categoryId, name) {

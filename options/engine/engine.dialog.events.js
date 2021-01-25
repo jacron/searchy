@@ -1,7 +1,7 @@
 import {getTitleParts} from "../../common/stringutils.js";
 import {bindToElements} from "../../common/bind-events.js";
 import {hideDialogs} from "../dialog/dialog.hide.js";
-import {saveEngine, storeEngine} from "../../background/update.js";
+import {saveEngine, storeEngine} from "../../common/update.js";
 import {showEngineLinks} from "../options/options.create.js";
 
 let currentEngineName;

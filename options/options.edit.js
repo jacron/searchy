@@ -1,12 +1,11 @@
 import {reDisplayEngines, showEngineLinks} from "./options/options.create.js";
 import {setDefaultEngineId} from "../storage/default.js";
-// import {getCategoriesFromStorage} from "../common/persist.js";
-import {getCategoryById} from "../background/fetch.js";
+import {getCategoryById} from "../common/fetch.js";
 import {downloadJson} from "../common/download.js";
 import {openDialogAddEngine, openDialogEngine} from "./engine/engine.dialog.js";
 import {openDialogCategory} from "./category/category.dialog.js";
 import {askRemoveCategory} from "./category/category.remove.js";
-import {removeEngine} from "../background/update.js";
+import {removeEngine} from "../common/update.js";
 // import {categories} from "../initial_data old";
 
 function clearSelected() {

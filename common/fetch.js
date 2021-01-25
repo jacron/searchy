@@ -1,11 +1,16 @@
-function getEngineById(engineId, categories, cb) {
-    categories.map(category => {
-        const engine = category.engines
-            .filter(engine => engine.id === +engineId);
-        if (engine.length > 0) {
-            cb(engine[0], category, categories);
-        }
+function getEngineById(engineId) {
+    return new Promise((resolve) => {
+        getCategories().then(categories => {
+            categories.map(category => {
+                const engine = category.engines
+                    .find(engine => engine.id === +engineId);
+                if (engine) {
+                    resolve(engine, category);
+                }
+            })
+        })
     })
+
 }
 
 function getCategoryById(categoryId) {

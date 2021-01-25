@@ -11,14 +11,10 @@ import {initHelpTour} from "../web-components/HelpTour/HelpTour.js";
 import {initTypeAhead} from "../web-components/TypeAhead/TypeAhead.js";
 import {initTypeAheadEvents} from "./search.typeahead.events.js";
 import {initSearchTypeAhead} from "./search.typeahead.js";
-import {getCategories} from "../background/fetch.js";
+import {getCategories} from "../common/fetch.js";
 
 function showEngineLinks() {
     getCategories().then(categories => displayEngines(categories));
-    // chrome.storage.local.get(['categories'], res => displayEngines(res.categories))
-
-    // chrome.runtime.sendMessage({cmd: "getCategories"},
-    //     response => displayEngines(response.categories))
 }
 
 function initNewtab() {

@@ -1,7 +1,7 @@
 import {bindToElements} from "../../common/bind-events.js";
 import {getTitleParts} from "../../common/stringutils.js";
 import {populateOptions} from "../../options/dialog/dialog.js";
-import {storeCategory, storeEngine} from "../update.js";
+import {storeCategory, storeEngine} from "../../common/update.js";
 
 const formAdd = {
     inputName: document.getElementById('inputName'),
@@ -20,15 +20,6 @@ function save() {
         .then(() => {
             window.close();
         })
-    // chrome.runtime.sendMessage({
-    //     cmd: 'saveEngine',
-    //     id: '-1',
-    //     name: formAdd.inputName.value,
-    //     url: formAdd.inputUrl.value,
-    //     categoryId: formAdd.selectCategory.value
-    // }, () => {
-    //     window.close();
-    // });
 }
 
 function cancel() {
@@ -57,13 +48,6 @@ function newCategory() {
     if (answer) {
         storeCategory('-1', answer).then(newId =>
             populateOptions(formAdd.selectCategory, newId))
-        // chrome.runtime.sendMessage({
-        //     cmd: 'saveCategory',
-        //     id: '-1',
-        //     name: answer
-        // }, response => {
-        //     populateOptions(formAdd.selectCategory, response.newId);
-        // })
     }
 }
 

@@ -20,13 +20,6 @@ function openCategoryEngines(clickedElement) {
 
 function storeSearchTerm(selectedTerm) {
     chrome.storage.local.set({selectedTerm});
-    //
-    // chrome.runtime.sendMessage({
-    //     cmd: 'setSearchTerm',
-    //     term
-    // }, () => {
-    //     cb();
-    // })
 }
 
 function recentTerms(e) {

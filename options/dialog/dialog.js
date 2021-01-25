@@ -1,4 +1,6 @@
 import {showBackground} from "./dialog.background.js";
+import {getCategories} from "../../common/fetch.js";
+// import {categories} from "../../initial_data old";
 
 function calcCenteredLeft(w) {
     return window.innerWidth / 2 - (w / 2);
@@ -14,8 +16,8 @@ function showDialog(dialog) {
 
 function populateOptions(selectElement, selectedCategoryId) {
     selectElement.innerHTML = '';
-    chrome.storage.local.get(['categories'], response => {
-        response.categories.map(category => {
+    getCategories().then(categories => {
+        categories.map(category => {
             const option = document.createElement('option');
             option.value = category.id;
             option.label = category.name;
@@ -23,15 +25,6 @@ function populateOptions(selectElement, selectedCategoryId) {
         });
         selectElement.value = selectedCategoryId;
     })
-    // chrome.runtime.sendMessage({cmd: 'getCategories'}, response => {
-    //     response.categories.map(category => {
-    //         const option = document.createElement('option');
-    //         option.value = category.id;
-    //         option.label = category.name;
-    //         selectElement.appendChild(option);
-    //     });
-    //     selectElement.value = selectedCategoryId;
-    // })
 }
 
 export {showDialog, populateOptions}

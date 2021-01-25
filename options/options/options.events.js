@@ -7,9 +7,7 @@ import {openDialogImport} from "../import.js";
 import {openDialogAddEngine} from "../engine/engine.dialog.js";
 import {openDialogAddCategory} from "../category/category.dialog.js";
 import {beginTour} from "./options.tour.js";
-import {setVisible} from "../../background/update.js";
-import {getCategories} from "../../background/fetch.js";
-// import {categories} from "../../initial_data old";
+import {setVisible} from "../../common/update.js";
 
 function addEngine() {
     openDialogAddEngine(-1, result => {
@@ -51,11 +49,7 @@ function getIdFromCheckbox(target) {
 
 function engineToggleVisible(e) {
     const target = e.target;
-    getCategories().then(categories =>
-        setVisible(getIdFromCheckbox(target), target.checked, categories));
-    // chrome.storage.local.get(['categories'], res => {
-    //     setVisible(getIdFromCheckbox(target), target.checked, res.categories);
-    // })
+    setVisible(getIdFromCheckbox(target), target.checked);
 }
 
 function initEvents() {

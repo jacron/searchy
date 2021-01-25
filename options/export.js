@@ -1,7 +1,7 @@
 import config from "../common/config.js";
 // import {getCategoriesFromStorage} from "../common/persist.js";
 import {downloadJson} from "../common/download.js";
-import {getCategories} from "../background/fetch.js";
+import {getCategories} from "../common/fetch.js";
 // import {categories} from "../initial_data old";
 
 function exportJson() {

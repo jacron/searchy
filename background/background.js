@@ -1,18 +1,9 @@
-import {doAction} from './action.js';
 import {getCategoriesFromStorage} from '../common/persist.js';
 import {openDialog} from "./openDialogAddEngine.js";
 
 const config2 = {
     searchPage: "search/search.html",
 };
-
-// const data = {
-//     selectedTerm: "",
-//     categories: [],
-//     defaultEngine: -1,
-//     // currentPageInfo: ""
-//     currentTab: null
-// }
 
 chrome.contextMenus.create(
     {
@@ -54,11 +45,6 @@ chrome.contextMenus.create(
             openDialogNewEngine();
         }});
 
-chrome.runtime.onMessage.addListener(
-    (request, sender, sendResponse) => {
-        doAction(request, sendResponse);
-})
-
 function searchInCurrentTab() {
     let url = config2.searchPage;
     chrome.tabs.query({
@@ -89,7 +75,6 @@ chrome.omnibox.onInputEntered.addListener(handleOmniboxInputEntered);
 
 function init() {
     getCategoriesFromStorage(categories => {
-        // data.categories = categories
         chrome.storage.local.set({categories});
     });
 }
