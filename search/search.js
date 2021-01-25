@@ -1,7 +1,7 @@
 import {initDarkmode} from '../storage/dark.js';
 import {displayEngines} from './search.create-engines.js';
 import {initEvents} from "./search.events.js";
-import {setSearchTermFromBackground} from "./search.term.js";
+import {setSearchTermFromStorage} from "./search.term.js";
 import {getNewtabSetting} from "../storage/newtab.js";
 import {getShowRecentSetting} from "../storage/recent.js";
 import {showRecentTerms} from "./search.recent.js";
@@ -54,7 +54,7 @@ function init() {
     initSearchTypeAhead();
     initTypeAheadEvents();
     initEvents();
-    setSearchTermFromBackground();
+    setSearchTermFromStorage();
     showEngineLinks();
     initNewtab();
     initShowRecents();

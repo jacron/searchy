@@ -23,7 +23,7 @@ function getCategoryById(categoryId) {
 
 function getCategories() {
     return new Promise((resolve) => {
-        chrome.storage.local.get('categories', res => resolve(res.categories))
+        chrome.storage.sync.get('categories', res => resolve(res.categories))
     });
 }
 

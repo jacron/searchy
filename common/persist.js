@@ -1,57 +1,28 @@
 import config from "./config.js";
+import {getCategories} from "./fetch.js";
+import {setCategories} from "./update.js";
 
-const key = config.storageKeyCategories;
-
-// function notifyChange() {
-//     chrome.runtime.sendMessage({
-//         notify: 'data changed'
-//     })
-// }
-
-// function persistData(data) {
-//     chrome.storage.local.set({[key]: data.categories}, () => {})
-//     notifyChange();
-// }
-
-function maintainLocalStorage() {
-    const showLocalStorage = false;
-    if (showLocalStorage) {
-        chrome.storage.local.get(null, result => {
-            console.log({result});
-        })
-    }
-    // set true to test if application will use initial data when local storage is empty
-    const clearLocalStorage = false;
-    if (clearLocalStorage) {
-        chrome.storage.local.clear(()=>{});
-    }
-}
-
-function getInitialData(cb) {
-    const urlToInitialData = '../initial_data_deploy.json';
-    fetch(urlToInitialData)
+function getInitialData() {
+    // const urlToInitialData = '../initial_data_deploy.json';
+    fetch('../' + config.initialDataFile)
         .then(response => response.json())
-        .then(categories => cb(categories));
+        .then(categories => setCategories(categories));
 }
 
-function dataFromStorage(cb) {
-    chrome.storage.local.get([key], result => {
-        if (result[key]) {
-            cb(result[key]);
-        } else {
-            getInitialData(cb);
+function dataFromStorage() {
+    getCategories().then(categories => {
+        if (!categories) {
+            getInitialData();
         }
     })
 }
 
-function getCategoriesFromStorage(cb) {
-    maintainLocalStorage();
-
+function getCategoriesFromStorage() {
     const testInitial = false;
     if (testInitial) {
-        getInitialData(cb);
+        getInitialData();
     } else {
-        dataFromStorage(cb);
+        dataFromStorage();
     }
 }
 

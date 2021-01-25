@@ -6,14 +6,7 @@ import {openDialogAddEngine, openDialogEngine} from "./engine/engine.dialog.js";
 import {openDialogCategory} from "./category/category.dialog.js";
 import {askRemoveCategory} from "./category/category.remove.js";
 import {removeEngine} from "../common/update.js";
-// import {categories} from "../initial_data old";
-
-function notify() {
-    console.log('notified');
-    chrome.runtime.sendMessage({
-        notify: 'data changed'
-    })
-}
+import {notifysearchy} from "../common/notifysearchy.js";
 
 function clearSelected() {
     const selectedElements = document.getElementsByClassName('selected');
@@ -26,14 +19,14 @@ function remove(type, id) {
     if (type === 'engine') {
         removeEngine(id).then(() => {
             showEngineLinks();
-            notify();
+            notifysearchy();
         });
     }
     if (type === 'category') {
         askRemoveCategory(id).then(success => {
             if (success) {
                 showEngineLinks();
-                notify();
+                notifysearchy();
             }
         });
     }
@@ -49,32 +42,24 @@ function removeObject(type, name, id) {
 function editObject(type, engine, id) {
     engine.classList.add('selected');
     if (type === 'engine') {
-        openDialogEngine(id, result => {
-            // reDisplayEngines(result);
-            // clearSelected();
-            // notify();
-        });
+        openDialogEngine(id);
     }
     if (type === 'category') {
-        openDialogCategory(id, result => {
-            // reDisplayEngines(result);
-            // clearSelected();
-            // notify();
-        });
+        openDialogCategory(id);
     }
 }
 
 function addEngineToCategory(categoryId) {
     openDialogAddEngine(categoryId, result => {
         reDisplayEngines(result);
-        notify();
+        notifysearchy();
     });
 }
 
 function setEngineDefault(engineId) {
     setDefaultEngineId(engineId);
     showEngineLinks();
-    notify();
+    notifysearchy();
 }
 
 function exportGroup(categoryId) {

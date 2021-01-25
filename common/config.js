@@ -10,4 +10,5 @@ export default {
     storageMaxTerms: 2000,
     transportFileNameJson: 'searchy.json',
     transportFileNameStatic: 'searchy.js',
+    initialDataFile: 'initial_data_deploy.json',
 }

@@ -8,18 +8,12 @@ import {openDialogAddEngine} from "../engine/engine.dialog.js";
 import {openDialogAddCategory} from "../category/category.dialog.js";
 import {beginTour} from "./options.tour.js";
 import {setVisible} from "../../common/update.js";
-
-function notify() {
-    // console.log('notified');
-    chrome.runtime.sendMessage({
-        notify: 'data changed'
-    })
-}
+import {notifysearchy} from "../../common/notifysearchy.js";
 
 function addEngine() {
     openDialogAddEngine(-1, result => {
         reDisplayEngines(result);
-        notify();
+        notifysearchy();
     });
 }
 
@@ -30,7 +24,7 @@ function importJson() {
 function addCategory() {
     openDialogAddCategory(result => {
         reDisplayEngines(result);
-        notify();
+        notifysearchy();
     });
 }
 

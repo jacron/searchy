@@ -4,9 +4,10 @@ import {bindToElements} from "../common/bind-events.js";
 import {initBackground} from "./dialog/dialog.background.js";
 import {insertTemplate} from "./dialog/dialog.insert.js";
 import {showDialog} from "./dialog/dialog.js";
-import {addImportedCategory} from "../common/update.js";
+import {addImportedCategory, setCategories} from "../common/update.js";
 import {getCategories} from "../common/fetch.js";
 import {hideDialogs} from "./dialog/dialog.hide.js";
+import {notifysearchy} from "../common/notifysearchy.js";
 
 const templateImport = `
 <div class="dialog" id="dialogImport">
@@ -38,26 +39,28 @@ function dialogImport(categories) {
     displayItems(categories, () => {
         if (confirm("Do you want to keep these changes?")) {
             // persistData({categories});
-            chrome.local.storage.set({categories});
+            setCategories(categories);
             hideElement('dialogImport');
+            notifysearchy();
         } else {
-            chrome.storage.local.get(['categories'], res =>  {
-                displayItems(res.categories);
+            getCategories().then(categories => {
+                displayItems(categories);
                 hideElement('dialogImport');
-            });
+            })
         }
     });
 }
 
-function setCategories(categories) {
+function importCategories(categories) {
     dialogImport(categories);
 }
 
-function setCategory(category, name) {
+function importCategory(category, name) {
     getCategories().then(categories => {
         addImportedCategory(category, name, categories)
         hideDialogs();
         showEngineLinks();
+        notifysearchy();
     });
 }
 
@@ -66,9 +69,9 @@ function importData() {
     const filename = getImportedFileName(); // name without extension
     const parts = filename.split('.');
     if (parts.length > 1) {
-        setCategory(categories, parts[1]);
+        importCategory(categories, parts[1]);
     } else {
-        setCategories(categories);
+        importCategories(categories);
     }
 }
 

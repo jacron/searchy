@@ -1,5 +1,7 @@
 import {getDefaultEngineId} from "../../storage/default.js";
 import {categoryHtml, engineHtml} from "./options.templates.js";
+// import {getCategories} from "../../common/fetch";
+// import {categories} from "../../initial_data old";
 
 function createCategoryEnginesHtml(category, defaultEngineId) {
     let html = categoryHtml(category);
@@ -16,11 +18,13 @@ function createCategoryDiv(category, defaultEngineId) {
 }
 
 function createCategories(categories, defaultEngineId) {
-    const elementEngines = document.getElementById('engines');
-    elementEngines.innerHTML = '';
-    categories.map(category => {
-        elementEngines.appendChild(createCategoryDiv(category, defaultEngineId));
-    })
+    if (categories) {
+        const elementEngines = document.getElementById('engines');
+        elementEngines.innerHTML = '';
+        categories.map(category => {
+            elementEngines.appendChild(createCategoryDiv(category, defaultEngineId));
+        })
+    }
 }
 
 function displayEngines(categories) {
@@ -37,7 +41,7 @@ function displayItems(categories, cb) {
 }
 
 function showEngineLinks() {
-    chrome.storage.local.get(['categories', 'default'], res => {
+    chrome.storage.sync.get(['categories', 'default'], res => {
         createCategories(res.categories, res.default)
     })
 

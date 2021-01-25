@@ -1,5 +1,6 @@
 import {getCategoriesFromStorage} from '../common/persist.js';
 import {openDialog} from "./openDialogAddEngine.js";
+import {setCategories} from "../common/update.js";
 
 const config2 = {
     searchPage: "search/search.html",
@@ -74,9 +75,10 @@ chrome.browserAction.onClicked.addListener(handleActionClicked);
 chrome.omnibox.onInputEntered.addListener(handleOmniboxInputEntered);
 
 function init() {
-    getCategoriesFromStorage(categories => {
-        chrome.storage.local.set({categories});
-    });
+    // one time upgrade from local to sync
+    // chrome.storage.local.get('categories', res => setCategories(res.categories));
+
+    getCategoriesFromStorage();
 }
 
 init();

@@ -8,18 +8,19 @@ function createRecentTerm(term) {
 }
 
 function displayRecentTerms(elementRecentTerms) {
-    const terms = getTerms();
-    if (terms) {
-        elementRecentTerms.innerHTML = '';
-        terms
-            // .slice(-7)
-            .reverse()
-            .forEach(term => {
-                elementRecentTerms.appendChild(createRecentTerm(term));
-            })
-    } else {
-        elementRecentTerms.innerHTML = 'You have not searched yet...';
-    }
+    getTerms().then(terms => {
+        if (terms) {
+            elementRecentTerms.innerHTML = '';
+            terms
+                .slice(-30)
+                .reverse()
+                .forEach(term => {
+                    elementRecentTerms.appendChild(createRecentTerm(term));
+                })
+        } else {
+            elementRecentTerms.innerHTML = 'You have not searched yet...';
+        }
+    })
 }
 
 function showRecentTerms() {

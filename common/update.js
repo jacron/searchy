@@ -1,7 +1,7 @@
 import {getCategories, getCategoryById} from "./fetch.js";
 
 function setCategories(categories) {
-    chrome.storage.local.set({categories});
+    chrome.storage.sync.set({categories});
 }
 
 function setVisible(engineId, value) {
@@ -198,4 +198,4 @@ function addImportedCategory(category, name, categories) {
 
 export {setVisible, removeEngine, removeCategory,
     storeCategory, storeEngine,
-    saveEngine, saveCategory, addImportedCategory}
+    saveEngine, saveCategory, addImportedCategory, setCategories}

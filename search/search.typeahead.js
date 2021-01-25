@@ -17,8 +17,10 @@ const menuColorsDark = {
 }
 
 function fetchIt(q, cb) {
-    cb(getTerms().filter(term =>
-        term.toUpperCase().indexOf(q.toUpperCase()) !== -1));
+    getTerms().then(terms => {
+        cb(terms.filter(term =>
+            term.toUpperCase().indexOf(q.toUpperCase()) !== -1));
+    })
 }
 
 function setTypeaheadColors() {
