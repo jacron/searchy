@@ -1,7 +1,7 @@
 {
   "name": "Searchy Start",
   "description": "Open multiple search engines with one query",
-  "version": "0.4",
+  "version": "0.6",
   "permissions": [
     "contextMenus",
     "storage",
@@ -9,10 +9,10 @@
     "tabs"
   ],
   "host_permissions": [
-    "chrome://favicon/*"
+    "*://*/*"
   ],
   "background": {
-    "page": "background/background.html"
+    "service_worker": "background.js"
   },
   "action": {
     "default_icon": "icons/search128r.png"
@@ -23,6 +23,7 @@
   "omnibox": {
     "keyword": "sy"
   },
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjpjWNIj+e9OsS5gRRAGWPvIovIQ00W6jJqKATIecbC/t/KhBhNhzzmlVen5kp8uXkjNixdPqnT93HdT22VBpY8Z10+1HU21Fg9ok6tbz+BWPJh5cLY/AGNc1/cd0MjjJuRZ4vWJac1ft4Bn85HOma78Zcv48D82i2ZN2kR3gaK1/h1E66a25DsqHopyjC54WEI/XmJaqicBJxOZAjO9nLHvJVhDrlMZvAh4y2zi6G+Bo8J8hSDQFkrv01XTy89zVEO8f1+9aSfQWhZNsjIf2jhaPB5agxYSuzXy0ypZdHVBVycaYe27H1TROHD1B6XAINAIDfv4W8vc0Dp7NnU3e7wIDAQAB",
   "options_page": "options/options/options.html",
   "manifest_version": 3
 }

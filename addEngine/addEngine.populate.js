@@ -1,5 +1,5 @@
-import {getDelim} from "../../common/stringutils.js";
-import {getCategories} from "../../common/fetch.js";
+import {getDelim} from "../common/stringutils.js";
+import {getCategories} from "../common/fetch.js";
 
 const formAdd = {
     inputName: document.getElementById('inputName'),

@@ -1,7 +1,5 @@
 import {getDefaultEngineId} from "../../storage/default.js";
 import {categoryHtml, engineHtml} from "./options.templates.js";
-// import {getCategories} from "../../common/fetch";
-// import {categories} from "../../initial_data old";
 
 function createCategoryEnginesHtml(category, defaultEngineId) {
     let html = categoryHtml(category);

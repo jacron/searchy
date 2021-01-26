@@ -1,8 +1,8 @@
-import {bindToElements} from "../../common/bind-events.js";
-import {getTitleParts} from "../../common/stringutils.js";
-import {populateOptions} from "../../options/dialog/dialog.js";
-import {storeCategory, storeEngine} from "../../common/update.js";
-import {notifysearchy} from "../../common/notifysearchy.js";
+import {bindToElements} from "../common/bind-events.js";
+import {getTitleParts} from "../common/stringutils.js";
+import {populateOptions} from "../options/dialog/dialog.js";
+import {storeCategory, storeEngine} from "../common/update.js";
+import {notifysearchy} from "../common/notifysearchy.js";
 
 const formAdd = {
     inputName: document.getElementById('inputName'),

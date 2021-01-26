@@ -33,12 +33,14 @@ function displayEngines(categories) {
     getDefaultEngineId(defaultEngineId => {
         const elementEngines = document.getElementById('engines');
         elementEngines.innerHTML = '';
-        categories.map(category => {
-            const categoryDiv = document.createElement('div');
-            categoryDiv.className = 'item';
-            categoryDiv.innerHTML = createCategoryEnginesHtml(category, defaultEngineId);
-            elementEngines.appendChild(categoryDiv);
-        })
+        if (categories) {
+            categories.map(category => {
+                const categoryDiv = document.createElement('div');
+                categoryDiv.className = 'item';
+                categoryDiv.innerHTML = createCategoryEnginesHtml(category, defaultEngineId);
+                elementEngines.appendChild(categoryDiv);
+            })
+        }
     });
 }
 
