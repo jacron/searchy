@@ -53,9 +53,7 @@ class Contextmenu {
 
     moveSelector(option) {
         this.clearSelector();
-        // console.log(this.colors);
         option.style.backgroundColor = this.colors.bgOption || '#3065b4';
-        // option.style.color = this.colors.colOption || 'rgb(234,234,234)';
         option.setAttribute('selected', 'true');
     }
 

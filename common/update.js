@@ -44,19 +44,18 @@ function removeCategoryWithEngines(categoryId, engines, categories) {
 function removeCategory(id, forced) {
     return new Promise(resolve => {
         getCategories().then(categories => {
-            getCategoryById(id).then(category => {
-                if (category.engines.length > 0) {
-                    if (forced) {
-                        removeCategoryWithEngines(id, category.engines, categories);
-                        resolve(true);
-                    } else {
-                        resolve(false);
-                    }
-                } else {
-                    removeEmptyCategory(id, categories);
+            const category = categories.find(category => category.id === +id);
+            if (category.engines.length > 0) {
+                if (forced) {
+                    removeCategoryWithEngines(id, category.engines, categories);
                     resolve(true);
+                } else {
+                    resolve(false);
                 }
-            });
+            } else {
+                removeEmptyCategory(id, categories);
+                resolve(true);
+            }
         })
     })
 }
@@ -67,6 +66,22 @@ function copyEngineToCategory(engine, categoryId, categories) {
         .map(category => {
             category.engines.push(engine);
     })
+}
+
+function setCategoryProperty(categoryId, propertyName, value) {
+    getCategories().then(categories => {
+        const category = categories.find(category => category.id === +categoryId);
+        category[propertyName] = value;
+        setCategories(categories);
+    });
+}
+
+function removeCategoryProperty(categoryId, propertyName) {
+    getCategories().then(categories => {
+        const category = categories.find(category => category.id === +categoryId);
+        delete category[propertyName];
+        setCategories(categories);
+    });
 }
 
 function getNewEngineId(categories) {
@@ -196,6 +211,6 @@ function addImportedCategory(category, name, categories) {
     addCategory(name, newId, category.engines, categories);
 }
 
-export {setVisible, removeEngine, removeCategory,
-    storeCategory, storeEngine,
+export {setVisible, removeEngine, removeCategory, removeCategoryProperty,
+    storeCategory, storeEngine, setCategoryProperty,
     saveEngine, saveCategory, addImportedCategory, setCategories}

@@ -30,6 +30,13 @@ function recentTerms(e) {
     }
 }
 
+function openAllCategoryEngines(target) {
+    const term = getTerm();
+    storeSearchTerm(term);
+    storeTerm(term);
+    openCategoryEngines(target);
+}
+
 function enginesClick(e) {
     const target = e.target;
     const term = getTerm();
@@ -39,12 +46,12 @@ function enginesClick(e) {
         toUrl(target.getAttribute('data-href'), term);
         e.preventDefault();
     }
-    if (target.classList.contains('category-title')) {
-        storeSearchTerm(term);
-        storeTerm(term);
-        openCategoryEngines(target);
-        e.preventDefault();
-    }
+    // if (target.classList.contains('category-title')) {
+    //     storeSearchTerm(term);
+    //     storeTerm(term);
+    //     openCategoryEngines(target);
+    //     e.preventDefault();
+    // }
 }
 
 function setNewTab(e) {
@@ -89,4 +96,4 @@ function initEvents() {
     ])
 }
 
-export {initEvents, defaultEnter}
+export {initEvents, defaultEnter, openAllCategoryEngines}
