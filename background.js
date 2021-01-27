@@ -94,9 +94,41 @@ function setSearchTerm(selectedTerm) {
     chrome.storage.local.set({selectedTerm});
 }
 
-function handleOmniboxInputEntered(q) {
-    setSearchTerm(q);
+function handleOmniboxInputEntered(text) {
+    setSearchTerm(text);
     searchInCurrentTab();
+}
+
+function makeSuggestion(q, content) {
+    const start = content.indexOf(q);
+    const description = content.substr(0, start) +
+        '<match>' + q + '</match>' +
+        content.substr(start + q.length) +
+        '<dim> - searchy</dim>';
+    return {
+        content,
+        deletable: true,
+        description,
+    }
+}
+
+function handleOmniboxInputChanged(q, suggest) {
+    if (q.length > 1) {
+        chrome.storage.local.get('terms', res => {
+            const suggestion = [];
+            res.terms.filter(item => item.indexOf(q) !== -1)
+              .forEach(item => {
+                suggestion.push(makeSuggestion(q, item))
+            });
+            suggest(suggestion);
+        })
+    }
+}
+
+function handleOmniboxDeleteSuggestion(text) {
+    chrome.storage.local.get('terms', res => {
+        chrome.storage.local.set({terms: res.terms.filter(item => item !== text)});
+    })
 }
 
 function handleActionClicked() {
@@ -105,7 +137,9 @@ function handleActionClicked() {
 
 // manifest v3: chrome.action...
 chrome.browserAction.onClicked.addListener(handleActionClicked);
+chrome.omnibox.onInputChanged.addListener(handleOmniboxInputChanged);
 chrome.omnibox.onInputEntered.addListener(handleOmniboxInputEntered);
+chrome.omnibox.onDeleteSuggestion.addListener(handleOmniboxDeleteSuggestion);
 
 function setCategories(categories) {
     chrome.storage.sync.set({categories});
