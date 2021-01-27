@@ -2,7 +2,7 @@ import config from "../common/config.js";
 
 const TASearch = document.getElementById("searchTypeAhead");
 
-const key = config.storageKeyTerms;
+const key = 'terms';  // config.storageKeyTerms; = 'terms'
 
 function setSearchTermFromStorage() {
     chrome.storage.local.get(['selectedTerm'], res =>
@@ -20,6 +20,12 @@ function setTerm(t) {
     TASearch.search.value = t;
 }
 
+function removeTerm(t) {
+    getTerms().then(terms => {
+        storeTerms(terms.filter(item => item !== t));
+    })
+}
+
 function storeTerm(term) {
     getTerms().then(terms => {
         if (!terms) {
@@ -32,16 +38,13 @@ function storeTerm(term) {
             terms.push(term);
         }
         storeTerms(terms);
-        // localStorage.setItem(key, JSON.stringify(terms));
     })
-    // let terms = JSON.parse(localStorage.getItem(key));
 }
 
 function getTerms() {
     return new Promise(resolve => {
         chrome.storage.local.get(key, res => resolve(res[key]));
     })
-    // return JSON.parse(localStorage.getItem(key));
 }
 
 function storeTerms(terms) {
@@ -49,4 +52,4 @@ function storeTerms(terms) {
 }
 
 export {setSearchTermFromStorage, getTerm, getTerms,
-    storeTerm}
+    storeTerm, removeTerm}

@@ -46,6 +46,27 @@ class TypeAhead extends HTMLElement {
         }
     }
 
+    handleDeleteKey() {
+        this.dispatchDelete();
+        this.typeAheadList.deleteTerm(this.search.value);
+        this.restoreSearchValue();
+    }
+
+    handleNormalKey(e) {
+        if (e.key !== 'Meta' && e.key !== 'Alt') {
+            const q = this.search.value;
+            const minLength = this.getAttribute('minLength') || 2;
+            if (q.length >= minLength) {
+                // getItems is defined in client code
+                this.getItems(q, items => {
+                    this.typeAheadList.fillList(items);
+                })
+            } else {
+                this.typeAheadList.closeList();
+            }
+        }
+    }
+
     handleEnterKey() {
         if (this.flyOnEnter || this.typeAheadList.isEmptyList()) {
             this.typeAheadList.closeList();
@@ -55,36 +76,46 @@ class TypeAhead extends HTMLElement {
         }
     }
 
-    handleNormalKey() {
-        const q = this.search.value;
-        const minLength = this.getAttribute('minLength') || 2;
-        if (q.length >= minLength) {
-            // getItems is defined in client code
-            this.getItems(q, items => {
-                this.typeAheadList.fillList(items);
-            })
-        } else {
-            this.typeAheadList.closeList();
-        }
+    next() {
+        this.typeAheadList.next();
     }
 
-    searchKeyHandler(e, that) {
-        if (e.key === 'Enter') {
-            that.handleEnterKey();
-        } else if (e.key === 'ArrowDown') {
-            that.typeAheadList.next();
-        } else if (e.key === 'ArrowUp') {
-            that.typeAheadList.prev();
-        }
-        else if (e.key === 'Escape') {
-            that.handleEscapeKey();
-        } else if (e.key !== 'Meta' && e.key !== 'Alt') {
-            that.handleNormalKey();
+    prev() {
+        this.typeAheadList.prev();
+    }
+
+    searchKeyHandler(e) {
+        let listened = false;
+        [
+            ['Enter', this.handleEnterKey],
+            ['ArrowDown', this.next],
+            ['ArrowUp', this.prev],
+            ['Escape', this.handleEscapeKey],
+            ['Delete', this.handleDeleteKey],
+        ].forEach(binding => {
+            let [key, listener] = binding;
+            if (e.key === key) {
+                listener = listener.bind(this);
+                listener();
+                listened = true;
+            }
+        })
+        if (!listened) {
+            this.handleNormalKey(e);
         }
     }
 
     dispatchEnter() {
         this.dispatchEvent(new CustomEvent('enter', {
+            detail: {
+                label: this.search.value,
+            },
+            bubbles: true
+        }))
+    }
+
+    dispatchDelete() {
+        this.dispatchEvent(new CustomEvent('delete', {
             detail: {
                 label: this.search.value,
             },
@@ -122,7 +153,7 @@ class TypeAhead extends HTMLElement {
 
     attachEvents() {
         this.search.addEventListener('keyup',
-            e => this.searchKeyHandler(e, this))
+            this.searchKeyHandler.bind(this))
         this.typeAheadList.addEventListener('setsearch',
             e => this.setSearch(e, this))
         this.typeAheadList.addEventListener('action',

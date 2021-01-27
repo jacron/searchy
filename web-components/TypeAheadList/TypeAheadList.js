@@ -1,4 +1,4 @@
-import {template} from "./TypeAheadListTemplate.js";
+import {template} from "./TypeAheadList.template.js";
 
 class TypeAheadList extends HTMLElement {
     constructor() {
@@ -101,6 +101,17 @@ class TypeAheadList extends HTMLElement {
 
     isEmptyList() {
         return this.list.innerHTML === '';
+    }
+
+    deleteTerm(t) {
+        // this.fillList();
+        const titles = this.list.querySelectorAll('.title');
+        for (let i = 0; i < titles.length; i++) {
+            let titleElement = titles[i];
+            if (titleElement.textContent === t) {
+                titleElement.parentElement.removeChild(titleElement);
+            }
+        }
     }
 
     closeList() {
