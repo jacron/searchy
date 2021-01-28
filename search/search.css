@@ -94,8 +94,11 @@ a:hover {
     width: calc(100% - 20px);
 }
 .input-container {
-    width: calc(100% - 20px);
+    width: calc(100% - 40px);
     display: inline-block;
+}
+.cmd-search {
+    margin-right: 12px;
 }
 #engines {
     column-width: 18em;

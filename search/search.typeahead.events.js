@@ -12,8 +12,8 @@ function initTypeAheadEvents() {
         defaultEnter(searchTA.search.value));
     searchTA.addEventListener('delete', () =>
         removeTerm(searchTA.search.value));
-    document.querySelector('.container')
-        .addEventListener('click', containerClick);
+    // document.querySelector('.container')
+    //     .addEventListener('click', containerClick);
 }
 
 export {initTypeAheadEvents}

@@ -22,11 +22,13 @@ function storeSearchTerm(selectedTerm) {
     chrome.storage.local.set({selectedTerm});
 }
 
-function recentTerms(e) {
+function recentTermsOnClick(e) {
     const target = e.target;
+    // console.log(target);
     if (target.id !== 'recentTerms') {
         const searchTA = document.querySelector('type-ahead');
         searchTA.search.value = target.textContent;
+        searchTA.saveSearchValue()
     }
 }
 
@@ -84,7 +86,7 @@ function initEvents() {
         ['engines', enginesClick],
         ['toggleDark', toggleDarkmode],
         ['pageOptions', pageOptions],
-        ['recentTerms', recentTerms],
+        ['recentTerms', recentTermsOnClick],
         ['help', beginTour],
     ]);
     bindToElements('change', [

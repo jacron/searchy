@@ -8,8 +8,15 @@ class TypeAhead extends HTMLElement {
         initTypeAheadList();
         this.shadowRoot.appendChild(this.createWrapper());
         this.attachEvents();
-        // this.setStyling();
         this.setFlyOnEnter();
+        this.setWidth();
+    }
+
+    setWidth() {
+        const width = this.getAttribute('width');
+        if (width) {
+            this.typeAheadList.list.style.width = width + 'px';
+        }
     }
 
     closeList() {
@@ -46,14 +53,11 @@ class TypeAhead extends HTMLElement {
         }
     }
 
-    handleDeleteKey() {
-        this.dispatchDelete();
-        this.typeAheadList.deleteTerm(this.search.value);
-        this.restoreSearchValue();
-    }
-
     handleNormalKey(e) {
-        if (e.key !== 'Meta' && e.key !== 'Alt') {
+        if (/^([A-Za-z0-9 ])$/.test(e.key)
+            || e.key === 'Backspace'
+            || e.key === 'Delete'
+        ) {
             const q = this.search.value;
             const minLength = this.getAttribute('minLength') || 2;
             if (q.length >= minLength) {
@@ -91,7 +95,7 @@ class TypeAhead extends HTMLElement {
             ['ArrowDown', this.next],
             ['ArrowUp', this.prev],
             ['Escape', this.handleEscapeKey],
-            ['Delete', this.handleDeleteKey],
+            // ['Delete', this.handleDeleteKey],
         ].forEach(binding => {
             let [key, listener] = binding;
             if (e.key === key) {
@@ -114,10 +118,10 @@ class TypeAhead extends HTMLElement {
         }))
     }
 
-    dispatchDelete() {
+    dispatchDelete(t) {
         this.dispatchEvent(new CustomEvent('delete', {
             detail: {
-                label: this.search.value,
+                label: t,
             },
             bubbles: true
         }))
@@ -133,31 +137,38 @@ class TypeAhead extends HTMLElement {
         }
     }
 
-    doAction(action, that) {
-        switch(action) {
+    doAction(e) {
+        switch(e.detail.action) {
             case 'restore':
-                that.restoreSearchValue();
+                this.restoreSearchValue();
                 break;
             case 'focus':
-                that.search.focus();
+                this.search.focus();
                 break;
             case 'save':
-                that.saveSearchValue();
+                this.saveSearchValue();
                 break;
         }
     }
 
-    setSearch(e, that) {
-        that.search.value = e.detail.text;
+    setSearch(e) {
+        this.search.value = e.detail.text;
+    }
+
+    doDelete(e) {
+        this.dispatchDelete(e.detail);
+        this.restoreSearchValue();
     }
 
     attachEvents() {
         this.search.addEventListener('keyup',
             this.searchKeyHandler.bind(this))
         this.typeAheadList.addEventListener('setsearch',
-            e => this.setSearch(e, this))
+            this.setSearch.bind(this))
+        this.typeAheadList.addEventListener('delete',
+            this.doDelete.bind(this))
         this.typeAheadList.addEventListener('action',
-            e => this.doAction(e.detail.action, this))
+            this.doAction.bind(this))
     }
 
     createWrapper() {

@@ -12,6 +12,25 @@ class TypeAheadList extends HTMLElement {
         this.colors = colors;
     }
 
+    createTextElement(obj) {
+        const text = document.createElement('span');
+        text.textContent = obj;
+        // title.textContent = obj;  // this.renderLabel(obj);
+        text.className = 'text';
+        return text;
+    }
+
+    createDeleteButton() {
+        const deleteButton = document.createElement('div');
+        deleteButton.textContent = 'x';
+        deleteButton.style.float = 'right';
+        deleteButton.style.visibility = 'hidden';
+        deleteButton.style.padding = '2px 5px';
+        deleteButton.style.cursor = 'pointer';
+        deleteButton.className = 'btn-delete';
+        return deleteButton;
+    }
+
     createRow(obj) {
         const title = document.createElement('div');
         const idProp = this.getAttribute('idProp');
@@ -20,12 +39,10 @@ class TypeAheadList extends HTMLElement {
         if (idProp) {
             title.setAttribute('id', obj[idProp]);
         }
-        title.textContent = obj;  // this.renderLabel(obj);
+        title.appendChild(this.createTextElement(obj));
         title.style.backgroundColor = this.colors.bgTitle;
         title.style.color = this.colors.colTitle;
-        title.addEventListener('blur', () => {
-            title.style.backgroundColor = this.colors.bgTitle;
-        })
+        title.appendChild(this.createDeleteButton());
         return title;
     }
 
@@ -52,7 +69,7 @@ class TypeAheadList extends HTMLElement {
                 const row = rows[i];
                 if (activeFound) {
                     this.moveSelector(row);
-                    this.dispatchSetSearch(row.textContent);
+                    this.dispatchSetSearch(row.querySelector('.text').textContent);
                     break;
                 }
                 if (this.isSelected(row)) {
@@ -61,7 +78,7 @@ class TypeAheadList extends HTMLElement {
             }
             if (!activeFound) {
                 this.moveSelector(rows[0]);
-                this.dispatchSetSearch(rows[0].textContent);
+                this.dispatchSetSearch(rows[0].querySelector('.text').textContent);
             }
         }
     }
@@ -103,15 +120,10 @@ class TypeAheadList extends HTMLElement {
         return this.list.innerHTML === '';
     }
 
-    deleteTerm(t) {
-        // this.fillList();
-        const titles = this.list.querySelectorAll('.title');
-        for (let i = 0; i < titles.length; i++) {
-            let titleElement = titles[i];
-            if (titleElement.textContent === t) {
-                titleElement.parentElement.removeChild(titleElement);
-            }
-        }
+    deleteTerm(target) {
+        this.dispatchDelete(target.parentElement
+            .querySelector('.text').textContent);
+        target.parentElement.parentElement.removeChild(target.parentElement);
     }
 
     closeList() {
@@ -135,6 +147,13 @@ class TypeAheadList extends HTMLElement {
         }))
     }
 
+    dispatchDelete(text) {
+        this.dispatchEvent(new CustomEvent('delete', {
+            detail: text,
+            bubbles: true
+        }))
+    }
+
     dispatchSearchFocus() {
         this.dispatchAction('focus');
     }
@@ -149,8 +168,11 @@ class TypeAheadList extends HTMLElement {
 
     moveSelector(element) {
         this.clearSelector();
-        element.style.backgroundColor = this.colors.bgSelected;
-        element.setAttribute('selected', 'on');
+        if (element.querySelector('.btn-delete')) {
+            element.style.backgroundColor = this.colors.bgSelected;
+            element.setAttribute('selected', 'on');
+            element.querySelector('.btn-delete').style.visibility = 'visible';
+        }
     }
 
     isSelected(element) {
@@ -160,36 +182,55 @@ class TypeAheadList extends HTMLElement {
     clearSelector() {
         const titles = this.list.querySelectorAll('.title');
         for (let i = 0; i < titles.length; i++) {
-            titles[i].style.backgroundColor = this.colors.bgTitle;
-            titles[i].removeAttribute('selected');
+            const title = titles[i];
+            title.style.backgroundColor = this.colors.bgTitle;
+            title.removeAttribute('selected');
+            title.querySelector('.btn-delete').style.visibility = 'hidden';
         }
     }
 
-    listMouseOver(e, that) {
+    listMouseOver(e) {
         const title = e.path[0];
-        that.dispatchSetSearch(title.textContent);
-        this.moveSelector(title);
+        if (title.querySelector('.text')) {
+            this.dispatchSetSearch(title.querySelector('.text').textContent);
+            this.moveSelector(title);
+        }
     }
 
     listMouseLeave() {
         this.dispatchRestoreSearch();
     }
 
-    listClickHandler(e, that) {
-        const title = e.path[0];
-        // console.log(title.textContent);
-        that.dispatchSearchSave(title.textContent);
-        that.dispatchSearchFocus();
-        that.closeList();
+    listClickHandler(e) {
+        const target = e.path[0];
+        if (target.classList.contains('title')) {
+            this.dispatchSearchSave();
+            this.dispatchSearchFocus();
+            this.closeList();
+        }
+        if (target.classList.contains('btn-delete')) {
+            this.deleteTerm(target);
+            e.preventDefault();
+        }
+    }
+
+    listBlurHandler(e) {
+        const target = e.path[0];
+        if (target.classList.contains('title')) {
+            target.style.backgroundColor = this.colors.bgTitle;
+            target.querySelector('.btn-delete').style.visibility = 'hidden';
+        }
     }
 
     attachEvents() {
         this.list.addEventListener('click',
-            e => this.listClickHandler(e, this))
+            this.listClickHandler.bind(this))
+        this.list.addEventListener('blur',
+            this.listBlurHandler.bind(this))
         this.list.addEventListener('mouseover',
-                e => this.listMouseOver(e, this))
+                this.listMouseOver.bind(this))
         this.list.addEventListener('mouseleave',
-                e => this.listMouseLeave(e, this))
+                this.listMouseLeave.bind( this))
     }
 
     createWrapper() {
