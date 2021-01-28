@@ -1,4 +1,5 @@
 import {getTerms} from "./search.term.js";
+import {isDarkMode} from "../storage/dark.js";
 
 const menuColors = {
     bgInput: '#fff',
@@ -26,8 +27,7 @@ function fetchIt(q, cb) {
 function setTypeaheadColors() {
     const searchTA = document.querySelector('type-ahead');
     if (searchTA) {
-        const colors = document.body.classList.contains('dark') ?
-            menuColorsDark : menuColors;
+        const colors = isDarkMode() ? menuColorsDark : menuColors;
         searchTA.setColors(colors);
     }
 }

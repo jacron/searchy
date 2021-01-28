@@ -18,6 +18,15 @@ const template = `
     .title:focus {
         outline-width: 0;
     }
+    .btn-delete {
+        float: right;
+        visibility: hidden;
+        padding: 0 7px;
+        cursor: pointer;
+    }
+    .btn-delete:hover {
+        background-color: #557;    
+    }
 </style>
 <div class="slist" tabindex="-1"></div>
 `;

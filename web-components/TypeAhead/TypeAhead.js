@@ -95,7 +95,6 @@ class TypeAhead extends HTMLElement {
             ['ArrowDown', this.next],
             ['ArrowUp', this.prev],
             ['Escape', this.handleEscapeKey],
-            // ['Delete', this.handleDeleteKey],
         ].forEach(binding => {
             let [key, listener] = binding;
             if (e.key === key) {

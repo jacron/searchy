@@ -10,6 +10,19 @@ class TypeAheadList extends HTMLElement {
 
     setColors(colors) {
         this.colors = colors;
+        const titles = this.list.querySelectorAll('.title');
+        if (titles.length) {
+            for (let i = 0; i < titles.length; i++) {
+                const title = titles[i];
+                title.style.backgroundColor = colors.bgTitle;
+                title.style.color = colors.colTitle;
+            }
+        }
+        if (this.list.querySelector('.selected')) {
+            this.list.querySelector('.selected')
+                .style.backgroundColor = colors.bgSelected;
+        }
+        this.dispatchSearchFocus();
     }
 
     createTextElement(obj) {
@@ -23,10 +36,6 @@ class TypeAheadList extends HTMLElement {
     createDeleteButton() {
         const deleteButton = document.createElement('div');
         deleteButton.textContent = 'x';
-        deleteButton.style.float = 'right';
-        deleteButton.style.visibility = 'hidden';
-        deleteButton.style.padding = '2px 5px';
-        deleteButton.style.cursor = 'pointer';
         deleteButton.className = 'btn-delete';
         return deleteButton;
     }
@@ -97,7 +106,7 @@ class TypeAheadList extends HTMLElement {
                 const row = rows[i];
                 if (activeFound) {
                     this.moveSelector(row);
-                    this.dispatchSetSearch(row.textContent);
+                    this.dispatchSetSearch(row.querySelector('.text').textContent);
                     break;
                 }
                 if (this.isSelected(row)) {
@@ -107,7 +116,7 @@ class TypeAheadList extends HTMLElement {
             if (!activeFound) {
                 const lastRow = rows[rows.length - 1];
                 this.moveSelector(lastRow);
-                this.dispatchSetSearch(lastRow.textContent);
+                this.dispatchSetSearch(lastRow.querySelector('.text').textContent);
             }
         }
     }
@@ -190,10 +199,10 @@ class TypeAheadList extends HTMLElement {
     }
 
     listMouseOver(e) {
-        const title = e.path[0];
-        if (title.querySelector('.text')) {
-            this.dispatchSetSearch(title.querySelector('.text').textContent);
-            this.moveSelector(title);
+        const target = e.path[0];
+        if (target.querySelector('.text')) {
+            this.dispatchSetSearch(target.querySelector('.text').textContent);
+            this.moveSelector(target);
         }
     }
 
