@@ -42,18 +42,13 @@ function openAllCategoryEngines(target) {
 function enginesClick(e) {
     const target = e.target;
     const term = getTerm();
+    console.log(term);
     if (target.tagName === 'A') {
         storeSearchTerm(term);
         storeTerm(term);
         toUrl(target.getAttribute('data-href'), term);
         e.preventDefault();
     }
-    // if (target.classList.contains('category-title')) {
-    //     storeSearchTerm(term);
-    //     storeTerm(term);
-    //     openCategoryEngines(target);
-    //     e.preventDefault();
-    // }
 }
 
 function setNewTab(e) {

@@ -1,4 +1,4 @@
-import {getTerms} from "./search.term.js";
+import {getTerms, storeTerms} from "./search.term.js";
 import {isDarkMode} from "../storage/dark.js";
 
 const menuColors = {
@@ -35,6 +35,7 @@ function setTypeaheadColors() {
 function initSearchTypeAhead() {
     const searchTA = document.querySelector('type-ahead');
     searchTA.getItems = (q, cb) => fetchIt(q, cb);
+    searchTA.setItems = items => storeTerms(items);
     searchTA.renderLabel = obj => obj;
     setTypeaheadColors();
 }

@@ -61,14 +61,18 @@ class TypeAhead extends HTMLElement {
             const q = this.search.value;
             const minLength = this.getAttribute('minLength') || 2;
             if (q.length >= minLength) {
-                // getItems is defined in client code
-                this.getItems(q, items => {
-                    this.typeAheadList.fillList(items);
-                })
+                this.fillList();
             } else {
                 this.typeAheadList.closeList();
             }
         }
+    }
+
+    fillList() {
+        // getItems is defined in client code
+        this.getItems(this.search.value, items => {
+            this.typeAheadList.fillList(items);
+        })
     }
 
     handleEnterKey() {
@@ -117,15 +121,6 @@ class TypeAhead extends HTMLElement {
         }))
     }
 
-    dispatchDelete(t) {
-        this.dispatchEvent(new CustomEvent('delete', {
-            detail: {
-                label: t,
-            },
-            bubbles: true
-        }))
-    }
-
     saveSearchValue() {
         this.savedSearch = this.search.value;
     }
@@ -138,7 +133,7 @@ class TypeAhead extends HTMLElement {
 
     doAction(e) {
         switch(e.detail.action) {
-            case 'restore':
+            case 'restoresearch':
                 this.restoreSearchValue();
                 break;
             case 'focus':
@@ -155,8 +150,11 @@ class TypeAhead extends HTMLElement {
     }
 
     doDelete(e) {
-        this.dispatchDelete(e.detail);
-        this.restoreSearchValue();
+        this.getItems(this.search.value, items => {
+            this.setItems(items.filter(item => item !== e.detail))
+            this.restoreSearchValue();
+            this.fillList();
+        })
     }
 
     attachEvents() {

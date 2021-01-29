@@ -130,9 +130,6 @@ class TypeAheadList extends HTMLElement {
     }
 
     deleteTerm(target) {
-        this.dispatchDelete(target.parentElement
-            .querySelector('.text').textContent);
-        target.parentElement.parentElement.removeChild(target.parentElement);
     }
 
     closeList() {
@@ -168,11 +165,15 @@ class TypeAheadList extends HTMLElement {
     }
 
     dispatchRestoreSearch() {
-        this.dispatchAction('restore');
+        this.dispatchAction('restoresearch');
     }
 
     dispatchSearchSave() {
         this.dispatchAction('save');
+    }
+
+    dispatchRestoreList() {
+        this.dispatchAction('restorelist');
     }
 
     moveSelector(element) {
@@ -218,8 +219,11 @@ class TypeAheadList extends HTMLElement {
             this.closeList();
         }
         if (target.classList.contains('btn-delete')) {
-            this.deleteTerm(target);
-            e.preventDefault();
+            this.dispatchDelete(target.parentElement
+                .querySelector('.text').textContent);
+            // target.parentElement.parentElement.removeChild(target.parentElement);
+            e.preventDefault();  // ??
+            // this.dispatchRestoreList();
         }
     }
 

@@ -99,12 +99,17 @@ function handleOmniboxInputEntered(text) {
     searchInCurrentTab();
 }
 
+let currentSuggestions;
+
 function makeSuggestion(q, content) {
-    const start = content.indexOf(q);
-    const description = content.substr(0, start) +
-        '<match>' + q + '</match>' +
-        content.substr(start + q.length) +
-        '<dim> - searchy</dim>';
+    // keep it simple, so we can delete a term simply
+    const description = content;
+
+    // const start = content.indexOf(q);
+    // const description = content.substr(0, start) +
+    //     '<match>' + q + '</match>' +
+    //     content.substr(start + q.length) +
+    //     '<dim> - searchy</dim>';
     return {
         content,
         deletable: true,
@@ -115,17 +120,18 @@ function makeSuggestion(q, content) {
 function handleOmniboxInputChanged(q, suggest) {
     if (q.length > 1) {
         chrome.storage.local.get('terms', res => {
-            const suggestion = [];
+            currentSuggestions = [];
             res.terms.filter(item => item.indexOf(q) !== -1)
               .forEach(item => {
-                suggestion.push(makeSuggestion(q, item))
+                currentSuggestions.push(makeSuggestion(q, item))
             });
-            suggest(suggestion);
+            suggest(currentSuggestions);
         })
     }
 }
 
 function handleOmniboxDeleteSuggestion(text) {
+    // const suggestion = currentSuggestions.find(item => item.description === text);
     chrome.storage.local.get('terms', res => {
         chrome.storage.local.set({terms: res.terms.filter(item => item !== text)});
     })

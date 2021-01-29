@@ -30,6 +30,7 @@ class Contextmenu {
 
     open(e, colors, disabled) {
         this.clearSelector();
+        this.closeContextmenus();
         if (disabled) {
             this.disableOptions(disabled);
         }
@@ -48,6 +49,13 @@ class Contextmenu {
         for (let i = 0; i < options.length; i++) {
             options[i].style.backgroundColor = 'inherit';
             options[i].removeAttribute('selected');
+        }
+    }
+
+    closeContextmenus() {
+        const menus = document.querySelectorAll('.contextmenu');
+        for (let i = 0; i < menus.length; i++) {
+            menus[i].style.visibility = 'hidden';
         }
     }
 
@@ -254,6 +262,7 @@ class Contextmenu {
         const menu = document.createElement('div');
         menu.setAttribute('id', id);
         menu.setAttribute('tabIndex', '-1');
+        menu.className = 'contextmenu';
         options.forEach(option => {
             if (option[0] === '-') {
                 menu.appendChild(this.createHr());
