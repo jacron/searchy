@@ -4,9 +4,10 @@ import {bindToElements} from "../common/bind-events.js";
 import {setNewtabSetting} from "../storage/newtab.js";
 import {setShowRecentSetting} from "../storage/recent.js";
 import {showRecentTerms} from "./search.recent.js";
-import {beginTour} from "./search.tour.js";
 import {enginesContextmenu} from "./search.contextmenu.js";
 import {newTab, toUrl} from "./search.open.js";
+import {advices} from "./search.tour.data.js";
+import {beginTour} from "../common/helptour.js";
 
 function openCategoryEngines(clickedElement) {
     const item = clickedElement.parentElement;
@@ -76,13 +77,17 @@ function defaultEnter(term) {
     }
 }
 
+function help() {
+    beginTour(advices);
+}
+
 function initEvents() {
     bindToElements('click', [
         ['engines', enginesClick],
         ['toggleDark', toggleDarkmode],
         ['pageOptions', pageOptions],
         ['recentTerms', recentTermsOnClick],
-        ['help', beginTour],
+        ['help', help],
     ]);
     bindToElements('change', [
         ['newTab', setNewTab],

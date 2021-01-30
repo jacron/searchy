@@ -1,70 +1,23 @@
-class Helptour {
-    constructor(overlay, helptour, advices, cb) {
-        this.step = 0;
-        this.overlay = overlay;
-        this.helpTour = helptour;
-        this.advices = advices;
-        this.cb = cb;
-    }
+import {setFirstUseSetting} from "../storage/firstoptions.js";
+import {Helptour} from "./helptour.class.js";
 
-    firstUseHelp() {
-        this.overlay.style.display = 'block';
-        const advice = this.advices[this.step];
-        const adviceElement = advice.element();
-        if (!adviceElement) {
-            this.nextAdvice();
-            return;
-        }
-        const top = adviceElement.offsetTop;
-        const left = adviceElement.offsetLeft;
-        this.helpTour.style.top = (top + advice.offsetTop) + 'px';
-        this.helpTour.style.left = (left - 105 + advice.offsetLeft) + 'px';
-        this.helpTour.header = advice.header;
-        this.helpTour.message = advice.message;
-        if (this.step === this.advices.length - 1) {
-            this.helpTour.hideNext();
-            this.helpTour.focusSkip();
-        } else {
-            this.helpTour.showNext();
-            this.helpTour.focusNext();
-        }
-        if (advice.bubbleSlideLeft) {
-            this.helpTour.slideLeft(advice.bubbleSlideLeft);
-        } else {
-            this.helpTour.slideLeft(false);
-        }
-    }
+const overlay = document.getElementById('tourOverlay');
+const helpTour = document.querySelector('help-tour');
+let helptour;
 
-    closeTour() {
-        this.overlay.style.display = 'none';
-        this.cb(true);
-    }
-
-    nextAdvice() {
-        if (this.step < this.advices.length - 1) {
-            this.step++;
-            this.firstUseHelp();
-        } else {
-            this.closeTour();
-        }
-    }
-
-    skipTour() {
-        this.closeTour();
-    }
-
-    act(action) {
-        switch (action) {
-            case 'next':
-                this.nextAdvice();
-                break;
-            case 'skip':
-                this.skipTour();
-                break;
-        }
-
-    }
-
+function beginTour(advices) {
+    helptour = new Helptour(overlay, helpTour, advices, mode => setFirstUseSetting(mode));
+    helptour.firstUseHelp();
 }
 
-export {Helptour}
+function handleHelpClicked(e) {
+    if (e.detail.action) {
+        helptour.act(e.detail.action);
+    }
+}
+
+function initTourEvent() {
+    helpTour.addEventListener('navigate', handleHelpClicked)
+}
+
+export {beginTour, initTourEvent}

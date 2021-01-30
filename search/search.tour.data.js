@@ -52,7 +52,7 @@ const advices = [
         offsetLeft: -90,
         offsetTop: 40,
         bubbleSlideLeft: true
-    }
+    },
 ];
 
 export {advices}

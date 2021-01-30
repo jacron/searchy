@@ -6,9 +6,10 @@ import {onEditClick} from "../options.edit.js";
 import {openDialogImport} from "../import.js";
 import {openDialogAddEngine} from "../engine/engine.dialog.js";
 import {openDialogAddCategory} from "../category/category.dialog.js";
-import {beginTour} from "./options.tour.js";
+import {beginTour} from "../../common/helptour.js";
 import {setVisible} from "../../common/update.js";
 import {notifysearchy} from "../../common/notifysearchy.js";
+import {advices} from "./options.tour.data.js";
 
 function addEngine() {
     openDialogAddEngine(-1, result => {
@@ -55,6 +56,10 @@ function engineToggleVisible(e) {
     setVisible(getIdFromCheckbox(target), target.checked);
 }
 
+function help() {
+    beginTour(advices);
+}
+
 function initEvents() {
     bindToElements('click', [
         ['exportData', exportJson],
@@ -63,7 +68,7 @@ function initEvents() {
         ['addCategory', addCategory],
         ['toggleDark', toggleDarkmode],
         ['engines', editObject],
-        ['help', beginTour],
+        ['help', help],
     ]);
     bindToElements('change', [
         ['engines', engineToggleVisible]

@@ -1,19 +1,21 @@
+function firstCategoryTitle() {
+    return document.querySelectorAll('.category-title')[0];
+}
+
+function firstEngineTitle() {
+    return document.querySelectorAll('.engine')[0];
+}
+
 const advices = [
     {
-        element: () => {
-            const titles = document.querySelectorAll('.category-title');
-            return titles[0];
-        },
+        element: firstCategoryTitle,
         header: 'Group Header',
         message: 'Hover to edit, remove or export this group, or add an engine to it.',
         offsetLeft: 60,
         offsetTop: 48,
     },
     {
-        element: () => {
-            const titles = document.querySelectorAll('.engine');
-            return titles[0];
-        },
+        element: firstEngineTitle,
         header: 'Engine',
         message: 'Hover to edit, jump to, remove, or flag this engine. \nFlag means: setting it to default.',
         offsetLeft: 100,
@@ -61,13 +63,35 @@ const advices = [
         offsetTop: 40,
     },
     {
+        element: firstCategoryTitle,
+        header: 'Drag and drop',
+        message: 'You can drag a category to another position',
+        offsetLeft: 60,
+        offsetTop: 48,
+
+    },
+    {
+        element: firstEngineTitle,
+        header: 'Drag and drop',
+        message: 'You can drag an engine to another position and/or another category',
+        offsetLeft: 100,
+        offsetTop: 40,
+        bubbleSlideLeft: -1,
+    },
+    {
         element: () => document.getElementById('toHome'),
         header: 'Home',
         message: 'Go back to the search page.',
-        offsetLeft: -90,
+        offsetLeft: 0,
         offsetTop: 40,
-        bubbleSlideLeft: 1,
     },
+    {
+        element: () => document.getElementById('help'),
+        header: 'Help',
+        message: 'Repeat this help tour.',
+        offsetLeft: -10,
+        offsetTop: 40,
+    }
 ];
 
 export {advices}

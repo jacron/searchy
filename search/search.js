@@ -5,13 +5,14 @@ import {setSearchTermFromStorage} from "./search.term.js";
 import {getNewtabSetting} from "../storage/newtab.js";
 import {getShowRecentSetting} from "../storage/recent.js";
 import {showRecentTerms} from "./search.recent.js";
-import {beginTour, initTourEvent} from "./search.tour.js";
 import {getFirstUseSetting} from "../storage/first.js";
 import {initHelpTour} from "../web-components/HelpTour/HelpTour.js";
 import {initTypeAhead} from "../web-components/TypeAhead/TypeAhead.js";
 import {initTypeAheadEvents} from "./search.typeahead.events.js";
 import {initSearchTypeAhead} from "./search.typeahead.js";
 import {getCategories} from "../common/fetch.js";
+import {beginTour, initTourEvent} from "../common/helptour.js";
+import {advices} from "./search.tour.data.js";
 
 function showEngineLinks() {
     getCategories().then(categories => displayEngines(categories));
@@ -36,7 +37,7 @@ function initShowRecents() {
 function initFirstUseHelp() {
     getFirstUseSetting(set => {
         if (!set) {
-            beginTour();
+            beginTour(advices);
         }
     });
 
@@ -74,7 +75,7 @@ chrome.runtime.onMessage.addListener(req => {
     }
 })
 
-chrome.storage.onChanged.addListener((changes, areaName) => {
+chrome.storage.onChanged.addListener((changes) => {
     if (changes.categories) {
         showEngineLinks();
     }
