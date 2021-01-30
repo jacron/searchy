@@ -37,6 +37,12 @@
 .dark .controls .fa:hover {
     background-color: black;
 }
+.item.dragover {
+    border-top: 1px red solid;
+}
+.engine.dragover {
+    border-top: 1px green solid;
+}
 .category:hover .controls,
 .engine:hover .controls {
     display: inline-flex;

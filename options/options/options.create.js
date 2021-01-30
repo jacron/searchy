@@ -11,6 +11,8 @@ function createCategoryEnginesHtml(category, defaultEngineId) {
 function createCategoryDiv(category, defaultEngineId) {
     const categoryDiv = document.createElement('div');
     categoryDiv.className = 'item';
+    categoryDiv.setAttribute('draggable', 'true');
+    categoryDiv.setAttribute('data-id', category.id);
     categoryDiv.innerHTML = createCategoryEnginesHtml(category, defaultEngineId);
     return categoryDiv;
 }

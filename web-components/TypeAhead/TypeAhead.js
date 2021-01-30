@@ -21,7 +21,7 @@ class TypeAhead extends HTMLElement {
 
     closeList() {
         this.typeAheadList.closeList();
-        this.restoreSearchValue();
+        // this.restoreSearchValue();
     }
 
     fromAttribute(attr, deflt) {

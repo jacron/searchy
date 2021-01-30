@@ -18,7 +18,8 @@ function engineHtml(engine, defaultEngineId) {
     const nameClass = isDefault ? 'default' : '';
     const disabled = isDefault ? 'disabled="true" ' : '';
     return `
-<div class="engine" data-id="${engine.id}" data-url="${engine.url}">
+<div class="engine" data-id="${engine.id}" draggable="true"
+    data-url="${engine.url}">
     <span class="visible">
         <input type="checkbox" title="visible on/off" 
         class="check-visible" ${engine.visible ? 'checked' : ''}>

@@ -1,4 +1,5 @@
-import {getCategories, getCategoryById} from "./fetch.js";
+import {getCategories} from "./fetch.js";
+// import {categories} from "../initial_data old";
 
 function setCategories(categories) {
     chrome.storage.sync.set({categories});

@@ -6,6 +6,7 @@ import {getFirstUseSetting} from "../../storage/firstoptions.js";
 import {beginTour} from "./options.tour.js";
 import {initHelpTour} from "../../web-components/HelpTour/HelpTour.js";
 import {initTourEvent} from "./options.tour.js";
+import {initEnginesDragDropEvents} from "./options.drag.js";
 
 function initFirstUseHelp() {
     getFirstUseSetting(set => {
@@ -23,6 +24,7 @@ function init() {
     showEngineLinks();
     initFilesInput();
     initEvents();
+    initEnginesDragDropEvents();
     initFirstUseHelp();
 }
 

@@ -172,10 +172,6 @@ class TypeAheadList extends HTMLElement {
         this.dispatchAction('save');
     }
 
-    dispatchRestoreList() {
-        this.dispatchAction('restorelist');
-    }
-
     moveSelector(element) {
         this.clearSelector();
         if (element.querySelector('.btn-delete')) {
