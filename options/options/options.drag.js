@@ -1,26 +1,16 @@
 import {bindToTypes} from "../../common/bind-events.js";
 import {showEngineLinks} from "./options.create.js";
-import {moveCategory} from "./options.move.js";
+import {moveCategory, moveEngine} from "./options.move.js";
 
 const draggedElementData = {
     id: '-1',
     type: '',
     name: '',
-    // nameFromDragstart: e => {
-    //     const titleElement = e.target.querySelector('.category-title');
-    //     if (titleElement) {
-    //         this.name = titleElement.textContent;
-    //     }
-    //     const nameElement = e.target.querySelector('.name');
-    //     if (nameElement) {
-    //         this.name = nameElement.textContent;
-    //     }
-    // }
 }
 
 function dropItem(e) {
     const targetParent = e.target.closest('.item');
-    if (targetParent && targetParent.getAttribute('data-id') !== draggedElementData.id) {
+    if (targetParent) {
         e.preventDefault();
         moveCategory(draggedElementData.id, targetParent.getAttribute('data-id'));
         showEngineLinks();
@@ -28,7 +18,12 @@ function dropItem(e) {
 }
 
 function dropEngine(e) {
-    console.log(e.target);
+    const targetParent = e.target.closest('.engine');
+    if (targetParent) {
+        e.preventDefault();
+        moveEngine(draggedElementData.id, targetParent.getAttribute('data-id'));
+        showEngineLinks();
+    }
 }
 
 function onEnginesDrop(e) {
@@ -82,13 +77,11 @@ function onEnginesDragleave(e) {
 
 function getSourceDataOnDragstart(e) {
     const target = e.target;
-    console.log(target);
     const dataId = target.getAttribute('data-id');
     const type = target.classList.contains('item') ? 'item' :
         target.classList.contains('engine') ? 'engine' : '';
     draggedElementData.id = dataId;
     draggedElementData.type = type;
-    // draggedElementData.nameFromDragstart(e);
     return type + '-' + dataId;
 }
 

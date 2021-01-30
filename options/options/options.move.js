@@ -1,4 +1,4 @@
-import {getCategories} from "../../common/fetch.js";
+import {getCategories, getEngineCategory} from "../../common/fetch.js";
 import {setCategories} from "../../common/update.js";
 
 function getIndexById(categories, value) {
@@ -22,7 +22,7 @@ function getLastIndexById(categories, value) {
 function moveCategory(sourceId, targetId) {
     getCategories().then(categories => {
         const targetIndex = getIndexById(categories, +targetId);
-        let sourceIndex = getIndexById(categories, +sourceId);
+        const sourceIndex = getIndexById(categories, +sourceId);
         const sourceCategory = categories.find(category => category.id === +sourceId);
 
         // insert
@@ -37,4 +37,27 @@ function moveCategory(sourceId, targetId) {
     })
 }
 
-export {moveCategory}
+function moveEngine(sourceId, targetId) {
+    getCategories().then(categories => {
+        // put engine in new position in same or other category
+        const sourceCategory = getEngineCategory(categories, sourceId);
+        const targetCategory = getEngineCategory(categories, targetId);
+        const sourceIndex = getIndexById(sourceCategory.engines, +sourceId);
+        const targetIndex = getIndexById(targetCategory.engines, +targetId);
+        const sourceEngine = sourceCategory.engines.find(engine => engine.id === +sourceId);
+
+        // insert
+        targetCategory.engines.splice(targetIndex, 0, sourceEngine);
+
+        //remove
+        let indexForRemoval = sourceIndex;
+        if (sourceCategory === targetCategory && targetIndex < sourceIndex) {
+            indexForRemoval = getLastIndexById(sourceCategory.engines, +sourceId);
+        }
+        sourceCategory.engines.splice(indexForRemoval, 1);
+
+        setCategories(categories);
+    })
+}
+
+export {moveCategory, moveEngine}
