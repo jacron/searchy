@@ -1,5 +1,4 @@
 import {bindToTypes} from "../../common/bind-events.js";
-// import {showEngineLinks} from "./options.create.js";
 import {moveCategory, moveEngine} from "./options.move.js";
 import {notifysearchy} from "../../common/notifysearchy.js";
 
@@ -14,7 +13,6 @@ function dropItem(e) {
     if (targetParent) {
         e.preventDefault();
         moveCategory(draggedElementData.id, targetParent.getAttribute('data-id'));
-        // showEngineLinks();
         notifysearchy();
     }
 }
@@ -24,15 +22,7 @@ function dropEngine(e) {
     if (targetParent) {
         e.preventDefault();
         moveEngine(draggedElementData.id, targetParent.getAttribute('data-id'));
-        // showEngineLinks();
-        notifysearchy();
-    }
-}
-
-function clearDragged() {
-    const draggedElement = document.querySelector('.dragged');
-    if (draggedElement) {
-        draggedElement.classList.remove('dragged');
+        notifysearchy();  // show links on both pages
     }
 }
 
@@ -43,7 +33,6 @@ function onEnginesDrop(e) {
     if (draggedElementData.type === 'engine') {
         dropEngine(e);
     }
-    clearDragged();
 }
 
 function itemDragover(e) {
@@ -63,12 +52,12 @@ function engineDragover(e) {
 }
 
 function onEnginesDragover(e) {
-        if (draggedElementData.type === 'item') {
-            itemDragover(e);
-        }
-        if (draggedElementData.type === 'engine') {
-            engineDragover(e);
-        }
+    if (draggedElementData.type === 'item') {
+        itemDragover(e);
+    }
+    if (draggedElementData.type === 'engine') {
+        engineDragover(e);
+    }
 }
 
 function onEnginesDragleave(e) {
@@ -88,12 +77,19 @@ function onEnginesDragleave(e) {
 
 function getSourceDataOnDragstart(e) {
     const target = e.target;
-    const dataId = target.getAttribute('data-id');
-    const type = target.classList.contains('item') ? 'item' :
-        target.classList.contains('engine') ? 'engine' : '';
+    let type;
+    let dataId;
+    const engine = target.closest('.engine');
+    if (engine) {
+        type = 'engine';
+        dataId = engine.getAttribute('data-id');
+    }
+    if (target.classList.contains('category')) {
+        type = 'item';
+        dataId = target.getAttribute('data-id');
+    }
     draggedElementData.id = dataId;
     draggedElementData.type = type;
-    target.classList.add('dragged');
     return type + '-' + dataId;
 }
 

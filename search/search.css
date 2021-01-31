@@ -115,6 +115,7 @@ a:hover {
     font-size: 22px;
     margin-bottom: 12px;
     cursor: pointer;
+    opacity: .8;
 }
 .engine,
 .category {

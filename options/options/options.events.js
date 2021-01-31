@@ -40,7 +40,6 @@ function addCategory() {
 
 function editObject(e) {
     const target = e.target;
-    console.log(target);
     const engine = target.closest('.engine');
     if (engine) {
         const cmd = target.closest('.cmd');

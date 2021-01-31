@@ -24,6 +24,7 @@
     border-radius: 6px;
     margin-left: 3px;
     cursor: default;
+    z-index: 1;
 }
 .controls .closer {
     padding: 0 10px;

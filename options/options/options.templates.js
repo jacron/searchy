@@ -1,6 +1,6 @@
 function categoryHtml(category) {
     return `
-<div class="category" data-id="${category.id}">
+<div class="category" data-id="${category.id}" draggable="true">
     <span class="category-title name">${category.name}</span>
     <div class="controls">
         <div class="closer">x</div>
@@ -30,13 +30,13 @@ function engineHtml(engine, defaultEngineId) {
     const nameClass = isDefault ? 'default' : '';
     const disabled = isDefault ? 'disabled="true" ' : '';
     return `
-<div class="engine" data-id="${engine.id}" draggable="true"
+<div class="engine" data-id="${engine.id}"
     data-url="${engine.url}">
     <span class="visible">
         <input type="checkbox" title="visible on/off" 
         class="check-visible" ${engine.visible ? 'checked' : ''}>
     </span>
-    <span class="name ${nameClass}">${engine.name}</span>
+    <span class="name ${nameClass}" draggable="true">${engine.name}</span>
     <div class="controls">
         <div class="closer">x</div>
         <div class="cmd" cmd="edit">
