@@ -73,9 +73,7 @@ function exportGroup(categoryId) {
 }
 
 function newTab(url) {
-    chrome.tabs.create({
-        url
-    });
+    chrome.tabs.create({url});
 }
 
 function editEngine(cmd, engine) {
@@ -98,32 +96,23 @@ function editEngine(cmd, engine) {
     }
 }
 
-function onEditClick(e, target, type) {
-    clearSelected();
-    const controls = target.parentElement;
-    const object = controls.parentElement;
-    const a = object.querySelector('.name');
-    const name = a.textContent;
-    const objectId = object.getAttribute('data-id');
-    const url = object.getAttribute('data-url');
-    if (target.classList.contains('delete')) {
-        removeObject(type, name, objectId);
-    }
-    if (target.classList.contains('edit')) {
-        editObject(type, object, objectId);
-    }
-    if (target.classList.contains('add')) {
-        addEngineToCategory(objectId);
-    }
-    if (target.classList.contains('set-default')) {
-        setEngineDefault(objectId);
-    }
-    if (target.classList.contains('export-group')) {
-        exportGroup(objectId);
-    }
-    if (target.classList.contains('link')) {
-        newTab(url);
+function editCategory(cmd, category) {
+    const objectId = category.getAttribute('data-id');
+    switch(cmd) {
+        case 'edit':
+            editObject('category', category, objectId);
+            break;
+        case 'delete':
+            const name = category.querySelector('.name').textContent;
+            removeObject('category', name, objectId);
+            break;
+        case 'add':
+            addEngineToCategory(objectId);
+            break;
+        case 'export-group':
+            exportGroup(objectId);
+            break;
     }
 }
 
-export {onEditClick, clearSelected, clearClass, editEngine}
+export {clearSelected, clearClass, editEngine, editCategory}

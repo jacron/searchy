@@ -2,14 +2,25 @@ function categoryHtml(category) {
     return `
 <div class="category" data-id="${category.id}">
     <span class="category-title name">${category.name}</span>
-    <span class="controls">
-        <span>&nbsp;</span>
-        <span class="fa fa-edit edit cat" title="edit"></span>    
-        <span class="fa fa-delete delete cat" title="delete"></span>
-        <span class="fa fa-plus add cat" title="add engine"></span>
-        <span class="fa fa-floppy-o export-group cat" title="export group"></span>
-        <span class="closer">x</span>
-    </span>
+    <div class="controls">
+        <div class="closer">x</div>
+        <div class="cmd" cmd="edit">
+            <span class="fa fa-edit" title="edit"></span>
+            <span class="label">Edit</span>    
+        </div>    
+        <div class="cmd" cmd="delete">
+            <span class="fa fa-delete" title="delete"></span>
+            <span class="label">Delete</span>
+        </div>
+        <div class="cmd" cmd="add">
+        <span class="fa fa-plus" title="add engine"></span>
+            <span class="label">New engine</span>
+        </div>
+        <div class="cmd" cmd="export-group">
+            <span class="fa fa-floppy-o" title="export group"></span>
+            <span class="label">Export category</span>
+        </div>
+    </div>
 </div>
 `
 }

@@ -2,7 +2,7 @@ import {exportJson} from "../export.js";
 import {reDisplayEngines} from "./options.create.js";
 import {bindToElements} from "../../common/bind-events.js";
 import {toggleDarkmode} from "../../storage/dark.js";
-import {clearClass, editEngine, onEditClick} from "../options.edit.js";
+import {clearClass, editEngine, editCategory} from "../options.edit.js";
 import {openDialogImport} from "../import.js";
 import {openDialogAddEngine} from "../engine/engine.dialog.js";
 import {openDialogAddCategory} from "../category/category.dialog.js";
@@ -29,31 +29,32 @@ function addCategory() {
     });
 }
 
-function getTypeFromClass(classList) {
-    if (classList.contains('eng')) {
-        return 'engine';
-    }
-    if (classList.contains('cat')) {
-        return 'category';
-    }
-}
+// function getTypeFromClass(classList) {
+//     if (classList.contains('eng')) {
+//         return 'engine';
+//     }
+//     if (classList.contains('cat')) {
+//         return 'category';
+//     }
+// }
 
 function editObject(e) {
     const target = e.target;
     console.log(target);
     const engine = target.closest('.engine');
     if (engine) {
-        // editEngine(e, target, 'engine');
         const cmd = target.closest('.cmd');
-        editEngine(cmd.getAttribute('cmd'), engine);
+        if (cmd) {
+            editEngine(cmd.getAttribute('cmd'), engine);
+        }
     }
     const category = target.closest('.category');
     if (category) {
-
+        const cmd = target.closest('.cmd');
+        if (cmd) {
+            editCategory(cmd.getAttribute('cmd'), category);
+        }
     }
-    // if (target.classList.contains('fa')) {
-    //     onEditClick(e, target, getTypeFromClass(target.classList));
-    // }
     clearClass('opened');
 }
 

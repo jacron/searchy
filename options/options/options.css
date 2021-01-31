@@ -59,13 +59,8 @@
 .engine.dragover {
     border-top: 1px green solid;
 }
-/*.item:not(.dragged) .category:hover .controls,*/
-/*.engine:not(.dragged):hover .controls {*/
-/*    display: inline-flex;*/
-/*}*/
 .category.opened .controls,
 .engine.opened .controls {
-    /*display: inline-flex;*/
     visibility: visible;
 }
 .action {
