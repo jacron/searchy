@@ -2,7 +2,7 @@ import {exportJson} from "../export.js";
 import {reDisplayEngines} from "./options.create.js";
 import {bindToElements} from "../../common/bind-events.js";
 import {toggleDarkmode} from "../../storage/dark.js";
-import {onEditClick} from "../options.edit.js";
+import {clearClass, editEngine, onEditClick} from "../options.edit.js";
 import {openDialogImport} from "../import.js";
 import {openDialogAddEngine} from "../engine/engine.dialog.js";
 import {openDialogAddCategory} from "../category/category.dialog.js";
@@ -40,9 +40,21 @@ function getTypeFromClass(classList) {
 
 function editObject(e) {
     const target = e.target;
-    if (target.classList.contains('fa')) {
-        onEditClick(e, target, getTypeFromClass(target.classList));
+    console.log(target);
+    const engine = target.closest('.engine');
+    if (engine) {
+        // editEngine(e, target, 'engine');
+        const cmd = target.closest('.cmd');
+        editEngine(cmd.getAttribute('cmd'), engine);
     }
+    const category = target.closest('.category');
+    if (category) {
+
+    }
+    // if (target.classList.contains('fa')) {
+    //     onEditClick(e, target, getTypeFromClass(target.classList));
+    // }
+    clearClass('opened');
 }
 
 function getIdFromCheckbox(target) {
@@ -60,6 +72,23 @@ function help() {
     beginTour(advices);
 }
 
+function enginesContextmenu(e) {
+    // console.log(e.target);
+    clearClass('opened');
+    if (e.target.classList.contains('name')) {
+        const category = e.target.closest('.category');
+        if (category) {
+            category.classList.add('opened');
+            e.preventDefault();
+        }
+        const engine = e.target.closest('.engine');
+        if (engine) {
+            engine.classList.add('opened');
+            e.preventDefault();
+        }
+    }
+}
+
 function initEvents() {
     bindToElements('click', [
         ['exportData', exportJson],
@@ -73,6 +102,9 @@ function initEvents() {
     bindToElements('change', [
         ['engines', engineToggleVisible]
     ]);
+    bindToElements('contextmenu', [
+        ['engines', enginesContextmenu]
+    ])
 }
 
 export {initEvents}

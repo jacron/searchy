@@ -14,8 +14,8 @@
     display: none;
 }
 .controls {
-    display: none;
-    text-align: right;
+    display: block;
+    visibility: hidden;
     position: absolute;
     background-color: #dfe1e5;
     padding: 2px;
@@ -25,16 +25,32 @@
     margin-left: 3px;
     cursor: default;
 }
+.controls .closer {
+    padding: 0 10px;
+    opacity: .7;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.controls .closer:hover {
+    background-color: black;
+}
+.controls .label {
+    display: inline-block;
+    width: 160px;
+}
 .dark .controls {
     background-color: #333;
 }
-.controls .fa:hover {
+.controls .fa:hover,
+.controls .cmd:hover {
     background-color: #ccf;
 }
 .controls .fa:before {
     padding: 8px;
 }
-.dark .controls .fa:hover {
+.dark .controls .fa:hover,
+.dark .controls .cmd:hover {
     background-color: black;
 }
 .item.dragover {
@@ -43,9 +59,14 @@
 .engine.dragover {
     border-top: 1px green solid;
 }
-.category:hover .controls,
-.engine:hover .controls {
-    display: inline-flex;
+/*.item:not(.dragged) .category:hover .controls,*/
+/*.engine:not(.dragged):hover .controls {*/
+/*    display: inline-flex;*/
+/*}*/
+.category.opened .controls,
+.engine.opened .controls {
+    /*display: inline-flex;*/
+    visibility: visible;
 }
 .action {
     cursor: pointer;

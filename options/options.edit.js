@@ -8,11 +8,15 @@ import {askRemoveCategory} from "./category/category.remove.js";
 import {removeEngine} from "../common/update.js";
 import {notifysearchy} from "../common/notifysearchy.js";
 
-function clearSelected() {
-    const selectedElements = document.getElementsByClassName('selected');
+function clearClass(className) {
+    const selectedElements = document.getElementsByClassName(className);
     for (let i = 0; i < selectedElements.length; i++) {
-        selectedElements[i].classList.remove('selected');
+        selectedElements[i].classList.remove(className);
     }
+}
+
+function clearSelected() {
+    clearClass('selected');
 }
 
 function remove(type, id) {
@@ -74,6 +78,26 @@ function newTab(url) {
     });
 }
 
+function editEngine(cmd, engine) {
+    const objectId = engine.getAttribute('data-id');
+    switch(cmd) {
+        case 'edit':
+            editObject('engine', engine, objectId);
+            break;
+        case 'link':
+            const url = engine.getAttribute('data-url');
+            newTab(url);
+            break;
+        case 'delete':
+            const name = engine.querySelector('.name').textContent;
+            removeObject('engine', name, objectId);
+            break;
+        case 'set-default':
+            setEngineDefault(objectId);
+            break;
+    }
+}
+
 function onEditClick(e, target, type) {
     clearSelected();
     const controls = target.parentElement;
@@ -102,4 +126,4 @@ function onEditClick(e, target, type) {
     }
 }
 
-export {onEditClick, clearSelected}
+export {onEditClick, clearSelected, clearClass, editEngine}

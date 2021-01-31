@@ -1,6 +1,7 @@
 import {bindToTypes} from "../../common/bind-events.js";
-import {showEngineLinks} from "./options.create.js";
+// import {showEngineLinks} from "./options.create.js";
 import {moveCategory, moveEngine} from "./options.move.js";
+import {notifysearchy} from "../../common/notifysearchy.js";
 
 const draggedElementData = {
     id: '-1',
@@ -13,7 +14,8 @@ function dropItem(e) {
     if (targetParent) {
         e.preventDefault();
         moveCategory(draggedElementData.id, targetParent.getAttribute('data-id'));
-        showEngineLinks();
+        // showEngineLinks();
+        notifysearchy();
     }
 }
 
@@ -22,7 +24,15 @@ function dropEngine(e) {
     if (targetParent) {
         e.preventDefault();
         moveEngine(draggedElementData.id, targetParent.getAttribute('data-id'));
-        showEngineLinks();
+        // showEngineLinks();
+        notifysearchy();
+    }
+}
+
+function clearDragged() {
+    const draggedElement = document.querySelector('.dragged');
+    if (draggedElement) {
+        draggedElement.classList.remove('dragged');
     }
 }
 
@@ -33,6 +43,7 @@ function onEnginesDrop(e) {
     if (draggedElementData.type === 'engine') {
         dropEngine(e);
     }
+    clearDragged();
 }
 
 function itemDragover(e) {
@@ -82,6 +93,7 @@ function getSourceDataOnDragstart(e) {
         target.classList.contains('engine') ? 'engine' : '';
     draggedElementData.id = dataId;
     draggedElementData.type = type;
+    target.classList.add('dragged');
     return type + '-' + dataId;
 }
 
