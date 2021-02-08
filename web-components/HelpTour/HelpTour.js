@@ -1,7 +1,6 @@
 import {template} from './HelpTour.template.js';
 
 class HelpTour extends HTMLElement {
-
     constructor() {
         super();
         this.attachShadow({mode: 'open'}); // sets and returns 'this.shadowRoot'

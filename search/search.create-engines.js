@@ -65,7 +65,7 @@ function displayEngines(categories) {
     });
 }
 
-function setCategoryColors(darkmode) {
+function setCategoryColors() {
     const elementEngines = document.getElementById('engines');
     if (elementEngines) {
         getCategories().then(categories => displayEngines(categories));

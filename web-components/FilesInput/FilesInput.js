@@ -47,9 +47,9 @@ class FilesInput extends HTMLElement {
         this.input.setAttribute('accept', mimetype);
     }
 
-    resetInput() {
-        this.input.value = "";
-    }
+    // resetInput() {
+    //     this.input.value = "";
+    // }
 
     dispatch(content, name) {
         this.dispatchEvent(new CustomEvent('load', {

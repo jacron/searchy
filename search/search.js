@@ -5,7 +5,7 @@ import {setSearchTermFromStorage} from "./search.term.js";
 import {getNewtabSetting} from "../storage/newtab.js";
 import {getShowRecentSetting} from "../storage/recent.js";
 import {showRecentTerms} from "./search.recent.js";
-import {getFirstUseSetting} from "../storage/first.js";
+import {getFirstUseSettingSearchpage} from "../storage/firsttoursearchpage.js";
 import {initHelpTour} from "../web-components/HelpTour/HelpTour.js";
 import {initTypeAhead} from "../web-components/TypeAhead/TypeAhead.js";
 import {initTypeAheadEvents} from "./search.typeahead.events.js";
@@ -35,7 +35,7 @@ function initShowRecents() {
 }
 
 function initFirstUseHelp() {
-    getFirstUseSetting(set => {
+    getFirstUseSettingSearchpage(set => {
         if (!set) {
             beginTour(advices);
         }

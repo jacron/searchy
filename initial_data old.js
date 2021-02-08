@@ -51,59 +51,59 @@ const FilmsEngines = [
     }
 ];
 
-const TorrentsEngines = [
-    {
-        name: "Lime",
-        url: config.LIME,
-        visible: true,
-        id: 6
-    },
-    {
-        name: "Rarbg",
-        url: config.RARBG,
-        visible: true,
-        id: 7
-    },
-    {
-        name: "Google",
-        url: config.GOOGLE_TORRENT,
-        visible: true,
-        id: 8
-    },
-    {
-        name: "Your Bittorrent",
-        url: config.YOURBITTORRENT,
-        visible: true,
-        id: 9
-    }
-];
-
-const NzbEngines = [
-    {
-        name: "NZBStars",
-        url: config.STARSEARCH,
-        visible: true,
-        id: 10
-    },
-    {
-        name: "FindNZB",
-        url: config.FINDNZB,
-        visible: true,
-        id: 11
-    },
-    {
-        name: "NzbIndex",
-        url: config.NZB_INDEX,
-        visible: true,
-        id: 12
-    },
-    {
-        name: "Binsearch",
-        url: config.BINSEARCH,
-        visible: true,
-        id: 13
-    }
-];
+// const TorrentsEngines = [
+//     {
+//         name: "Lime",
+//         url: config.LIME,
+//         visible: true,
+//         id: 6
+//     },
+//     {
+//         name: "Rarbg",
+//         url: config.RARBG,
+//         visible: true,
+//         id: 7
+//     },
+//     {
+//         name: "Google",
+//         url: config.GOOGLE_TORRENT,
+//         visible: true,
+//         id: 8
+//     },
+//     {
+//         name: "Your Bittorrent",
+//         url: config.YOURBITTORRENT,
+//         visible: true,
+//         id: 9
+//     }
+// ];
+//
+// const NzbEngines = [
+//     {
+//         name: "NZBStars",
+//         url: config.STARSEARCH,
+//         visible: true,
+//         id: 10
+//     },
+//     {
+//         name: "FindNZB",
+//         url: config.FINDNZB,
+//         visible: true,
+//         id: 11
+//     },
+//     {
+//         name: "NzbIndex",
+//         url: config.NZB_INDEX,
+//         visible: true,
+//         id: 12
+//     },
+//     {
+//         name: "Binsearch",
+//         url: config.BINSEARCH,
+//         visible: true,
+//         id: 13
+//     }
+// ];
 
 const AlgemeenEngines = [
     {

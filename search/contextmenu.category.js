@@ -11,7 +11,7 @@ let colorPicker = null;
 let categoryForContextmenu;
 
 const menuOptions = [
-    ['Set Color', 'setcolor'],
+    ['Change Color', 'setcolor'],
     ['Remove Color', 'removecolor'],
     ['-'],
     ['Open All Engines', 'openall'],

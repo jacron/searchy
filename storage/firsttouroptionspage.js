@@ -2,14 +2,16 @@ import config from "../common/config.js";
 
 const key = config.storageKeyFirstUseOptions;
 
-function setFirstUseSetting(set) {
+function setFirstUseSettingOptionspage(set) {
+    console.log(set);
     chrome.storage.local.set({[key]: set}, () => {})
 }
 
-function getFirstUseSetting(cb) {
+function getFirstUseSettingOptionspage(cb) {
     chrome.storage.local.get([key], result => {
+        console.log(result);
         cb(result[key]);
     })
 }
 
-export {setFirstUseSetting, getFirstUseSetting}
+export {setFirstUseSettingOptionspage, getFirstUseSettingOptionspage}

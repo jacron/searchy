@@ -110,6 +110,10 @@ a:hover {
     break-inside: avoid;
     margin-bottom: 20px;
     padding: 6px;
+    background-color: #cfcfcf;
+}
+.dark .item {
+    background-color: #333;
 }
 .category-title {
     font-size: 22px;

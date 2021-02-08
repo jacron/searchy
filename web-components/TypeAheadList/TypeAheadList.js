@@ -129,9 +129,6 @@ class TypeAheadList extends HTMLElement {
         return this.list.innerHTML === '';
     }
 
-    deleteTerm(target) {
-    }
-
     closeList() {
         this.list.innerHTML = '';
         this.list.style.visibility = 'hidden';

@@ -1,0 +1,24 @@
+chrome://extensions/configureCommands
+manifest:
+  "commands": {
+    "typeahead-for-engine": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Y",
+        "mac": "Command+Shift+Y"
+      },
+      "description": "Typeahead engine"
+    }
+  },
+de hotkey die de user invult in de pagina (zie url boven)
+zal type-ahead-for-engine command doorgeven aan background.js
+(zie onder)
+
+//experimental
+// the user still has to enter the shortcut in
+// chrome://extensions/configureCommands
+
+chrome.commands.onCommand.addListener(command => {
+    console.log({command});
+})
+
+NB niet van toepassing voor mijn plan met key in search box...

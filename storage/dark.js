@@ -8,7 +8,7 @@ function isDarkMode() {
     return document.body.classList.contains('dark');
 }
 
-function toggleDarkmode(dark) {
+function toggleDarkmode() {
     chrome.storage.local.get([key], result => {
         const newValue = !result[key];
         chrome.storage.local.set({[key]: newValue}, () => {
