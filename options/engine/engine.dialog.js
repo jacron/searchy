@@ -4,7 +4,7 @@ import {initEngineEvents, setCurrentEngineName} from "./engine.dialog.events.js"
 import {templateEngine} from "./engine.template.js";
 import {populateOptions, showDialog} from "../dialog/dialog.js";
 import {getDelim} from "../../common/stringutils.js";
-import {getEngineById} from "../../common/fetch.js";
+import {getEngineWithCategoryById} from "../../common/fetch.js";
 
 function initTitleTrim(title) {
     const delim = getDelim(title);
@@ -32,7 +32,7 @@ function populateEngine(engine, category) {
 
 function openDialogEngine(id, cb) {
     const dialogAction = initDialogEngine(templateEngine, 'Edit Engine', cb);
-    getEngineById(id).then(([engine, category]) => {
+    getEngineWithCategoryById(id).then(([engine, category]) => {
         populateEngine(engine, category);
         showDialog(dialogAction);
         initialFocus();

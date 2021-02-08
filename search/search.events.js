@@ -43,9 +43,9 @@ function openAllCategoryEngines(target) {
 
 function enginesClick(e) {
     const target = e.target;
-    const term = getTerm();
-    console.log(term);
     if (target.tagName === 'A') {
+        const term = getTerm();
+        // console.log(term);
         storeSearchTerm(term);
         storeTerm(term);
         toUrl(target.getAttribute('data-href'), term);

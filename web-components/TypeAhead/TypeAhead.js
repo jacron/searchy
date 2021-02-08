@@ -81,7 +81,7 @@ class TypeAhead extends HTMLElement {
         // dispatch enter if flyOnEnter, or if list (already) is closed
         if (this.flyOnEnter || this.typeAheadList.isEmptyList()) {
             this.typeAheadList.closeList();
-            console.log('dispatch enter...');
+            // console.log('dispatch enter...');
             this.dispatchEnter();
         } else {
             this.typeAheadList.closeList();

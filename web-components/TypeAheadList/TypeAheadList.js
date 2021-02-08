@@ -225,6 +225,7 @@ class TypeAheadList extends HTMLElement {
 
     listClickHandler(e) {
         const target = e.path[0];
+        // console.log(target);
         if (target.classList.contains('title')) {
             this.dispatchSearchSave(target.id);
             this.dispatchSearchFocus();

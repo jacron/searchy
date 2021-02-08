@@ -1,4 +1,4 @@
-function getEngineById(engineId) {
+function getEngineWithCategoryById(engineId) {
     return new Promise((resolve) => {
         getCategories().then(categories => {
             categories.map(category => {
@@ -6,6 +6,21 @@ function getEngineById(engineId) {
                     .find(engine => engine.id === +engineId);
                 if (engine) {
                     resolve([engine, category]);
+                }
+            })
+        })
+    })
+
+}
+
+function getEngineById(engineId) {
+    return new Promise((resolve) => {
+        getCategories().then(categories => {
+            categories.map(category => {
+                const engine = category.engines
+                    .find(engine => engine.id === +engineId);
+                if (engine) {
+                    resolve(engine);
                 }
             })
         })
@@ -38,4 +53,5 @@ function getCategories() {
     });
 }
 
-export {getEngineById, getCategoryById, getCategories, getEngineCategory}
+export {getEngineWithCategoryById, getCategoryById, getEngineById,
+    getCategories, getEngineCategory}
