@@ -42,22 +42,27 @@ class TypeAheadList extends HTMLElement {
 
     createRow(obj) {
         const title = document.createElement('div');
-        const idProp = this.getAttribute('idProp');
         title.className = 'title';
         title.tabIndex = -1;
-        if (idProp) {
-            title.setAttribute('id', obj[idProp]);
+        // console.log(typeof obj);
+        if (typeof  obj === 'string') {
+            title.appendChild(this.createTextElement(obj));
+        } else {
+            title.setAttribute('id', obj.id);
+            title.appendChild(this.createTextElement(obj.name));
         }
-        title.appendChild(this.createTextElement(obj));
         title.style.backgroundColor = this.colors.bgTitle;
         title.style.color = this.colors.colTitle;
-        title.appendChild(this.createDeleteButton());
+        // console.log(this.deletable);
+        if (this.deletable !== 'false') {
+            title.appendChild(this.createDeleteButton());
+        }
         return title;
     }
 
     fillList(result) {
         this.list.innerHTML = '';
-        this.dispatchSearchSave();
+        this.dispatchSearchSave('-1');
         for (const item of result) {
             this.list.appendChild(this.createRow(item));
         }
@@ -143,9 +148,12 @@ class TypeAheadList extends HTMLElement {
         }))
     }
 
-    dispatchAction(action) {
+    dispatchAction(action, id) {
         this.dispatchEvent(new CustomEvent('action', {
-            detail: {action},
+            detail: {
+                action,
+                id
+            },
             bubbles: true
         }))
     }
@@ -165,21 +173,32 @@ class TypeAheadList extends HTMLElement {
         this.dispatchAction('restoresearch');
     }
 
-    dispatchSearchSave() {
-        this.dispatchAction('save');
+    dispatchSearchSave(id) {
+        this.dispatchAction('save', id);
     }
 
-    moveSelector(element) {
-        this.clearSelector();
+    showDeleteButton(element) {
         if (element.querySelector('.btn-delete')) {
-            element.style.backgroundColor = this.colors.bgSelected;
-            element.setAttribute('selected', 'on');
             element.querySelector('.btn-delete').style.visibility = 'visible';
         }
     }
 
+    moveSelector(element) {
+        this.clearSelector();
+        element.style.backgroundColor = this.colors.bgSelected;
+        element.setAttribute('selected', 'on');
+        this.showDeleteButton(element);
+    }
+
     isSelected(element) {
         return element.getAttribute('selected');
+    }
+
+    clearDeleteButton(title) {
+        const btnDelete = title.querySelector('.btn-delete');
+        if (btnDelete) {
+            btnDelete.style.visibility = 'hidden';
+        }
     }
 
     clearSelector() {
@@ -188,7 +207,7 @@ class TypeAheadList extends HTMLElement {
             const title = titles[i];
             title.style.backgroundColor = this.colors.bgTitle;
             title.removeAttribute('selected');
-            title.querySelector('.btn-delete').style.visibility = 'hidden';
+            this.clearDeleteButton(title);
         }
     }
 
@@ -207,16 +226,14 @@ class TypeAheadList extends HTMLElement {
     listClickHandler(e) {
         const target = e.path[0];
         if (target.classList.contains('title')) {
-            this.dispatchSearchSave();
+            this.dispatchSearchSave(target.id);
             this.dispatchSearchFocus();
             this.closeList();
         }
         if (target.classList.contains('btn-delete')) {
             this.dispatchDelete(target.parentElement
                 .querySelector('.text').textContent);
-            // target.parentElement.parentElement.removeChild(target.parentElement);
             e.preventDefault();  // ??
-            // this.dispatchRestoreList();
         }
     }
 

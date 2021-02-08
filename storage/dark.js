@@ -1,6 +1,7 @@
 import config from '../common/config.js';
-import {setTypeaheadColors} from "../search/search.typeahead.js";
+import {setTypeaheadSearchColors} from "../search/search.typeaheadSearch.js";
 import {setCategoryColors} from "../search/search.create-engines.js";
+import {setTypeaheadEngineColors} from "../search/search.typeaheadEngine.js";
 
 const key = config.storageKeyDarkmode;
 
@@ -13,8 +14,9 @@ function toggleDarkmode() {
         const newValue = !result[key];
         chrome.storage.local.set({[key]: newValue}, () => {
             document.body.className = newValue ? 'dark' : '';
-            setTypeaheadColors();
             setCategoryColors(newValue);
+            setTypeaheadSearchColors();
+            setTypeaheadEngineColors();
         })
     })
 }

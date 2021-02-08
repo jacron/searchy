@@ -1,14 +1,20 @@
 import {defaultEnter} from "./search.events.js";
-
-const searchTA = document.querySelector('type-ahead');
+import {getTypeAheadEngine, getTypeaheadSearch} from "./search.getElements.js";
 
 function containerClick() {
-    searchTA.closeList();
+    getTypeaheadSearch().closeList();
+}
+
+function engineTypeaheadEntered(e) {
+    console.log(e);
+
 }
 
 function initTypeAheadEvents() {
-    searchTA.addEventListener('enter', () =>
-        defaultEnter(searchTA.search.value));
+    getTypeaheadSearch().addEventListener('enter', () =>
+        defaultEnter(getTypeaheadSearch().search.value));
+    console.log(getTypeAheadEngine());
+    getTypeAheadEngine().addEventListener('enter', engineTypeaheadEntered);
     document.querySelector('.container')
         .addEventListener('click', containerClick, true);
 }

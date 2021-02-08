@@ -10,6 +10,7 @@ const template = `
         box-shadow: 0 6px 12px 3px rgba(0, 0, 0, 0.24);
         margin-top: 12px;
         visibility: hidden;
+        z-index: 1;
     }
     .title {
         border: 1px solid #444444;

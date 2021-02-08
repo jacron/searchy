@@ -1,22 +1,13 @@
 import {template} from './TypeAhead.template.js';
-import {initTypeAheadList} from "../TypeAheadList/TypeAheadList.js";
 
 class TypeAhead extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({mode: 'open'}); // sets and returns 'this.shadowRoot'
-        initTypeAheadList();
         this.shadowRoot.appendChild(this.createWrapper());
         this.attachEvents();
         this.setFlyOnEnter();
-        this.setWidth();
-    }
-
-    setWidth() {
-        const width = this.getAttribute('width');
-        if (width) {
-            this.typeAheadList.list.style.width = width + 'px';
-        }
+        this.attributesToList();
     }
 
     closeList() {
@@ -37,6 +28,16 @@ class TypeAhead extends HTMLElement {
             colTitle: colors.colTitle,
             bgSelected: colors.bgSelected,
         });
+    }
+
+    attributesToList() {
+        const width = this.getAttribute('width');
+        if (width && this.typeAheadList.list) {
+            this.typeAheadList.list.style.width = width + 'px';
+        }
+        // console.log(this.getAttribute('deletable'));
+        this.typeAheadList
+            .deletable = this.getAttribute('deletable') || false;
     }
 
     setFlyOnEnter() {
@@ -70,14 +71,17 @@ class TypeAhead extends HTMLElement {
 
     fillList() {
         // getItems is defined in client code
+        // items is an array of strings or objects
         this.getItems(this.search.value, items => {
             this.typeAheadList.fillList(items);
         })
     }
 
     handleEnterKey() {
+        // dispatch enter if flyOnEnter, or if list (already) is closed
         if (this.flyOnEnter || this.typeAheadList.isEmptyList()) {
             this.typeAheadList.closeList();
+            console.log('dispatch enter...');
             this.dispatchEnter();
         } else {
             this.typeAheadList.closeList();
@@ -116,13 +120,15 @@ class TypeAhead extends HTMLElement {
         this.dispatchEvent(new CustomEvent('enter', {
             detail: {
                 label: this.search.value,
+                id: this.search.getAttribute('data-id')
             },
             bubbles: true
         }))
     }
 
-    saveSearchValue() {
+    saveSearchValue(id) {
         this.savedSearch = this.search.value;
+        this.search.setAttribute('data-id', id);
     }
 
     restoreSearchValue() {
@@ -140,7 +146,7 @@ class TypeAhead extends HTMLElement {
                 this.search.focus();
                 break;
             case 'save':
-                this.saveSearchValue();
+                this.saveSearchValue(e.detail.id);
                 break;
         }
     }
@@ -172,7 +178,7 @@ class TypeAhead extends HTMLElement {
         const wrapper = document.createElement('div');
         wrapper.className = 'wrapper';
         wrapper.innerHTML = template;
-        this.search = wrapper.querySelector('#search');
+        this.search = wrapper.querySelector('input');
         this.list = wrapper.querySelector('.slist');
         this.typeAheadList = wrapper.querySelector('type-ahead-list');
         return wrapper;

@@ -17,9 +17,8 @@ const template = `
         width: 90px;
     }
 </style>
-<input id="search" autocomplete="off" spellcheck="false" type="search">
-<type-ahead-list
-></type-ahead-list>
+<input autocomplete="off" spellcheck="false" type="search">
+<type-ahead-list></type-ahead-list>
 `;
 
 export {template}

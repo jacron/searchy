@@ -1,4 +1,12 @@
 TypeAhead
+Jan Croonen 2021
+A web component for typing ahead.
+Items provided to TypeAhead can be strings or objects.
+When using objects, provide at least these two properties:
+- name
+- id
+
+TypeAhead
 
 attributes with defaults:
     bgInput='#aaa',

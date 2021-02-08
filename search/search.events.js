@@ -8,6 +8,7 @@ import {enginesContextmenu} from "./search.contextmenu.js";
 import {newTab, toUrl} from "./search.open.js";
 import {advices} from "./search.tour.data.js";
 import {beginTour} from "../common/helptour.js";
+import {getTypeaheadSearch} from "./search.getElements.js";
 
 function openCategoryEngines(clickedElement) {
     const item = clickedElement.parentElement;
@@ -27,7 +28,7 @@ function recentTermsOnClick(e) {
     const target = e.target;
     // console.log(target);
     if (target.id !== 'recentTerms') {
-        const searchTA = document.querySelector('type-ahead');
+        const searchTA = getTypeaheadSearch();
         searchTA.search.value = target.textContent;
         searchTA.saveSearchValue()
     }
@@ -69,6 +70,7 @@ function pageOptions() {
 }
 
 function defaultEnter(term) {
+    // console.log(term);
     const defaultEngine = document.querySelector('.default');
     if (defaultEngine) {
         storeSearchTerm(term);
