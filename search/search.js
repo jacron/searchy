@@ -56,7 +56,7 @@ function init() {
     initTypeAhead();
     initTypeAheadList();
     initTypeAheadSearch();
-    initTypeAheadEngine();
+    // initTypeAheadEngine();
     initTypeAheadEvents();
     initEvents();
     setSearchTermFromStorage();

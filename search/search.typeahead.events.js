@@ -5,7 +5,7 @@ import {getEngineById} from "../common/fetch.js";
 
 function containerClick() {
     getTypeaheadSearch().closeList();
-    getTypeAheadEngine().closeList();
+    getTypeAheadEngine() && getTypeAheadEngine().closeList();
 }
 
 function engineTypeaheadEntered(e) {
@@ -20,7 +20,7 @@ function engineTypeaheadEntered(e) {
 function initTypeAheadEvents() {
     getTypeaheadSearch().addEventListener('enter', () =>
         defaultEnter(getTypeaheadSearch().search.value));
-    getTypeAheadEngine().addEventListener('enter', engineTypeaheadEntered);
+    getTypeAheadEngine() && getTypeAheadEngine().addEventListener('enter', engineTypeaheadEntered);
     document.querySelector('.container')
         .addEventListener('click', containerClick, true);
 }
