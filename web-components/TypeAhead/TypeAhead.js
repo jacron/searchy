@@ -163,15 +163,28 @@ class TypeAhead extends HTMLElement {
         })
     }
 
+    onSearchClick() {
+        this.search.select();
+    }
+
+    bindToElement(bindings, element) {
+        bindings.forEach(binding => {
+            const [type, handler] = binding;
+            element.addEventListener(type, handler.bind(this));
+        })
+    }
+
     attachEvents() {
-        this.search.addEventListener('keyup',
-            this.searchKeyHandler.bind(this))
-        this.typeAheadList.addEventListener('setsearch',
-            this.setSearch.bind(this))
-        this.typeAheadList.addEventListener('delete',
-            this.doDelete.bind(this))
-        this.typeAheadList.addEventListener('action',
-            this.doAction.bind(this))
+        this.bindToElement(
+        [
+            ['setsearch', this.setSearch],
+            ['delete', this.doDelete],
+            ['action', this.doAction],
+        ], this.typeAheadList);
+        this.bindToElement([
+            ['keyup', this.searchKeyHandler],
+            ['click', this.onSearchClick],
+        ], this.search);
     }
 
     createWrapper() {

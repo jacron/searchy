@@ -12,7 +12,7 @@ import {advices} from "./options.tour.data.js";
 function initFirstUseHelp() {
     getFirstUseSettingOptionspage(set => {
         if (!set) {
-            beginTour(advices);
+            beginTour(advices, 'options');
         }
     });
 

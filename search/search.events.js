@@ -80,7 +80,7 @@ function defaultEnter(term) {
 }
 
 function help() {
-    beginTour(advices);
+    beginTour(advices, 'search');
 }
 
 function initEvents() {

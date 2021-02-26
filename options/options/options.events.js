@@ -57,19 +57,19 @@ function editObject(e) {
     clearClass('opened');
 }
 
-function getIdFromCheckbox(target) {
-    const visible = target.parentElement;
-    const engine = visible.parentElement;
-    return engine.getAttribute('data-id');
+function getIdFromCheckbox(engineOrCategory) {
+    return engineOrCategory.getAttribute('data-id');
 }
 
 function engineToggleVisible(e) {
     const target = e.target;
-    setVisible(getIdFromCheckbox(target), target.checked);
+    const visible = target.parentElement;
+    const engineOrCategory = visible.parentElement;
+    setVisible(getIdFromCheckbox(engineOrCategory), target.checked, engineOrCategory.className);
 }
 
 function help() {
-    beginTour(advices);
+    beginTour(advices, 'options');
 }
 
 function enginesContextmenu(e) {

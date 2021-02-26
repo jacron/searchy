@@ -1,16 +1,23 @@
 import {getCategories} from "./fetch.js";
-// import {categories} from "../initial_data old";
 
 function setCategories(categories) {
     chrome.storage.sync.set({categories});
 }
 
-function setVisible(engineId, value) {
+function setVisible(id, value, className) {
+    // console.log(className);
     getCategories().then(categories => {
         categories.map(category => {
-            category.engines
-                .filter(engine => engine.id === +engineId)
-                .map(engine => engine.visible = value)
+            if (className === 'engine') {
+                category.engines
+                    .filter(engine => engine.id === +id)
+                    .map(engine => engine.visible = value)
+            }
+            if (className === 'category') {
+                if (category.id === +id) {
+                    category.visible = value;
+                }
+            }
         })
         setCategories(categories);
     })

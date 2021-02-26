@@ -31,6 +31,11 @@ function createCategoryEnginesHtml(category, defaultEngineId) {
     return html;
 }
 
+// dummy declarations
+let category = {};
+category.backgroundcolordark = undefined;
+category.backgroundcolorlight = undefined;
+
 function setCategoryColor(category, categoryDiv) {
     let backgroundColor = null;
     if (document.body.classList.contains('dark')) {
@@ -53,13 +58,15 @@ function displayEngines(categories) {
         const elementEngines = document.getElementById('engines');
         elementEngines.innerHTML = '';
         if (categories) {
-            categories.map(category => {
-                const categoryDiv = document.createElement('div');
-                categoryDiv.className = 'item';
-                categoryDiv.setAttribute('data-id', category.id);
-                setCategoryColor(category, categoryDiv);
-                categoryDiv.innerHTML = createCategoryEnginesHtml(category, defaultEngineId);
-                elementEngines.appendChild(categoryDiv);
+            categories
+                .filter(category => category.visible)
+                .map(category => {
+                    const categoryDiv = document.createElement('div');
+                    categoryDiv.className = 'item';
+                    categoryDiv.setAttribute('data-id', category.id);
+                    setCategoryColor(category, categoryDiv);
+                    categoryDiv.innerHTML = createCategoryEnginesHtml(category, defaultEngineId);
+                    elementEngines.appendChild(categoryDiv);
             })
         }
     });
@@ -68,7 +75,8 @@ function displayEngines(categories) {
 function setCategoryColors() {
     const elementEngines = document.getElementById('engines');
     if (elementEngines) {
-        getCategories().then(categories => displayEngines(categories));
+        getCategories()
+            .then(categories => displayEngines(categories));
     }
 }
 

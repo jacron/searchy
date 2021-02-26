@@ -1,6 +1,10 @@
 function categoryHtml(category) {
     return `
 <div class="category" data-id="${category.id}" draggable="true">
+    <span class="visible">
+        <input type="checkbox" title="visible on/off" 
+        class="check-visible" ${category.visible ? 'checked' : ''}>
+    </span>
     <span class="category-title name">${category.name}</span>
     <div class="controls">
         <div class="closer">x</div>

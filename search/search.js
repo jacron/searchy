@@ -14,7 +14,7 @@ import {getCategories} from "../common/fetch.js";
 import {beginTour, initTourEvent} from "../common/helptour.js";
 import {advices} from "./search.tour.data.js";
 import {initTypeAheadList} from "../web-components/TypeAheadList/TypeAheadList.js";
-import {initTypeAheadEngine} from "./search.typeaheadEngine.js";
+// import {initTypeAheadEngine} from "./search.typeaheadEngine.js";
 
 function showEngineLinks() {
     getCategories().then(categories => displayEngines(categories));
@@ -39,7 +39,7 @@ function initShowRecents() {
 function initFirstUseHelp() {
     getFirstUseSettingSearchpage(set => {
         if (!set) {
-            beginTour(advices);
+            beginTour(advices, 'search');
         }
     });
 

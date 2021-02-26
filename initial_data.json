@@ -27,7 +27,8 @@
             }
         ],
         "id": 4,
-        "name": "General"
+        "name": "General",
+        "visible": true
     },
     {
         "engines": [
@@ -63,7 +64,8 @@
             }
         ],
         "id": 1,
-        "name": "Movies"
+        "name": "Movies",
+        "visible": true
     },
     {
         "engines": [
@@ -87,7 +89,8 @@
             }
         ],
         "id": 5,
-        "name": "Books"
+        "name": "Books",
+        "visible": true
     },
     {
         "engines": [
@@ -111,7 +114,8 @@
             }
         ],
         "id": 6,
-        "name": "Dev"
+        "name": "Dev",
+        "visible": true
     },
     {
         "engines": [
@@ -141,7 +145,8 @@
             }
         ],
         "id": 7,
-        "name": "Newspapers NL"
+        "name": "Newspapers NL",
+        "visible": true
     },
     {
         "engines": [
@@ -165,7 +170,8 @@
             }
         ],
         "id": 8,
-        "name": "Newspapers"
+        "name": "Newspapers",
+        "visible": true
     },
     {
         "engines": [
@@ -183,6 +189,7 @@
             }
         ],
         "id": 9,
-        "name": "Magazines"
+        "name": "Magazines",
+        "visible": true
     }
 ]
