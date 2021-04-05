@@ -72,7 +72,7 @@
             {
                 "id": 17,
                 "name": "bol.com",
-                "url": "https://www.bol.com/nl/rnwy/search.html?searchContext=books_all&searchtext=%s",
+                "url": "https://www.bol.com/nl/s/?searchtext=%s",
                 "visible": true
             },
             {

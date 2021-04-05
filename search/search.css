@@ -148,12 +148,15 @@ a:hover {
 }
 .recent-container {
     padding: 20px 0;
+    text-align: center;
 }
 .recent {
     margin-left: 24px;
     line-height: 1.4;
     height: 70px;
     overflow-y: auto;
+    resize: both;
+    width: 200px;
 }
 .recent > div {
     cursor: pointer;
