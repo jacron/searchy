@@ -166,9 +166,9 @@ function getInitialData() {
 
 function dataFromStorage() {
     getCategories().then(categories => {
-        if (!categories) {
-            getInitialData();
-        }
+        // if (!categories) {
+        //     getInitialData();
+        // }
     })
 }
 
@@ -183,4 +183,10 @@ function init() {
 
 init();
 
+chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
+    if (req.request && req.request === 'getinitial') {
+        getInitialData();
+        sendResponse({data: 'is fetched'});
+    }
+});
 

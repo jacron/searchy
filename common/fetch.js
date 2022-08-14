@@ -53,5 +53,9 @@ function getCategories() {
     });
 }
 
+function setCategories(categories) {
+    chrome.storage.sync.set({categories});
+}
+
 export {getEngineWithCategoryById, getCategoryById, getEngineById,
-    getCategories, getEngineCategory}
+    getCategories, setCategories, getEngineCategory}

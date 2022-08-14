@@ -10,14 +10,34 @@ import {initHelpTour} from "../web-components/HelpTour/HelpTour.js";
 import {initTypeAhead} from "../web-components/TypeAhead/TypeAhead.js";
 import {initTypeAheadEvents} from "./search.typeahead.events.js";
 import {initTypeAheadSearch} from "./search.typeaheadSearch.js";
-import {getCategories} from "../common/fetch.js";
+import {getCategories, setCategories} from "../common/fetch.js";
 import {beginTour, initTourEvent} from "../common/helptour.js";
 import {advices} from "./search.tour.data.js";
 import {initTypeAheadList} from "../web-components/TypeAheadList/TypeAheadList.js";
 // import {initTypeAheadEngine} from "./search.typeaheadEngine.js";
 
 function showEngineLinks() {
-    getCategories().then(categories => displayEngines(categories));
+    getCategories().then(categories => {
+        if (!categories) {
+            if (confirm("No links found. Should I get some defaults?")) {
+                chrome.runtime.sendMessage({request: 'getinitial'},
+                    (data) => {
+                        if (data.data === 'is fetched') {
+                            setTimeout(() => {
+                                getCategories().then(categories => {
+                                    categories.map(category => category.visible = true);
+                                    // console.log(categories);
+                                    setCategories(categories);
+                                    displayEngines(categories);
+                                })
+                            }, 1000);
+                        }
+                    });
+            }
+        } else {
+            displayEngines(categories)
+        }
+    });
 }
 
 function initNewtab() {

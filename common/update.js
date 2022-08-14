@@ -1,8 +1,5 @@
-import {getCategories} from "./fetch.js";
+import {getCategories, setCategories} from "./fetch.js";
 
-function setCategories(categories) {
-    chrome.storage.sync.set({categories});
-}
 
 function setVisible(id, value, className) {
     // console.log(className);
