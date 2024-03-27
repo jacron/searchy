@@ -142,7 +142,7 @@ function handleActionClicked() {
 }
 
 // manifest v3: chrome.action...
-chrome.browserAction.onClicked.addListener(handleActionClicked);
+chrome.action.onClicked.addListener(handleActionClicked);
 chrome.omnibox.onInputChanged.addListener(handleOmniboxInputChanged);
 chrome.omnibox.onInputEntered.addListener(handleOmniboxInputEntered);
 chrome.omnibox.onDeleteSuggestion.addListener(handleOmniboxDeleteSuggestion);

@@ -1,12 +1,17 @@
 import {getDefaultEngineId} from "../storage/default.js";
 import {getCategories} from "../common/fetch.js";
 
-const chromeFaviconUrl = 'chrome://favicon/';
+function faviconUrlFromEngineUrl(url) {
+    const p = url.split('/');
+    const host = p[0] + '//' + p[2]; // p[1] is empty
+    return host + '/favicon.ico';
+}
 
 function engineHtml(engine, nameClass) {
+    const faviconUrl = faviconUrlFromEngineUrl(engine.url);
     return `
 <div class="engine">
-    <img src="${chromeFaviconUrl}${engine.url}" class="icon" alt="i">
+    <img src="${faviconUrl}" class="icon" alt="i">
     <a data-href="${engine.url}" data-id="${engine.id}"
         class="${nameClass}">${engine.name}</a>
 </div>

@@ -138,7 +138,7 @@ a:hover {
     margin: 0 20px;
 }
 .checkbox-label {
-    margin: 0 20px 0 0;
+    margin: 0 20px 0 1px;
 }
 .default {
     text-decoration: underline;
@@ -173,4 +173,7 @@ help-tour {
 }
 #tourOverlay {
     display: none;
+}
+.top-menu input[type=checkbox] {
+    height: 13px;
 }
