@@ -23,7 +23,7 @@ class Helptour {
         this.helpTour.message = advice.message;
         if (this.step === this.advices.length - 1) {
             this.helpTour.hideNext();
-            this.helpTour.focusSkip();
+            this.helpTour.focusEnd();
         } else {
             this.helpTour.showNext();
             this.helpTour.focusNext();

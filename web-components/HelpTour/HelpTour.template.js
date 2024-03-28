@@ -72,6 +72,7 @@ const template = `
     <div class="button-bar">
         <button id="nextAdvice">next</button>
         <button id="skipTour">skip</button>
+        <button id="endTour">end</button>
     </div>
 </div>
 `;

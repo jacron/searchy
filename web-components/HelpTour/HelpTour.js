@@ -17,14 +17,17 @@ class HelpTour extends HTMLElement {
 
     hideNext() {
         this.nextButton.style.display = 'none';
+        this.skipButton.style.display = 'none';
+        this.endButton.style.display = 'inline-block';
     }
 
     showNext() {
         this.nextButton.style.display = 'inline-block';
+        this.endButton.style.display = 'none';
     }
 
-    focusSkip() {
-        this.skipButton.focus();
+    focusEnd() {
+        this.endButton.focus();
     }
 
     focusNext() {
@@ -59,8 +62,10 @@ class HelpTour extends HTMLElement {
         this.messageElement = wrapper.querySelector('#adviceMessage');
         this.nextButton = wrapper.querySelector('#nextAdvice');
         this.skipButton = wrapper.querySelector('#skipTour');
+        this.endButton = wrapper.querySelector('#endTour');
         this.nextButton.addEventListener('click', () => this.dispatchClick('next'));
         this.skipButton.addEventListener('click', () => this.dispatchClick('skip'));
+        this.endButton.addEventListener('click', () => this.dispatchClick('skip'));
         return wrapper;
     }
 }
