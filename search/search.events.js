@@ -4,7 +4,6 @@ import {bindToElements} from "../common/bind-events.js";
 import {setNewtabSetting} from "../storage/newtab.js";
 import {setShowRecentSetting} from "../storage/recent.js";
 import {showRecentTerms} from "./search.recent.js";
-import {enginesContextmenu} from "./search.contextmenu.js";
 import {newTab, toUrl} from "./search.open.js";
 import {advices} from "./search.tour.data.js";
 import {beginTour} from "../common/helptour.js";
@@ -95,9 +94,6 @@ function initEvents() {
         ['newTab', setNewTab],
         ['toggleRecent', toggleRecent]
     ]);
-    // bindToElements('contextmenu', [
-    //     ['engines', enginesContextmenu],
-    // ])
 }
 
 export {initEvents, defaultEnter, openAllCategoryEngines}
