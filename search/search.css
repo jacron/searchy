@@ -169,12 +169,6 @@ a:hover {
 .dark .recent > div:hover {
     color: aqua;
 }
-help-tour {
-    position: absolute;
-}
-#tourOverlay {
-    display: none;
-}
 .top-menu input[type=checkbox] {
     height: 13px;
 }
