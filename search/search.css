@@ -1,6 +1,7 @@
 body {
     background-color: #fff;
     color: #333;
+    font-size: 100%;
 }
 body.dark {
     background-color: #222;
@@ -102,7 +103,7 @@ a:hover {
 }
 #engines {
     column-width: 18em;
-    /*column-count: 3;*/
+    font-size: 75%;
     width: calc(100% - 96px);
     padding: 0 24px 0 48px;
 }
