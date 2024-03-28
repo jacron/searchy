@@ -11,7 +11,7 @@ import {initTypeAhead} from "../web-components/TypeAhead/TypeAhead.js";
 import {initTypeAheadEvents} from "./search.typeahead.events.js";
 import {initTypeAheadSearch} from "./search.typeaheadSearch.js";
 import {getCategories, setCategories} from "../common/fetch.js";
-import {beginTour, initTourEvent} from "../common/helptour.js";
+import {beginTour, initTourEvent} from "../common/helptour/helptour.js";
 import {advices} from "./search.tour.data.js";
 import {initTypeAheadList} from "../web-components/TypeAheadList/TypeAheadList.js";
 // import {initTypeAheadEngine} from "./search.typeaheadEngine.js";

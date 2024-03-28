@@ -1,6 +1,6 @@
 import {Helptour} from "./helptour.class.js";
-import {setFirstUseSettingSearchpage} from "../storage/firsttoursearchpage.js";
-import {setFirstUseSettingOptionspage} from "../storage/firsttouroptionspage.js";
+import {setFirstUseSettingSearchpage} from "../../storage/firsttoursearchpage.js";
+import {setFirstUseSettingOptionspage} from "../../storage/firsttouroptionspage.js";
 
 const overlay = document.getElementById('tourOverlay');
 const helpTour = document.querySelector('help-tour');

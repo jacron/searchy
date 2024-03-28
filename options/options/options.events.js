@@ -6,7 +6,7 @@ import {clearClass, editEngine, editCategory} from "../options.edit.js";
 import {openDialogImport} from "../import.js";
 import {openDialogAddEngine} from "../engine/engine.dialog.js";
 import {openDialogAddCategory} from "../category/category.dialog.js";
-import {beginTour} from "../../common/helptour.js";
+import {beginTour} from "../../common/helptour/helptour.js";
 import {setVisible} from "../../common/update.js";
 import {notifysearchy} from "../../common/notifysearchy.js";
 import {advices} from "./options.tour.data.js";

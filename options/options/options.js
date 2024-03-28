@@ -3,9 +3,9 @@ import {initDarkmode} from '../../storage/dark.js';
 import {initFilesInput} from '../../web-components/FilesInput/FilesInput.js';
 import {initEvents} from "./options.events.js";
 import {getFirstUseSettingOptionspage} from "../../storage/firsttouroptionspage.js";
-import {beginTour} from "../../common/helptour.js";
+import {beginTour} from "../../common/helptour/helptour.js";
 import {initHelpTour} from "../../web-components/HelpTour/HelpTour.js";
-import {initTourEvent} from "../../common/helptour.js";
+import {initTourEvent} from "../../common/helptour/helptour.js";
 import {initEnginesDragDropEvents} from "./options.drag.js";
 import {advices} from "./options.tour.data.js";
 

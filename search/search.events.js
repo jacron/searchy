@@ -6,7 +6,7 @@ import {setShowRecentSetting} from "../storage/recent.js";
 import {showRecentTerms} from "./search.recent.js";
 import {newTab, toUrl} from "./search.open.js";
 import {advices} from "./search.tour.data.js";
-import {beginTour} from "../common/helptour.js";
+import {beginTour} from "../common/helptour/helptour.js";
 import {getTypeaheadSearch} from "./search.getElements.js";
 
 function openCategoryEngines(clickedElement) {
