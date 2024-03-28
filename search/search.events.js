@@ -95,9 +95,9 @@ function initEvents() {
         ['newTab', setNewTab],
         ['toggleRecent', toggleRecent]
     ]);
-    bindToElements('contextmenu', [
-        ['engines', enginesContextmenu],
-    ])
+    // bindToElements('contextmenu', [
+    //     ['engines', enginesContextmenu],
+    // ])
 }
 
 export {initEvents, defaultEnter, openAllCategoryEngines}
