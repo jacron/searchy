@@ -1,7 +1,7 @@
 {
   "name": "Searchy Start",
   "description": "Open multiple search engines with one query",
-  "version": "0.6",
+  "version": "0.7",
   "permissions": [
     "contextMenus",
     "storage",
