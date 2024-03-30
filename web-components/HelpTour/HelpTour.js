@@ -23,6 +23,7 @@ class HelpTour extends HTMLElement {
 
     showNext() {
         this.nextButton.style.display = 'inline-block';
+        this.skipButton.style.display = 'inline-block';
         this.endButton.style.display = 'none';
     }
 
@@ -54,6 +55,13 @@ class HelpTour extends HTMLElement {
         }))
     }
 
+    dispatchKeydown(e) {
+        if (e.key === 'Escape') {
+            console.log('escape')
+            this.dispatchClick('skip')
+        }
+    }
+
     createWrapper() {
         const wrapper = document.createElement('div');
         wrapper.innerHTML = template;
@@ -66,6 +74,7 @@ class HelpTour extends HTMLElement {
         this.nextButton.addEventListener('click', () => this.dispatchClick('next'));
         this.skipButton.addEventListener('click', () => this.dispatchClick('skip'));
         this.endButton.addEventListener('click', () => this.dispatchClick('skip'));
+        this.tour.addEventListener('keydown', (e) => this.dispatchKeydown(e))
         return wrapper;
     }
 }

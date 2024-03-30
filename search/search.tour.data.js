@@ -15,16 +15,6 @@ const advices = [
         bubbleSlideLeft: true,
     },
     {
-        element: () => {
-            const titles = document.querySelectorAll('.category-title');
-            return titles[0];
-        },
-        header: 'Group Header',
-        message: 'Click on the header to open all engines in the group in separate tabs.',
-        offsetLeft: 60,
-        offsetTop: 48,
-    },
-    {
         element: () => document.getElementById('newTab'),
         header: 'Open in new Tab',
         message: 'Check this to open each engine in a new tab.',
