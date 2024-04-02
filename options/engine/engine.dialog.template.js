@@ -1,4 +1,4 @@
-const templateEngine = `
+const templateEngineDialog = `
 <div class="dialog" id="dialogEngine">
     <div class="dialog-header" id="dialogEngineHeader">New engine</div>
     <hr class="dialog-hr">
@@ -29,4 +29,4 @@ const templateEngine = `
 </div>
 `;
 
-export {templateEngine}
+export {templateEngineDialog}

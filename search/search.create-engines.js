@@ -1,11 +1,6 @@
 import {getDefaultEngineId} from "../storage/default.js";
 import {getCategories} from "../common/fetch.js";
-
-function faviconUrlFromEngineUrl(url) {
-    const p = url.split('/');
-    const host = p[0] + '//' + p[2]; // p[1] is empty
-    return host + '/favicon.ico';
-}
+import {faviconUrlFromEngineUrl, setCategoryColor} from "../common/color.js";
 
 function engineHtml(engine, nameClass) {
     const faviconUrl = faviconUrlFromEngineUrl(engine.url);
@@ -19,10 +14,7 @@ function engineHtml(engine, nameClass) {
 }
 
 function headerHtml(category) {
-    return `<div class="category-title"
-            title="Open all engines of '${category.name}'">
-    ${category.name}
-</div>`
+    return `<div class="category-title">${category.name}</div>`
 }
 
 function createCategoryEnginesHtml(category, defaultEngineId) {
@@ -34,28 +26,6 @@ function createCategoryEnginesHtml(category, defaultEngineId) {
             html += engineHtml(engine, nameClass);
         })
     return html;
-}
-
-// dummy declarations
-let category = {};
-category.backgroundcolordark = undefined;
-category.backgroundcolorlight = undefined;
-
-function setCategoryColor(category, categoryDiv) {
-    let backgroundColor = null;
-    if (document.body.classList.contains('dark')) {
-        if (category.backgroundcolordark) {
-            backgroundColor = category.backgroundcolordark;
-        }
-    } else {
-        if (category.backgroundcolorlight) {
-            backgroundColor = category.backgroundcolorlight;
-        }
-    }
-    if (backgroundColor) {
-        categoryDiv.style.backgroundColor = backgroundColor;
-        categoryDiv.setAttribute('bg', backgroundColor);
-    }
 }
 
 function displayEngines(categories) {

@@ -1,10 +1,14 @@
 import {getDefaultEngineId} from "../../storage/default.js";
 import {categoryHtml, engineHtml} from "./options.templates.js";
+import {faviconUrlFromEngineUrl, setCategoryColor} from "../../common/color.js";
 
 function createCategoryEnginesHtml(category, defaultEngineId) {
     let html = categoryHtml(category);
-    category.engines
-        .map(engine => html += engineHtml(engine, defaultEngineId))
+    category.engines.forEach(engine => {
+        const faviconUrl = faviconUrlFromEngineUrl(engine.url);
+        html += engineHtml(engine, defaultEngineId, faviconUrl);
+    })
+        // .map(engine => html += engineHtml(engine, defaultEngineId, faviconUrl))
     return html;
 }
 
@@ -13,6 +17,7 @@ function createCategoryDiv(category, defaultEngineId) {
     categoryDiv.className = 'item';
     categoryDiv.setAttribute('data-id', category.id);
     categoryDiv.innerHTML = createCategoryEnginesHtml(category, defaultEngineId);
+    setCategoryColor(category, categoryDiv);
     return categoryDiv;
 }
 

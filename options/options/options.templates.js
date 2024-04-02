@@ -29,13 +29,13 @@ function categoryHtml(category) {
 `
 }
 
-function engineHtml(engine, defaultEngineId) {
+function engineHtml(engine, defaultEngineId, faviconUrl) {
     const isDefault = engine.id === +defaultEngineId;
     const nameClass = isDefault ? 'default' : '';
     const disabled = isDefault ? 'disabled="true" ' : '';
     return `
-<div class="engine" data-id="${engine.id}"
-    data-url="${engine.url}">
+<div class="engine" data-id="${engine.id}" data-url="${engine.url}">
+    <img src="${faviconUrl}" class="icon" alt="i">
     <span class="visible">
         <input type="checkbox" title="visible on/off" 
         class="check-visible" ${engine.visible ? 'checked' : ''}>

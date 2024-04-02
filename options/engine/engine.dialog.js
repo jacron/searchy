@@ -1,7 +1,7 @@
 import {insertTemplate} from "../dialog/dialog.insert.js";
 import {initBackground} from "../dialog/dialog.background.js";
 import {initEngineEvents, setCurrentEngineName} from "./engine.dialog.events.js";
-import {templateEngine} from "./engine.template.js";
+import {templateEngineDialog} from "./engine.dialog.template.js";
 import {populateOptions, showDialog} from "../dialog/dialog.js";
 import {getDelim} from "../../common/stringutils.js";
 import {getEngineWithCategoryById} from "../../common/fetch.js";
@@ -31,7 +31,7 @@ function populateEngine(engine, category) {
 }
 
 function openDialogEngine(id, cb) {
-    const dialogAction = initDialogEngine(templateEngine, 'Edit Engine', cb);
+    const dialogAction = initDialogEngine(templateEngineDialog, 'Edit Engine', cb);
     getEngineWithCategoryById(id).then(([engine, category]) => {
         populateEngine(engine, category);
         showDialog(dialogAction);
@@ -40,7 +40,7 @@ function openDialogEngine(id, cb) {
 }
 
 function openDialogAddEngine(catId, cb) {
-    const dialogAction = initDialogEngine(templateEngine, "New Engine", cb);
+    const dialogAction = initDialogEngine(templateEngineDialog, "New Engine", cb);
     const categoriesElement = document.getElementById('engineCategory');
     populateFieldsEngine(-1, '', '');
     populateOptions(categoriesElement, catId);
