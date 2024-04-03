@@ -18,8 +18,10 @@ function toggleEdit(e) {
 function initEditable() {
     const key = config.storageKeyEditmode;
     const container = document.getElementById('engines');
+    const checkbox = document.getElementById('toggleEdit');
     chrome.storage.local.get([key], results => {
         container.className = results[key] ? 'editable' : '';
+        checkbox.checked = results[key];
     })
 }
 

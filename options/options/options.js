@@ -16,7 +16,6 @@ function initFirstUseHelp() {
             beginTour(advices, 'options');
         }
     });
-
 }
 
 function init() {
