@@ -2,14 +2,16 @@ import {exportJson} from "../export.js";
 import {reDisplayEngines} from "./options.create.js";
 import {bindToElements} from "../../common/bind-events.js";
 import {toggleDarkmode} from "../../storage/dark.js";
-import {clearClass, editEngine, editCategory} from "../options.edit.js";
+import {clearClass, editEngine, editCategory} from "./options.edit.js";
 import {openDialogImport} from "../import.js";
-import {openDialogAddEngine} from "../engine/engine.dialog.js";
-import {openDialogAddCategory} from "../category/category.dialog.js";
+import {openDialogAddEngine} from "../dialog/engine/engine.dialog.js";
+import {openDialogAddCategory} from "../dialog/category/category.dialog.js";
 import {beginTour} from "../../common/helptour/helptour.js";
 import {setVisible} from "../../common/update.js";
 import {notifysearchy} from "../../common/notifysearchy.js";
 import {advices} from "./options.tour.data.js";
+import {enginesContextmenu} from "./contextmenu.js";
+import {toggleEdit} from "../../storage/editable.js";
 
 function addEngine() {
     openDialogAddEngine(-1, result => {
@@ -28,15 +30,6 @@ function addCategory() {
         notifysearchy();
     });
 }
-
-// function getTypeFromClass(classList) {
-//     if (classList.contains('eng')) {
-//         return 'engine';
-//     }
-//     if (classList.contains('cat')) {
-//         return 'category';
-//     }
-// }
 
 function editObject(e) {
     const target = e.target;
@@ -72,23 +65,6 @@ function help() {
     beginTour(advices, 'options');
 }
 
-function enginesContextmenu(e) {
-    // console.log(e.target);
-    clearClass('opened');
-    if (e.target.classList.contains('name')) {
-        const category = e.target.closest('.category');
-        if (category) {
-            category.classList.add('opened');
-            e.preventDefault();
-        }
-        const engine = e.target.closest('.engine');
-        if (engine) {
-            engine.classList.add('opened');
-            e.preventDefault();
-        }
-    }
-}
-
 function initEvents() {
     bindToElements('click', [
         ['exportData', exportJson],
@@ -96,6 +72,7 @@ function initEvents() {
         ['addEngine', addEngine],
         ['addCategory', addCategory],
         ['toggleDark', toggleDarkmode],
+        ['toggleEdit', toggleEdit],
         ['engines', editObject],
         ['help', help],
     ]);

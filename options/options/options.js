@@ -8,6 +8,7 @@ import {initHelpTour} from "../../web-components/HelpTour/HelpTour.js";
 import {initTourEvent} from "../../common/helptour/helptour.js";
 import {initEnginesDragDropEvents} from "./options.drag.js";
 import {advices} from "./options.tour.data.js";
+import {initEditable} from "../../storage/editable.js";
 
 function initFirstUseHelp() {
     getFirstUseSettingOptionspage(set => {
@@ -22,6 +23,7 @@ function init() {
     initHelpTour();
     initTourEvent();
     initDarkmode();
+    initEditable();
     showEngineLinks();
     initFilesInput();
     initEvents();

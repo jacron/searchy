@@ -1,12 +1,12 @@
-import {reDisplayEngines, showEngineLinks} from "./options/options.create.js";
-import {setDefaultEngineId} from "../storage/default.js";
-import {getCategoryById} from "../common/fetch.js";
-import {downloadJson} from "../common/download.js";
-import {openDialogAddEngine, openDialogEngine} from "./engine/engine.dialog.js";
-import {openDialogCategory} from "./category/category.dialog.js";
-import {askRemoveCategory} from "./category/category.remove.js";
-import {removeEngine} from "../common/update.js";
-import {notifysearchy} from "../common/notifysearchy.js";
+import {reDisplayEngines, showEngineLinks} from "./options.create.js";
+import {setDefaultEngineId} from "../../storage/default.js";
+import {getCategoryById} from "../../common/fetch.js";
+import {downloadJson} from "../../common/download.js";
+import {openDialogAddEngine, openDialogEngine} from "../dialog/engine/engine.dialog.js";
+import {openDialogCategory} from "../dialog/category/category.dialog.js";
+import {askRemoveCategory} from "../dialog/category/category.remove.js";
+import {removeEngine} from "../../common/update.js";
+import {notifysearchy} from "../../common/notifysearchy.js";
 
 function clearClass(className) {
     const selectedElements = document.getElementsByClassName(className);

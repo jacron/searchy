@@ -1,4 +1,4 @@
-import {removeCategory} from "../../common/update.js";
+import {removeCategory} from "../../../common/update.js";
 
 function askRemoveCategory(id) {
     return new Promise(resolve => {

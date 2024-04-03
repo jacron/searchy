@@ -1,5 +1,5 @@
 import {hideElement} from "../../common/htmlelements.js";
-import {clearSelected} from "../options.edit.js";
+import {clearSelected} from "../options/options.edit.js";
 
 function hideDialogs() {
     for (let id of [

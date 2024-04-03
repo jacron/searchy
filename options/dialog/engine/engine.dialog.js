@@ -1,10 +1,10 @@
-import {insertTemplate} from "../dialog/dialog.insert.js";
-import {initBackground} from "../dialog/dialog.background.js";
+import {insertTemplate} from "../dialog.insert.js";
+import {initBackground} from "../dialog.background.js";
 import {initEngineEvents, setCurrentEngineName} from "./engine.dialog.events.js";
 import {templateEngineDialog} from "./engine.dialog.template.js";
-import {populateOptions, showDialog} from "../dialog/dialog.js";
-import {getDelim} from "../../common/stringutils.js";
-import {getEngineWithCategoryById} from "../../common/fetch.js";
+import {populateOptions, showDialog} from "../dialog.js";
+import {getDelim} from "../../../common/stringutils.js";
+import {getEngineWithCategoryById} from "../../../common/fetch.js";
 
 function initTitleTrim(title) {
     const delim = getDelim(title);

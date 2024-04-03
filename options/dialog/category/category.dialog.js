@@ -1,8 +1,8 @@
-import {insertTemplate} from "../dialog/dialog.insert.js";
+import {insertTemplate} from "../dialog.insert.js";
 import {initCategoryEvents} from "./category.dialog.events.js";
-import {showDialog} from "../dialog/dialog.js";
+import {showDialog} from "../dialog.js";
 import {templateCategory} from "./category.template.js";
-import {getCategoryById} from "../../common/fetch.js";
+import {getCategoryById} from "../../../common/fetch.js";
 
 function openDialogAddCategory(cb) {
     const dialogAction = initDialogCategory(templateCategory, 'New Category', cb);

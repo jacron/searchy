@@ -8,6 +8,7 @@ export default {
     storageKeyFirstUseOptions: 'firstuseoptions',
     storageKeyTerms: 'terms',
     storageMaxTerms: 2000,
+    storageKeyEditmode: 'editable',
     transportFileNameJson: 'searchy.json',
     transportFileNameStatic: 'searchy.js',
     initialDataFile: 'initial_data_deploy.json',

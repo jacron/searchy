@@ -1,6 +1,6 @@
-import {bindToElements} from "../../common/bind-events.js";
-import {hideDialogs} from "../dialog/dialog.hide.js";
-import {storeCategory} from "../../common/update.js";
+import {bindToElements} from "../../../common/bind-events.js";
+import {hideDialogs} from "../dialog.hide.js";
+import {storeCategory} from "../../../common/update.js";
 
 function saveTheCategory(cb) {
     const dialog = document.getElementById('dialogCategory');
