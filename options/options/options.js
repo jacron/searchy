@@ -50,7 +50,6 @@ chrome.runtime.onMessage.addListener(req => {
 
 chrome.storage.onChanged.addListener((changes) => {
     if (changes.categories) {
-        // console.log(new Date());
         showEngineLinks();
     }
 })

@@ -26,7 +26,6 @@ function showEngineLinks() {
                             setTimeout(() => {
                                 getCategories().then(categories => {
                                     categories.map(category => category.visible = true);
-                                    // console.log(categories);
                                     setCategories(categories);
                                     displayEngines(categories);
                                 })
