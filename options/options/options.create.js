@@ -2,6 +2,7 @@ import {getDefaultEngineId} from "../../storage/default.js";
 import {categoryHtml, engineHtml} from "./options.templates.js";
 import {faviconUrlFromEngineUrl, setCategoryColor} from "../../common/color.js";
 import config from "../../common/config.js";
+import {enginesClick} from "../../search/search.events.js";
 
 function createCategoryEnginesHtml(category, defaultEngineId, editable) {
     let html = categoryHtml(category);
@@ -19,6 +20,7 @@ function createCategoryDiv(category, defaultEngineId, editable) {
     categoryDiv.className = 'item';
     categoryDiv.setAttribute('data-id', category.id);
     categoryDiv.innerHTML = createCategoryEnginesHtml(category, defaultEngineId, editable);
+    categoryDiv.addEventListener('click', enginesClick);
     setCategoryColor(category, categoryDiv);
     return categoryDiv;
 }

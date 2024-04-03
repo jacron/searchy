@@ -50,7 +50,6 @@ function pageOptions() {
 }
 
 function defaultEnter(term) {
-    console.log(term);
     const defaultEngine = document.querySelector('.default');
     if (defaultEngine) {
         storeSearchTerm(term);
@@ -77,4 +76,4 @@ function initEvents() {
     ]);
 }
 
-export {initEvents, defaultEnter}
+export {initEvents, defaultEnter, enginesClick}
