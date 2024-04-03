@@ -1,7 +1,7 @@
 {
   "name": "Searchy Start",
   "description": "Open multiple search engines with one query",
-  "version": "0.7",
+  "version": "0.8",
   "permissions": [
     "contextMenus",
     "storage",
@@ -17,6 +17,5 @@
   "icons": {
     "128": "icons/search128r.png"
   },
-  "options_page": "options/options/options.html",
   "manifest_version": 3
 }

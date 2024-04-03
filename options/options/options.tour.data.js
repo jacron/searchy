@@ -79,6 +79,20 @@ const advices = [
         bubbleSlideLeft: -1,
     },
     {
+        element: () => document.getElementById('toggleEdit'),
+        header: 'Toggle Edit',
+        message: 'Turn edit mode on/off: hide/show checkboxes.',
+        offsetLeft: -15,
+        offsetTop: 40
+    },
+    {
+        element: () => document.getElementById('toggleDark'),
+        header: 'Toggle Dark',
+        message: 'Turn dark mode on/off.',
+        offsetLeft: -15,
+        offsetTop: 40
+    },
+    {
         element: () => document.getElementById('help'),
         header: 'Help',
         message: 'Repeat this help tour.',

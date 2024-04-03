@@ -1,4 +1,4 @@
-const searchPage = "search/search.html";
+const searchPage = "options/options/options.html";
 
 const createData = {
     url: 'addEngine/addEngine.html',
@@ -68,7 +68,7 @@ chrome.contextMenus.create(
         ],
     });
 
-chrome.contextMenus.onClicked.addListener(info => {
+function contextMenuClickListener(info) {
     switch(info.menuItemId) {
         case menuItemIds.add_page:
             openDialogNewEngine();
@@ -77,7 +77,7 @@ chrome.contextMenus.onClicked.addListener(info => {
             openSearchyWithSelection(info.selectionText);
             break;
     }
-});
+}
 
 function searchInCurrentTab() {
     let url = searchPage;
@@ -90,71 +90,13 @@ function searchInCurrentTab() {
     });
 }
 
-function setSearchTerm(selectedTerm) {
-    chrome.storage.local.set({selectedTerm});
-}
-
-function handleOmniboxInputEntered(text) {
-    setSearchTerm(text);
-    searchInCurrentTab();
-}
-
-let currentSuggestions;
-
-function makeSuggestion(q, content) {
-    // keep it simple, so we can delete a term simply
-    const description = content;
-
-    // const start = content.indexOf(q);
-    // const description = content.substr(0, start) +
-    //     '<match>' + q + '</match>' +
-    //     content.substr(start + q.length) +
-    //     '<dim> - searchy</dim>';
-    return {
-        content,
-        deletable: true,
-        description,
-    }
-}
-
-function handleOmniboxInputChanged(q, suggest) {
-    if (q.length > 1) {
-        chrome.storage.local.get('terms', res => {
-            currentSuggestions = [];
-            res.terms.filter(item => item.indexOf(q) !== -1)
-              .forEach(item => {
-                currentSuggestions.push(makeSuggestion(q, item))
-            });
-            suggest(currentSuggestions);
-        })
-    }
-}
-
-function handleOmniboxDeleteSuggestion(text) {
-    // const suggestion = currentSuggestions.find(item => item.description === text);
-    chrome.storage.local.get('terms', res => {
-        chrome.storage.local.set({terms: res.terms.filter(item => item !== text)});
-    })
-}
-
 function handleActionClicked() {
     searchInCurrentTab();
 }
 
-// manifest v3: chrome.action...
-chrome.action.onClicked.addListener(handleActionClicked);
-chrome.omnibox.onInputChanged.addListener(handleOmniboxInputChanged);
-chrome.omnibox.onInputEntered.addListener(handleOmniboxInputEntered);
-chrome.omnibox.onDeleteSuggestion.addListener(handleOmniboxDeleteSuggestion);
 
 function setCategories(categories) {
     chrome.storage.sync.set({categories});
-}
-
-function getCategories() {
-    return new Promise((resolve) => {
-        chrome.storage.sync.get('categories', res => resolve(res.categories))
-    });
 }
 
 function getInitialData() {
@@ -164,29 +106,22 @@ function getInitialData() {
         .then(categories => setCategories(categories));
 }
 
-function dataFromStorage() {
-    getCategories().then(categories => {
-        // if (!categories) {
-        //     getInitialData();
-        // }
-    })
-}
-
 function init() {
     const testInitial = false;
     if (testInitial) {
         getInitialData();
-    } else {
-        dataFromStorage();
     }
 }
 
-init();
-
-chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
+function messageListener(req, sender, sendResponse) {
     if (req.request && req.request === 'getinitial') {
         getInitialData();
         sendResponse({data: 'is fetched'});
     }
-});
+}
+
+chrome.action.onClicked.addListener(handleActionClicked);
+chrome.runtime.onMessage.addListener(messageListener);
+chrome.contextMenus.onClicked.addListener(contextMenuClickListener);
+init();
 
