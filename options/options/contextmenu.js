@@ -2,13 +2,15 @@ import {clearClass} from "./options.edit.js";
 
 function enginesContextmenu(e) {
     clearClass('opened');
-    if (e.target.classList.contains('name')) {
-        const category = e.target.closest('.category');
+    const target = e.target;
+    console.log(target)
+    if (target.classList.contains('name')) {
+        const category = target.closest('.category');
         if (category) {
             category.classList.add('opened');
             e.preventDefault();
         }
-        const engine = e.target.closest('.engine');
+        const engine = target.closest('.engine');
         if (engine) {
             engine.classList.add('opened');
             e.preventDefault();

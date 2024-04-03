@@ -41,7 +41,7 @@ function engineHtml(engine, defaultEngineId, faviconUrl) {
         class="check-visible" ${engine.visible ? 'checked' : ''}>
     </span>
     <a data-href="${engine.url}" data-id="${engine.id}"
-        class="${nameClass}" draggable="true">${engine.name}</a>
+        class="name ${nameClass}" draggable="true">${engine.name}</a>
 <!--    <span class="name ${nameClass}" draggable="true">${engine.name}</span>-->
     <div class="controls">
         <div class="closer">x</div>
