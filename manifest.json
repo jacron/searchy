@@ -17,9 +17,6 @@
   "icons": {
     "128": "icons/search128r.png"
   },
-  "omnibox": {
-    "keyword": "sy"
-  },
   "options_page": "options/options/options.html",
   "manifest_version": 3
 }

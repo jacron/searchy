@@ -79,13 +79,6 @@ const advices = [
         bubbleSlideLeft: -1,
     },
     {
-        element: () => document.getElementById('toHome'),
-        header: 'Home',
-        message: 'Go back to the search page.',
-        offsetLeft: 0,
-        offsetTop: 40,
-    },
-    {
         element: () => document.getElementById('help'),
         header: 'Help',
         message: 'Repeat this help tour.',
