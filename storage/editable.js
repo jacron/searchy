@@ -13,8 +13,8 @@ function toggleEdit(e) {
     const container = document.getElementById('engines');
     chrome.storage.local.set({[key]: newValue}, () => {
         container.className = newValue ? 'editable' : '';
+        showEngineLinks();
     })
-    showEngineLinks();
 }
 
 function initEditable() {

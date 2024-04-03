@@ -9,23 +9,12 @@ import {advices} from "./search.tour.data.js";
 import {beginTour} from "../common/helptour/helptour.js";
 import {getTypeaheadSearch} from "./search.getElements.js";
 
-function openCategoryEngines(clickedElement) {
-    const item = clickedElement.parentElement;
-    const engines = item.querySelectorAll('.engine');
-    const term = getTerm();
-    for (let i = 0; i < engines.length; i++) {
-        const a = engines[i].querySelector('a');
-        newTab(a.getAttribute('data-href'), term);
-    }
-}
-
 function storeSearchTerm(selectedTerm) {
     chrome.storage.local.set({selectedTerm});
 }
 
 function recentTermsOnClick(e) {
     const target = e.target;
-    // console.log(target);
     if (target.id !== 'recentTerms') {
         const searchTA = getTypeaheadSearch();
         searchTA.search.value = target.textContent;
@@ -33,18 +22,10 @@ function recentTermsOnClick(e) {
     }
 }
 
-function openAllCategoryEngines(target) {
-    const term = getTerm();
-    storeSearchTerm(term);
-    storeTerm(term);
-    openCategoryEngines(target);
-}
-
 function enginesClick(e) {
     const target = e.target;
     if (target.tagName === 'A') {
         const term = getTerm();
-        // console.log(term);
         storeSearchTerm(term);
         storeTerm(term);
         toUrl(target.getAttribute('data-href'), term);
@@ -96,4 +77,4 @@ function initEvents() {
     ]);
 }
 
-export {initEvents, defaultEnter, openAllCategoryEngines}
+export {initEvents, defaultEnter}

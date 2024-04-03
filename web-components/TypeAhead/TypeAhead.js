@@ -1,4 +1,5 @@
 import {template} from './TypeAhead.template.js';
+import {removeTerm, getTerms} from "../../search/search.term.js";
 
 class TypeAhead extends HTMLElement {
     constructor() {
@@ -12,7 +13,6 @@ class TypeAhead extends HTMLElement {
 
     closeList() {
         this.typeAheadList.closeList();
-        // this.restoreSearchValue();
     }
 
     fromAttribute(attr, deflt) {
@@ -20,7 +20,6 @@ class TypeAhead extends HTMLElement {
     }
 
     setColors(colors) {
-        // this.colors = colors;
         this.search.style.backgroundColor = colors.bgInput;
         this.search.style.color = colors.colInput;
         this.typeAheadList.setColors({
@@ -78,10 +77,9 @@ class TypeAhead extends HTMLElement {
     }
 
     handleEnterKey() {
-        // dispatch enter if flyOnEnter, or if list (already) is closed
+        /* Dispatch enter if flyOnEnter, or if list (already) is closed. */
         if (this.flyOnEnter || this.typeAheadList.isEmptyList()) {
             this.typeAheadList.closeList();
-            // console.log('dispatch enter...');
             this.dispatchEnter();
         } else {
             this.typeAheadList.closeList();
@@ -156,15 +154,13 @@ class TypeAhead extends HTMLElement {
     }
 
     doDelete(e) {
-        this.getItems(this.search.value, items => {
-            this.setItems(items.filter(item => item !== e.detail))
-            this.restoreSearchValue();
-            this.fillList();
+        const element = e.detail;
+        removeTerm(element.textContent);
+        this.restoreSearchValue();
+        getTerms().then(items => {
+            this.typeAheadList.fillList(items);
+            this.closeList();
         })
-    }
-
-    onSearchClick() {
-        this.search.select();
     }
 
     bindToElement(bindings, element) {
@@ -175,15 +171,16 @@ class TypeAhead extends HTMLElement {
     }
 
     attachEvents() {
+        /* handle some events from TypeAheadList */
         this.bindToElement(
         [
             ['setsearch', this.setSearch],
             ['delete', this.doDelete],
             ['action', this.doAction],
         ], this.typeAheadList);
+        /* handle some events from input (search) */
         this.bindToElement([
             ['keyup', this.searchKeyHandler],
-            ['click', this.onSearchClick],
         ], this.search);
     }
 

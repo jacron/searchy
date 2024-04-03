@@ -9,6 +9,10 @@ import {initTourEvent} from "../../common/helptour/helptour.js";
 import {initEnginesDragDropEvents} from "./options.drag.js";
 import {advices} from "./options.tour.data.js";
 import {initEditable} from "../../storage/editable.js";
+import {initTypeAhead} from "../../web-components/TypeAhead/TypeAhead.js";
+import {initTypeAheadEvents} from "../../search/search.typeahead.events.js";
+import {initTypeAheadList} from "../../web-components/TypeAheadList/TypeAheadList.js";
+import {initTypeAheadSearch} from "../../search/search.typeaheadSearch.js";
 
 function initFirstUseHelp() {
     getFirstUseSettingOptionspage(set => {
@@ -21,7 +25,10 @@ function initFirstUseHelp() {
 function init() {
     initHelpTour();
     initTourEvent();
-    initDarkmode();
+    initTypeAhead();
+    initTypeAheadList();
+    initTypeAheadSearch();
+    initTypeAheadEvents('body');
     initEditable();
     showEngineLinks();
     initFilesInput();
@@ -48,4 +55,4 @@ chrome.storage.onChanged.addListener((changes) => {
     }
 })
 
-init();
+initDarkmode(() => init());

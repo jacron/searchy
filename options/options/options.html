@@ -31,7 +31,19 @@
             <span>&nbsp;|&nbsp;</span>
             <a id="toHome" href="../../search/search.html">Home</a>
         </div>
-        <div class="header2">Edit my Searchy Engines</div>
+        <div class="search-form">
+            <div class="search-term-container">
+                <span class="fa fa-search cmd cmd-search"></span>
+                <div class="input-container">
+                    <type-ahead id="searchTypeAhead"
+                                flyOnEnter="false"
+                                width="388"
+                                minLength="2"
+                                deletable="true"
+                    ></type-ahead>
+                </div>
+            </div>
+        </div>
         <div class="vert-spacer"></div>
         <div id="engines"></div>
         <div id="tourOverlay" class="overlay">

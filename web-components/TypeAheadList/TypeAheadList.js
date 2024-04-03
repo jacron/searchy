@@ -1,11 +1,12 @@
 import {template} from "./TypeAheadList.template.js";
+import {createRow} from "./TypeAheadList.create.js";
 
 class TypeAheadList extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({mode: 'open'}); // sets and returns 'this.shadowRoot'
         this.shadowRoot.appendChild(this.createWrapper());
-        this.attachEvents();
+        // this.attachEvents();
     }
 
     setColors(colors) {
@@ -25,46 +26,11 @@ class TypeAheadList extends HTMLElement {
         this.dispatchSearchFocus();
     }
 
-    createTextElement(obj) {
-        const text = document.createElement('span');
-        text.textContent = obj;
-        // title.textContent = obj;  // this.renderLabel(obj);
-        text.className = 'text';
-        return text;
-    }
-
-    createDeleteButton() {
-        const deleteButton = document.createElement('div');
-        deleteButton.textContent = 'x';
-        deleteButton.className = 'btn-delete';
-        return deleteButton;
-    }
-
-    createRow(obj) {
-        const title = document.createElement('div');
-        title.className = 'title';
-        title.tabIndex = -1;
-        // console.log(typeof obj);
-        if (typeof  obj === 'string') {
-            title.appendChild(this.createTextElement(obj));
-        } else {
-            title.setAttribute('id', obj.id);
-            title.appendChild(this.createTextElement(obj.name));
-        }
-        title.style.backgroundColor = this.colors.bgTitle;
-        title.style.color = this.colors.colTitle;
-        // console.log(this.deletable);
-        if (this.deletable !== 'false') {
-            title.appendChild(this.createDeleteButton());
-        }
-        return title;
-    }
-
     fillList(result) {
         this.list.innerHTML = '';
         this.dispatchSearchSave('-1');
         for (const item of result) {
-            this.list.appendChild(this.createRow(item));
+            this.list.appendChild(createRow(item, this));
         }
         this.list.style.visibility = 'visible';
     }
@@ -158,9 +124,9 @@ class TypeAheadList extends HTMLElement {
         }))
     }
 
-    dispatchDelete(text) {
+    dispatchDelete(element) {
         this.dispatchEvent(new CustomEvent('delete', {
-            detail: text,
+            detail: element,
             bubbles: true
         }))
     }
@@ -211,51 +177,51 @@ class TypeAheadList extends HTMLElement {
         }
     }
 
-    listMouseOver(e) {
-        const target = e.path[0];
-        if (target.querySelector('.text')) {
-            this.dispatchSetSearch(target.querySelector('.text').textContent);
-            this.moveSelector(target);
-        }
-    }
+    // listMouseOver(e) {
+    //     const target = e.path[0];
+    //     if (target.querySelector('.text')) {
+    //         this.dispatchSetSearch(target.querySelector('.text').textContent);
+    //         this.moveSelector(target);
+    //     }
+    // }
+    //
+    // listMouseLeave() {
+    //     this.dispatchRestoreSearch();
+    // }
+    //
+    // listClickHandler(e) {
+    //     const target = e.path[0];
+    //     console.log(target);
+    //     if (target.classList.contains('title')) {
+    //         this.dispatchSearchSave(target.id);
+    //         this.dispatchSearchFocus();
+    //         this.closeList();
+    //     }
+    //     if (target.classList.contains('btn-delete')) {
+    //         this.dispatchDelete(target.parentElement
+    //             .querySelector('.text').textContent);
+    //         e.preventDefault();  // ??
+    //     }
+    // }
+    //
+    // listBlurHandler(e) {
+    //     const target = e.path[0];
+    //     if (target.classList.contains('title')) {
+    //         target.style.backgroundColor = this.colors.bgTitle;
+    //         target.querySelector('.btn-delete').style.visibility = 'hidden';
+    //     }
+    // }
 
-    listMouseLeave() {
-        this.dispatchRestoreSearch();
-    }
-
-    listClickHandler(e) {
-        const target = e.path[0];
-        // console.log(target);
-        if (target.classList.contains('title')) {
-            this.dispatchSearchSave(target.id);
-            this.dispatchSearchFocus();
-            this.closeList();
-        }
-        if (target.classList.contains('btn-delete')) {
-            this.dispatchDelete(target.parentElement
-                .querySelector('.text').textContent);
-            e.preventDefault();  // ??
-        }
-    }
-
-    listBlurHandler(e) {
-        const target = e.path[0];
-        if (target.classList.contains('title')) {
-            target.style.backgroundColor = this.colors.bgTitle;
-            target.querySelector('.btn-delete').style.visibility = 'hidden';
-        }
-    }
-
-    attachEvents() {
-        this.list.addEventListener('click',
-            this.listClickHandler.bind(this))
-        this.list.addEventListener('blur',
-            this.listBlurHandler.bind(this))
-        this.list.addEventListener('mouseover',
-                this.listMouseOver.bind(this))
-        this.list.addEventListener('mouseleave',
-                this.listMouseLeave.bind( this))
-    }
+    // attachEvents() {
+    //     this.list.addEventListener('click',
+    //         this.listClickHandler.bind(this))
+    //     this.list.addEventListener('blur',
+    //         this.listBlurHandler.bind(this))
+    //     this.list.addEventListener('mouseover',
+    //             this.listMouseOver.bind(this))
+    //     this.list.addEventListener('mouseleave',
+    //             this.listMouseLeave.bind( this))
+    // }
 
     createWrapper() {
         const wrapper = document.createElement('span');

@@ -4,12 +4,10 @@ import {toUrl} from "./search.open.js";
 import {getEngineById} from "../common/fetch.js";
 
 function containerClick() {
-    getTypeaheadSearch().closeList();
     getTypeAheadEngine() && getTypeAheadEngine().closeList();
 }
 
 function engineTypeaheadEntered(e) {
-    // console.log(e);//detail: label en id
     getEngineById(e.detail.id).then(engine => {
         const term = getTypeaheadSearch().search.value;
         console.log(engine, term);
@@ -17,11 +15,12 @@ function engineTypeaheadEntered(e) {
     });
 }
 
-function initTypeAheadEvents() {
+function initTypeAheadEvents(selector) {
     getTypeaheadSearch().addEventListener('enter', () =>
         defaultEnter(getTypeaheadSearch().search.value));
-    getTypeAheadEngine() && getTypeAheadEngine().addEventListener('enter', engineTypeaheadEntered);
-    document.querySelector('.container')
+    getTypeAheadEngine() && getTypeAheadEngine()
+        .addEventListener('enter', engineTypeaheadEntered);
+    document.querySelector(selector)
         .addEventListener('click', containerClick, true);
 }
 

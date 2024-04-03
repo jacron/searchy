@@ -20,11 +20,11 @@ function setTerm(t) {
     TASearch.search.value = t;
 }
 
-// function removeTerm(t) {
-//     getTerms().then(terms => {
-//         storeTerms(terms.filter(item => item !== t));
-//     })
-// }
+function removeTerm(t) {
+    getTerms().then(terms => {
+        storeTerms(terms.filter(item => item !== t));
+    })
+}
 
 function storeTerm(term) {
     getTerms().then(terms => {
@@ -52,4 +52,4 @@ function storeTerms(terms) {
 }
 
 export {setSearchTermFromStorage, getTerm, getTerms, storeTerms,
-    storeTerm}
+    storeTerm, removeTerm}
