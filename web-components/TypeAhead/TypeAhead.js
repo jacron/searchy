@@ -124,9 +124,10 @@ class TypeAhead extends HTMLElement {
         }))
     }
 
-    saveSearchValue(id) {
+    saveSearchValue(name) {
         this.savedSearch = this.search.value;
-        this.search.setAttribute('data-id', id);
+        // this.search.setAttribute('data-id', id);
+        this.search.value = name;
     }
 
     restoreSearchValue() {
@@ -144,7 +145,7 @@ class TypeAhead extends HTMLElement {
                 this.search.focus();
                 break;
             case 'save':
-                this.saveSearchValue(e.detail.id);
+                this.saveSearchValue(e.detail.name);
                 break;
         }
     }

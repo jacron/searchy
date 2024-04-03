@@ -22,22 +22,35 @@ function createDeleteButton(typeAheadList) {
     return deleteButton;
 }
 
+function selectHandler(name, typeAheadList) {
+    console.log(name)
+    typeAheadList.dispatchSearchSave(name);
+    typeAheadList.dispatchSearchFocus();
+    typeAheadList.closeList();
+}
+
 function createRow(obj, typeAheadList) {
-    const title = document.createElement('div');
-    title.className = 'title';
-    title.tabIndex = -1;
-    if (typeof  obj === 'string') {
-        title.appendChild(createTextElement(obj));
+    const row = document.createElement('div');
+    row.className = 'title';
+    row.tabIndex = -1;
+    let name;
+    if (typeof obj === 'string') {
+        row.appendChild(createTextElement(obj));
+        name = obj;
     } else {
-        title.setAttribute('id', obj.id);
-        title.appendChild(createTextElement(obj.name));
+        row.setAttribute('id', obj.id);
+        row.appendChild(createTextElement(obj.name));
+        name= obj.name;
     }
-    title.style.backgroundColor = typeAheadList.colors.bgTitle;
-    title.style.color = typeAheadList.colors.colTitle;
+    row.style.backgroundColor = typeAheadList.colors.bgTitle;
+    row.style.color = typeAheadList.colors.colTitle;
     if (typeAheadList.deletable !== 'false') {
-        title.appendChild(createDeleteButton(typeAheadList));
+        row.appendChild(createDeleteButton(typeAheadList));
     }
-    return title;
+    row.addEventListener('click', e => {
+        selectHandler(name, typeAheadList);
+    })
+    return row;
 }
 
 export {createRow}
