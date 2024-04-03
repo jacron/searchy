@@ -1,22 +1,24 @@
 import {getDefaultEngineId} from "../../storage/default.js";
 import {categoryHtml, engineHtml} from "./options.templates.js";
 import {faviconUrlFromEngineUrl, setCategoryColor} from "../../common/color.js";
+import config from "../../common/config.js";
 
-function createCategoryEnginesHtml(category, defaultEngineId) {
+function createCategoryEnginesHtml(category, defaultEngineId, editable) {
     let html = categoryHtml(category);
     category.engines.forEach(engine => {
-        const faviconUrl = faviconUrlFromEngineUrl(engine.url);
-        html += engineHtml(engine, defaultEngineId, faviconUrl);
+        if (engine.visible || editable) {
+            const faviconUrl = faviconUrlFromEngineUrl(engine.url);
+            html += engineHtml(engine, defaultEngineId, faviconUrl);
+        }
     })
-        // .map(engine => html += engineHtml(engine, defaultEngineId, faviconUrl))
     return html;
 }
 
-function createCategoryDiv(category, defaultEngineId) {
+function createCategoryDiv(category, defaultEngineId, editable) {
     const categoryDiv = document.createElement('div');
     categoryDiv.className = 'item';
     categoryDiv.setAttribute('data-id', category.id);
-    categoryDiv.innerHTML = createCategoryEnginesHtml(category, defaultEngineId);
+    categoryDiv.innerHTML = createCategoryEnginesHtml(category, defaultEngineId, editable);
     setCategoryColor(category, categoryDiv);
     return categoryDiv;
 }
@@ -25,8 +27,14 @@ function createCategories(categories, defaultEngineId) {
     if (categories) {
         const elementEngines = document.getElementById('engines');
         elementEngines.innerHTML = '';
-        categories.map(category => {
-            elementEngines.appendChild(createCategoryDiv(category, defaultEngineId));
+        chrome.storage.local.get([config.storageKeyEditmode], results => {
+            const editable = results[config.storageKeyEditmode];
+            categories.map(category => {
+                if (category.visible || editable) {
+                    elementEngines.appendChild(
+                        createCategoryDiv(category, defaultEngineId, editable));
+                }
+            })
         })
     }
 }

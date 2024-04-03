@@ -4,6 +4,7 @@ to show/hide the checkboxes beside categories and engines.
 Method: add/remove class from engines container.
  */
 import config from "../common/config.js";
+import {showEngineLinks} from "../options/options/options.create.js";
 
 function toggleEdit(e) {
     const target = e.target;
@@ -13,6 +14,7 @@ function toggleEdit(e) {
     chrome.storage.local.set({[key]: newValue}, () => {
         container.className = newValue ? 'editable' : '';
     })
+    showEngineLinks();
 }
 
 function initEditable() {
