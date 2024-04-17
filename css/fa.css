@@ -101,4 +101,7 @@
     content: "\f08e";
     color: gray;
 }
+.fa-droplet:before {
+    content: "\f043";
+}
 

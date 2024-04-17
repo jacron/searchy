@@ -12,6 +12,10 @@ function categoryHtml(category) {
             <span class="fa fa-edit" title="edit"></span>
             <span class="label">Edit</span>    
         </div>    
+        <div class="cmd" cmd="change-color">
+            <span class="fa fa-droplet" title="change color"></span>
+            <span class="label">Change color</span>    
+        </div>    
         <div class="cmd" cmd="delete">
             <span class="fa fa-delete" title="delete"></span>
             <span class="label">Delete</span>

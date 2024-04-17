@@ -44,7 +44,7 @@ function editObject(e) {
     if (category) {
         const cmd = target.closest('.cmd');
         if (cmd) {
-            editCategory(cmd.getAttribute('cmd'), category);
+            editCategory(cmd.getAttribute('cmd'), category, e);
         }
     }
     clearClass('opened');

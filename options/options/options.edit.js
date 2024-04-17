@@ -96,7 +96,32 @@ function editEngine(cmd, engine) {
     }
 }
 
-function editCategory(cmd, category) {
+// define singleton
+let colorPicker = null;
+
+// function initSingletonColorPicker() {
+//     if (!colorPicker) {
+//         colorPicker = new ColorPicker();
+//         colorPicker.dialog.addEventListener('select', e => {
+//             const item = categoryForContextmenu.parentElement;
+//             item.style.backgroundColor = e.detail;
+//             const prop = isDarkMode() ? 'backgroundcolordark' : 'backgroundcolorlight';
+//             setCategoryProperty(item.getAttribute('data-id'), prop, e.detail);
+//         })
+//     }
+// }
+//
+// function openColorDialog(e) {
+//     initSingletonColorPicker();
+//     const bg = categoryForContextmenu.parentElement.getAttribute('bg');
+//     colorPicker.openDialog(e, bg);
+// }
+
+function changeColor(objectId, e) {
+
+}
+
+function editCategory(cmd, category, e) {
     const objectId = category.getAttribute('data-id');
     switch(cmd) {
         case 'edit':
@@ -111,6 +136,9 @@ function editCategory(cmd, category) {
             break;
         case 'export-group':
             exportGroup(objectId);
+            break;
+        case 'change-color':
+            changeColor(objectId, e);
             break;
     }
 }
