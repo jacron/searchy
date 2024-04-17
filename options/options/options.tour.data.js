@@ -10,26 +10,15 @@ const advices = [
     {
         element: firstCategoryTitle,
         header: 'Group Header',
-        message: 'Right-click to edit, remove or export this group, or add an engine to it.',
+        message: 'In edit-mode: right-click to edit, remove or export this group, or add an engine to it.',
         offsetLeft: 60,
         offsetTop: 48,
     },
     {
         element: firstEngineTitle,
         header: 'Engine',
-        message: 'Right-click to edit, jump to, remove, or flag this engine. \nFlag means: setting it to default.',
+        message: 'In edit-mode: right-click to edit, jump to, remove, or flag this engine. \nFlag means: setting it to default.',
         offsetLeft: 100,
-        offsetTop: 40,
-        bubbleSlideLeft: -1,
-    },
-    {
-        element: () => {
-            const checkboxes = document.querySelectorAll('.check-visible')
-            return checkboxes[0];
-        },
-        header: 'Display an engine',
-        message: 'Uncheck to hide the engine on the search page.',
-        offsetLeft: 56,
         offsetTop: 40,
         bubbleSlideLeft: -1,
     },
@@ -81,7 +70,7 @@ const advices = [
     {
         element: () => document.getElementById('toggleEdit'),
         header: 'Toggle Edit',
-        message: 'Turn edit mode on/off: hide/show checkboxes.',
+        message: 'Turn edit mode on/off.',
         offsetLeft: -15,
         offsetTop: 40
     },
