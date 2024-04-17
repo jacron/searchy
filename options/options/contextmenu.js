@@ -1,6 +1,7 @@
-import {clearClass} from "./options.edit.js";
+import {clearClass, setContextmenuTarget} from "./options.edit.js";
 
 function enginesContextmenu(e) {
+    setContextmenuTarget(e.target);
     clearClass('opened');
     const target = e.target;
     if (target.classList.contains('name')) {

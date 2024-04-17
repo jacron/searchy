@@ -5,8 +5,18 @@ import {downloadJson} from "../../common/download.js";
 import {openDialogAddEngine, openDialogEngine} from "../dialog/engine/engine.dialog.js";
 import {openDialogCategory} from "../dialog/category/category.dialog.js";
 import {askRemoveCategory} from "../dialog/category/category.remove.js";
-import {removeEngine} from "../../common/update.js";
+import {removeEngine, setCategoryProperty} from "../../common/update.js";
 import {notifysearchy} from "../../common/notifysearchy.js";
+import {ColorPicker} from "../../components/ColorPicker.js";
+import {isDarkMode} from "../../storage/dark.js";
+
+// define singleton
+let colorPicker = null;
+let contextmenuTarget;
+
+function setContextmenuTarget(target) {
+    contextmenuTarget = target;
+}
 
 function clearClass(className) {
     const selectedElements = document.getElementsByClassName(className);
@@ -96,29 +106,28 @@ function editEngine(cmd, engine) {
     }
 }
 
-// define singleton
-let colorPicker = null;
+function initSingletonColorPicker() {
+    if (!colorPicker) {
+        colorPicker = new ColorPicker();
+        colorPicker.dialog.addEventListener('select', e => {
+            const item = contextmenuTarget.parentElement.parentElement;
+            item.style.backgroundColor = e.detail;
+            const prop = isDarkMode() ? 'backgroundcolordark' : 'backgroundcolorlight';
+            setCategoryProperty(item.getAttribute('data-id'), prop, e.detail);
+        })
+    }
+}
 
-// function initSingletonColorPicker() {
-//     if (!colorPicker) {
-//         colorPicker = new ColorPicker();
-//         colorPicker.dialog.addEventListener('select', e => {
-//             const item = categoryForContextmenu.parentElement;
-//             item.style.backgroundColor = e.detail;
-//             const prop = isDarkMode() ? 'backgroundcolordark' : 'backgroundcolorlight';
-//             setCategoryProperty(item.getAttribute('data-id'), prop, e.detail);
-//         })
-//     }
-// }
-//
-// function openColorDialog(e) {
-//     initSingletonColorPicker();
-//     const bg = categoryForContextmenu.parentElement.getAttribute('bg');
-//     colorPicker.openDialog(e, bg);
-// }
+function openColorDialog(e) {
+    initSingletonColorPicker();
+    const parent = contextmenuTarget.parentElement.parentElement;
+    const bg = parent.getAttribute('bg');
+    colorPicker.openDialog(e, bg);
+}
 
 function changeColor(objectId, e) {
-
+    // console.log(e.target)
+    openColorDialog(e)
 }
 
 function editCategory(cmd, category, e) {
@@ -143,4 +152,4 @@ function editCategory(cmd, category, e) {
     }
 }
 
-export {clearSelected, clearClass, editEngine, editCategory}
+export {clearSelected, clearClass, editEngine, editCategory, setContextmenuTarget}
