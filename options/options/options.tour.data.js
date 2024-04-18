@@ -10,7 +10,7 @@ const advices = [
     {
         element: firstCategoryTitle,
         header: 'Group Header',
-        message: 'In edit-mode: right-click to edit, remove or export this group, or add an engine to it.',
+        message: 'In edit-mode: right-click to edit, change the color, remove or export, or add an engine.',
         offsetLeft: 60,
         offsetTop: 48,
     },
