@@ -10,14 +10,14 @@ const advices = [
     {
         element: firstCategoryTitle,
         header: 'Group Header',
-        message: 'In edit-mode: right-click to edit, change the color, remove or export, or add an engine.',
+        message: 'Right-click to edit, change the color, remove or export, or add an engine.',
         offsetLeft: 60,
         offsetTop: 48,
     },
     {
         element: firstEngineTitle,
         header: 'Engine',
-        message: 'In edit-mode: right-click to edit, jump to, remove, or flag this engine. \nFlag means: setting it to default.',
+        message: 'Right-click to edit, jump to, remove, or flag this engine. \nFlag means: setting it to default.',
         offsetLeft: 100,
         offsetTop: 40,
         bubbleSlideLeft: -1,
@@ -70,7 +70,8 @@ const advices = [
     {
         element: () => document.getElementById('toggleEdit'),
         header: 'Toggle Edit',
-        message: 'Turn edit mode on/off.',
+        message: 'Turn edit mode on/off.\n' +
+            'In edit mode, you can toggle visibility of the categories and engines.',
         offsetLeft: -15,
         offsetTop: 40
     },
