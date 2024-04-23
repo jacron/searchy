@@ -22,6 +22,13 @@ function initFirstUseHelp() {
     });
 }
 
+function restoreSearch() {
+    chrome.storage.local.get('selectedTerm', results => {
+        const typeAhead = document.getElementById('searchTypeAhead');
+        typeAhead.search.value = results['selectedTerm'];
+    })
+}
+
 function init() {
     initHelpTour();
     initTourEvent();
@@ -33,6 +40,7 @@ function init() {
     showEngineLinks();
     initFilesInput();
     initEvents();
+    restoreSearch();
     initEnginesDragDropEvents();
     initFirstUseHelp();
 }

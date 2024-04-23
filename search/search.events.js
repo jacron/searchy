@@ -10,7 +10,7 @@ import {beginTour} from "../common/helptour/helptour.js";
 import {getTypeaheadSearch} from "./search.getElements.js";
 
 function storeSearchTerm(selectedTerm) {
-    chrome.storage.local.set({selectedTerm});
+    chrome.storage.local.set({selectedTerm}).then();
 }
 
 function recentTermsOnClick(e) {
@@ -22,6 +22,10 @@ function recentTermsOnClick(e) {
     }
 }
 
+/**
+ * enginesClick is gebonden aan de categoryDiv
+ * @param e
+ */
 function enginesClick(e) {
     const target = e.target;
     if (target.tagName === 'A') {
