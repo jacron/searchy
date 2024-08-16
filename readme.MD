@@ -11,3 +11,9 @@ Er is wel controle in background.js, maar die komt misschien te vroeg.
 
 Niet in background.js, maar in search.js gaan vragen of default waarden geladen moeten worden -
 als er nog geen inhoud is.
+
+## code complicatie
+Ik heb search en options geintegreerd, alles zit nu in options (search dir kan eigenlijk weg)
+
+De startpagina is nu options/options/options.html (opgestart in background.js).
+
