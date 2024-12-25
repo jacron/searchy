@@ -107,7 +107,7 @@ function getInitialData() {
 }
 
 function init() {
-    const testInitial = false;
+    const testInitial = false;  // set true to force initialisation
     if (testInitial) {
         getInitialData();
     }
@@ -117,6 +117,12 @@ function messageListener(req, sender, sendResponse) {
     if (req.request && req.request === 'getinitial') {
         getInitialData();
         sendResponse({data: 'is fetched'});
+    }
+    if (req.request && req.request === 'search') {
+        sendResponse({data: 'is searched. . .'})
+        chrome.storage.local.set({selectedTerm: req.query}).then(
+            () => searchInCurrentTab()
+        );
     }
 }
 
