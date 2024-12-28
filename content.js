@@ -6,7 +6,7 @@ window.addEventListener('message', (event) => {
         chrome.runtime.sendMessage(
             {request: 'search', query: event.data.query},
             (response) => {
-                console.log('Antwoord van extensie:', response);
+                // console.log('Antwoord van extensie:', response);
             }
         );
     }

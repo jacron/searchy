@@ -50,15 +50,17 @@ function openSearchyWithSelection(selectedTerm) {
     });
 }
 
-chrome.contextMenus.create(
-    {
+chrome.contextMenus.create({
         id: menuItemIds.on_selection,
         title: `Searchy "%s"`,
         contexts: ["selection"],
-    });
+    }, () => {
+        if (chrome.runtime.lastError) {
+            console.log(chrome.runtime.lastError.message);
+        }
+});
 
-chrome.contextMenus.create(
-    {
+chrome.contextMenus.create({
         id: menuItemIds.add_page,
         title: `Searchy: add this page to engines`,
         contexts: ["page"],
@@ -66,7 +68,11 @@ chrome.contextMenus.create(
             "https://*/*",
             "http://*/*"
         ],
-    });
+    }, () => {
+        if (chrome.runtime.lastError) {
+            console.log(chrome.runtime.lastError.message);
+        }
+});
 
 function contextMenuClickListener(info) {
     switch(info.menuItemId) {
@@ -79,19 +85,12 @@ function contextMenuClickListener(info) {
     }
 }
 
-function searchInCurrentTab() {
-    let url = searchPage;
-    chrome.tabs.query({
-        active: true,
-        lastFocusedWindow: true
-    }, function(tabs) {
-        const tab = tabs[0];
-        chrome.tabs.update(tab.id, {url});
-    });
+function openInNewTab(url) {
+    chrome.tabs.create({url}).then();
 }
 
 function handleActionClicked() {
-    searchInCurrentTab();
+    openInNewTab(searchPage);
 }
 
 
@@ -106,13 +105,6 @@ function getInitialData() {
         .then(categories => setCategories(categories));
 }
 
-function init() {
-    const testInitial = false;  // set true to force initialisation
-    if (testInitial) {
-        getInitialData();
-    }
-}
-
 function messageListener(req, sender, sendResponse) {
     if (req.request && req.request === 'getinitial') {
         getInitialData();
@@ -121,8 +113,15 @@ function messageListener(req, sender, sendResponse) {
     if (req.request && req.request === 'search') {
         sendResponse({data: 'is searched. . .'})
         chrome.storage.local.set({selectedTerm: req.query}).then(
-            () => searchInCurrentTab()
+            () => openInNewTab(searchPage)
         );
+    }
+}
+
+function init() {
+    const testInitial = false;  // set true to force initialisation
+    if (testInitial) {
+        getInitialData();
     }
 }
 
