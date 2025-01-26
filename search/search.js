@@ -3,8 +3,7 @@ import {displayEngines} from './search.create-engines.js';
 import {initEvents} from "./search.events.js";
 import {setSearchTermFromStorage} from "./search.term.js";
 import {getNewtabSetting} from "../storage/newtab.js";
-import {getShowRecentSetting} from "../storage/recent.js";
-import {showRecentTerms} from "./search.recent.js";
+import {initShowRecents, showRecentTerms} from "./search.recent.js";
 import {getFirstUseSettingSearchpage} from "../storage/firsttoursearchpage.js";
 import {initHelpTour} from "../web-components/HelpTour/HelpTour.js";
 import {initTypeAhead} from "../web-components/TypeAhead/TypeAhead.js";
@@ -45,14 +44,6 @@ function initNewtab() {
             document.getElementById('newTab').checked = set
         }
     });
-}
-
-function initShowRecents() {
-    getShowRecentSetting(set => {
-        if (set) {
-            document.getElementById('toggleRecent').checked = set
-        }
-    })
 }
 
 function initFirstUseHelp() {

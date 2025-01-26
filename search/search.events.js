@@ -18,7 +18,7 @@ function recentTermsOnClick(e) {
     if (target.id !== 'recentTerms') {
         const searchTA = getTypeaheadSearch();
         searchTA.search.value = target.textContent;
-        searchTA.saveSearchValue()
+        searchTA.saveSearchValue(target.textContent);
     }
 }
 

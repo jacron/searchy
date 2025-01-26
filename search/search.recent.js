@@ -23,6 +23,14 @@ function displayRecentTerms(elementRecentTerms) {
     })
 }
 
+function initShowRecents() {
+    getShowRecentSetting(set => {
+        if (set) {
+            document.getElementById('toggleRecent').checked = set
+        }
+    })
+}
+
 function showRecentTerms() {
     const elementRecentTerms = document.getElementById('recentTerms');
     getShowRecentSetting(set => {
@@ -34,4 +42,4 @@ function showRecentTerms() {
     })
 }
 
-export {showRecentTerms}
+export {showRecentTerms, initShowRecents}

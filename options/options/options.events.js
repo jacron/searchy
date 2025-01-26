@@ -12,6 +12,9 @@ import {notifysearchy} from "../../common/notifysearchy.js";
 import {advices} from "./options.tour.data.js";
 import {enginesContextmenu} from "./contextmenu.js";
 import {toggleEdit} from "../../storage/editable.js";
+import {setShowRecentSetting} from "../../storage/recent.js";
+import {showRecentTerms} from "../../search/search.recent.js";
+import {getTypeaheadSearch} from "../../search/search.getElements.js";
 
 function addEngine() {
     openDialogAddEngine(-1, result => {
@@ -65,6 +68,22 @@ function help() {
     beginTour(advices, 'options');
 }
 
+function toggleRecent(e) {
+    const target = e.target;
+    setShowRecentSetting(target.checked);
+    showRecentTerms();
+}
+
+function recentTermsOnClick(e) {
+    const target = e.target;
+    if (target.id !== 'recentTerms') {
+        const text = target.textContent;
+        const searchTA = getTypeaheadSearch();
+        searchTA.search.value = text;
+        searchTA.saveSearchValue(text);
+    }
+}
+
 function initEvents() {
     bindToElements('click', [
         ['exportData', exportJson],
@@ -74,10 +93,12 @@ function initEvents() {
         ['toggleDark', toggleDarkmode],
         ['toggleEdit', toggleEdit],
         ['engines', editObject],
+        ['recentTerms', recentTermsOnClick],
         ['help', help],
     ]);
     bindToElements('change', [
-        ['engines', engineToggleVisible]
+        ['engines', engineToggleVisible],
+        ['toggleRecent', toggleRecent]
     ]);
     bindToElements('contextmenu', [
         ['engines', enginesContextmenu]

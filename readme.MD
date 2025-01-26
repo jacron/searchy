@@ -17,3 +17,7 @@ Ik heb search en options geintegreerd, alles zit nu in options (search dir kan e
 
 De startpagina is nu options/options/options.html (opgestart in background.js).
 
+## connectie met movies20
+contentscript match localhost:3008
+
+Hierdoor werkt een link vanuit movies20 naar searchy (message): CALL_SEARCHY

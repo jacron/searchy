@@ -13,6 +13,7 @@ import {initTypeAhead} from "../../web-components/TypeAhead/TypeAhead.js";
 import {initTypeAheadEvents} from "../../search/search.typeahead.events.js";
 import {initTypeAheadList} from "../../web-components/TypeAheadList/TypeAheadList.js";
 import {initTypeAheadSearch} from "../../search/search.typeaheadSearch.js";
+import {initShowRecents, showRecentTerms} from "../../search/search.recent.js";
 
 function initFirstUseHelp() {
     getFirstUseSettingOptionspage(set => {
@@ -42,6 +43,8 @@ function init() {
     initEvents();
     restoreSearch();
     initEnginesDragDropEvents();
+    initShowRecents();
+    showRecentTerms();
     initFirstUseHelp();
 }
 
