@@ -149,7 +149,6 @@ a:hover {
 }
 .recent-container {
     padding: 20px 0;
-    text-align: center;
 }
 .recent {
     margin-left: 24px;
@@ -157,10 +156,11 @@ a:hover {
     height: 70px;
     overflow-y: auto;
     resize: both;
-    width: 200px;
+    width: fit-content;
 }
 .recent > div {
     cursor: pointer;
+    white-space: nowrap;
 }
 .recent > div:hover {
     color: black;
