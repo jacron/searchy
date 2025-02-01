@@ -81,6 +81,7 @@ function recentTermsOnClick(e) {
         const searchTA = getTypeaheadSearch();
         searchTA.search.value = text;
         searchTA.saveSearchValue(text);
+        searchTA.search.focus();
     }
 }
 
